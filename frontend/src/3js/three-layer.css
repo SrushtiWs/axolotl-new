@@ -1,0 +1,12 @@
+/* Optional 3D tile view: laid exactly over the image's own box. */
+.three-layer {
+  position: absolute;
+  pointer-events: none;
+}
+.three-layer > img,
+.three-layer > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

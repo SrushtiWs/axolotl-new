@@ -1,0 +1,128 @@
+{
+  "stage": "08G3_METRIC_CAMERA_FIT",
+  "room_path": "/workspace/axolotl/test07/production_pipeline/stage07_empty_room/07a_qwen_empty_room/00_stage07_empty_room_candidate.png",
+  "image_size": [
+    358,
+    447
+  ],
+  "room_dimensions_mm": {
+    "width_2400_axis": 2400.0,
+    "length_1800_axis": 1800.0,
+    "height": 2400.0
+  },
+  "evidence": {
+    "vp_2400": [
+      627.16,
+      203.74
+    ],
+    "vp_1800": [
+      41.32,
+      203.86
+    ],
+    "back_floor_corner": [
+      271.0,
+      321.21
+    ],
+    "back_ceiling_corner": [
+      271.0,
+      94.95
+    ],
+    "horizon_line": [
+      -0.000192,
+      -1.0,
+      203.865058
+    ]
+  },
+  "camera": {
+    "focal_px": 247.61781519107222,
+    "principal_point": [
+      179.0,
+      223.5
+    ],
+    "K": [
+      [
+        247.61781519107222,
+        0.0,
+        179.0
+      ],
+      [
+        0.0,
+        247.61781519107222,
+        223.5
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "R": [
+      [
+        0.8746314185514765,
+        -0.00020419096507885012,
+        0.48478844869559506
+      ],
+      [
+        -0.03856372016819251,
+        -0.9968602915149433,
+        0.06915488910794214
+      ],
+      [
+        0.4832522334862212,
+        -0.07918028483651858,
+        -0.8718932052285914
+      ]
+    ],
+    "t": [
+      1008.0867620697227,
+      1070.6538861068764,
+      2713.2634950733377
+    ]
+  },
+  "best_orientation": {
+    "sx": 1.0,
+    "sz": -1.0,
+    "sy": 1.0,
+    "order": "cross_ZX",
+    "detR": 1.0,
+    "lambda_b": 2713.2634950733377,
+    "lambda_c": 2546.1213982262316,
+    "reproj_error": 6.978854183359691,
+    "plausible": true
+  },
+  "projected_room_box": {
+    "back_floor": [
+      271.0,
+      321.21
+    ],
+    "left_floor": [
+      377.65348140352893,
+      286.03315683829584
+    ],
+    "right_floor": [
+      586.1285327263191,
+      482.21806911979064
+    ],
+    "front_floor": [
+      606.7863091572139,
+      342.0149987686134
+    ],
+    "back_ceiling": [
+      277.88072595001614,
+      93.78380271250036
+    ],
+    "left_ceiling": [
+      387.8704071283771,
+      128.40952482593536
+    ],
+    "right_ceiling": [
+      667.1146035925568,
+      -87.33411081390547
+    ],
+    "front_ceiling": [
+      645.1904264926932,
+      72.38616622216074
+    ]
+  },
+  "preview_path": "/workspace/axolotl/test07/production_pipeline/stage08_tile_application/08g3_metric_camera_fit/00_stage08g3_room_box_preview.png"
+}

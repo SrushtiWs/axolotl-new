@@ -1,0 +1,11 @@
+fastapi>=0.115
+uvicorn[standard]>=0.32
+python-multipart>=0.0.12
+pillow>=10
+numpy>=1.26
+opencv-python-headless>=4.10
+onnxruntime>=1.20
+# Grounding DINO's text side. The BERT word-piece tokenizer only; this pulls no
+# deep-learning framework with it, which matters because torch has no macOS
+# x86_64 wheel for Python 3.13 and so cannot be installed here at all.
+tokenizers>=0.20

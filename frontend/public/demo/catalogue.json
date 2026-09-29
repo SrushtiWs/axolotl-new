@@ -1,0 +1,279 @@
+{
+ "rooms": [
+  {
+   "id": "living-1",
+   "name": "Modern Wood Living",
+   "category": "Living Room",
+   "src": "/demo/rooms/living-1.jpg",
+   "thumb": "/demo/rooms/living-1-thumb.jpg"
+  },
+  {
+   "id": "living-2",
+   "name": "Coastal Lounge",
+   "category": "Living Room",
+   "src": "/demo/rooms/living-2.jpg",
+   "thumb": "/demo/rooms/living-2-thumb.jpg"
+  },
+  {
+   "id": "living-3",
+   "name": "Marble Sitting Room",
+   "category": "Living Room",
+   "src": "/demo/rooms/living-3.jpg",
+   "thumb": "/demo/rooms/living-3-thumb.jpg"
+  },
+  {
+   "id": "living-4",
+   "name": "Open Plan Sofa",
+   "category": "Living Room",
+   "src": "/demo/rooms/living-4.jpg",
+   "thumb": "/demo/rooms/living-4-thumb.jpg"
+  },
+  {
+   "id": "bedroom-1",
+   "name": "Panorama Bedroom",
+   "category": "Bedroom",
+   "src": "/demo/rooms/bedroom-1.jpg",
+   "thumb": "/demo/rooms/bedroom-1-thumb.jpg"
+  },
+  {
+   "id": "bedroom-2",
+   "name": "Warm Guest Room",
+   "category": "Bedroom",
+   "src": "/demo/rooms/bedroom-2.jpg",
+   "thumb": "/demo/rooms/bedroom-2-thumb.jpg"
+  },
+  {
+   "id": "bedroom-3",
+   "name": "Suite With View",
+   "category": "Bedroom",
+   "src": "/demo/rooms/bedroom-3.jpg",
+   "thumb": "/demo/rooms/bedroom-3-thumb.jpg"
+  },
+  {
+   "id": "kitchen-1",
+   "name": "Bare Kitchen",
+   "category": "Kitchen",
+   "src": "/demo/rooms/kitchen-1.jpg",
+   "thumb": "/demo/rooms/kitchen-1-thumb.jpg"
+  },
+  {
+   "id": "kitchen-2",
+   "name": "Counter Corner",
+   "category": "Kitchen",
+   "src": "/demo/rooms/kitchen-2.jpg",
+   "thumb": "/demo/rooms/kitchen-2-thumb.jpg"
+  },
+  {
+   "id": "bath-1",
+   "name": "Vanity Bathroom",
+   "category": "Bathroom",
+   "src": "/demo/rooms/bath-1.jpg",
+   "thumb": "/demo/rooms/bath-1-thumb.jpg"
+  },
+  {
+   "id": "bath-2",
+   "name": "Compact Bath",
+   "category": "Bathroom",
+   "src": "/demo/rooms/bath-2.jpg",
+   "thumb": "/demo/rooms/bath-2-thumb.jpg"
+  },
+  {
+   "id": "hall-1",
+   "name": "Apartment Hall",
+   "category": "Living Room",
+   "src": "/demo/rooms/hall-1.jpg",
+   "thumb": "/demo/rooms/hall-1-thumb.jpg"
+  },
+  {
+   "id": "elev-1",
+   "name": "Facade Elevation",
+   "category": "Elevation",
+   "src": "/demo/rooms/elev-1.jpg",
+   "thumb": "/demo/rooms/elev-1-thumb.jpg"
+  },
+  {
+   "id": "comm-1",
+   "name": "Showroom Floor",
+   "category": "Commercial",
+   "src": "/demo/rooms/comm-1.jpg",
+   "thumb": "/demo/rooms/comm-1-thumb.jpg"
+  },
+  {
+   "id": "comm-2",
+   "name": "Lobby Space",
+   "category": "Commercial",
+   "src": "/demo/rooms/comm-2.jpg",
+   "thumb": "/demo/rooms/comm-2-thumb.jpg"
+  }
+ ],
+ "tiles": [
+  {
+   "id": "t-1381",
+   "sku": "1381",
+   "name": "Soft Cloud Grey Endless",
+   "size": "1200x1800mm",
+   "finish": "DG Matt",
+   "badge": "Out Of Stock",
+   "width": 1200,
+   "height": 1800,
+   "src": "/demo/tiles/t-1381.jpg",
+   "thumb": "/demo/tiles/t-1381-thumb.jpg"
+  },
+  {
+   "id": "t-1380",
+   "sku": "1380",
+   "name": "Calacatta Michael Endless",
+   "size": "1200x1800mm",
+   "finish": "DG Matt",
+   "badge": "On Sale",
+   "width": 1200,
+   "height": 1800,
+   "src": "/demo/tiles/t-1380.jpg",
+   "thumb": "/demo/tiles/t-1380-thumb.jpg"
+  },
+  {
+   "id": "t-1379",
+   "sku": "1379",
+   "name": "Bulgari Crema",
+   "size": "1200x1800mm",
+   "finish": "DG Matt",
+   "badge": "Best Seller",
+   "width": 1200,
+   "height": 1800,
+   "src": "/demo/tiles/t-1379.jpg",
+   "thumb": "/demo/tiles/t-1379-thumb.jpg"
+  },
+  {
+   "id": "t-1378",
+   "sku": "1378",
+   "name": "Destine Blanco Endless",
+   "size": "1200x1800mm",
+   "finish": "DG Matt",
+   "badge": "Best Seller",
+   "width": 1200,
+   "height": 1800,
+   "src": "/demo/tiles/t-1378.jpg",
+   "thumb": "/demo/tiles/t-1378-thumb.jpg"
+  },
+  {
+   "id": "t-1377",
+   "sku": "1377",
+   "name": "Prime Angelo Endless",
+   "size": "1200x1800mm",
+   "finish": "DG Matt",
+   "badge": "Best Seller",
+   "width": 1200,
+   "height": 1800,
+   "src": "/demo/tiles/t-1377.jpg",
+   "thumb": "/demo/tiles/t-1377-thumb.jpg"
+  },
+  {
+   "id": "t-1376",
+   "sku": "1376",
+   "name": "Sapota Blanco Endless",
+   "size": "1200x1800mm",
+   "finish": "DG Matt",
+   "badge": "On Sale",
+   "width": 1200,
+   "height": 1800,
+   "src": "/demo/tiles/t-1376.jpg",
+   "thumb": "/demo/tiles/t-1376-thumb.jpg"
+  },
+  {
+   "id": "t-1375",
+   "sku": "1375",
+   "name": "Glumour Dove Endless",
+   "size": "1200x1800mm",
+   "finish": "DG Matt",
+   "badge": null,
+   "width": 1200,
+   "height": 1800,
+   "src": "/demo/tiles/t-1375.jpg",
+   "thumb": "/demo/tiles/t-1375-thumb.jpg"
+  },
+  {
+   "id": "t-1374",
+   "sku": "1374",
+   "name": "Statuario Gold",
+   "size": "800x1600mm",
+   "finish": "Glossy",
+   "badge": null,
+   "width": 800,
+   "height": 1600,
+   "src": "/demo/tiles/t-1374.jpg",
+   "thumb": "/demo/tiles/t-1374-thumb.jpg"
+  },
+  {
+   "id": "t-1373",
+   "sku": "1373",
+   "name": "Onyx Azure",
+   "size": "800x1600mm",
+   "finish": "Glossy",
+   "badge": "New",
+   "width": 800,
+   "height": 1600,
+   "src": "/demo/tiles/t-1373.jpg",
+   "thumb": "/demo/tiles/t-1373-thumb.jpg"
+  },
+  {
+   "id": "t-1372",
+   "sku": "1372",
+   "name": "Terra Rust",
+   "size": "600x1200mm",
+   "finish": "Matt",
+   "badge": null,
+   "width": 600,
+   "height": 1200,
+   "src": "/demo/tiles/t-1372.jpg",
+   "thumb": "/demo/tiles/t-1372-thumb.jpg"
+  },
+  {
+   "id": "t-1371",
+   "sku": "1371",
+   "name": "Concrete Ash",
+   "size": "600x1200mm",
+   "finish": "Matt",
+   "badge": null,
+   "width": 600,
+   "height": 1200,
+   "src": "/demo/tiles/t-1371.jpg",
+   "thumb": "/demo/tiles/t-1371-thumb.jpg"
+  },
+  {
+   "id": "t-1370",
+   "sku": "1370",
+   "name": "Sandstone Beige",
+   "size": "800x800mm",
+   "finish": "Matt",
+   "badge": null,
+   "width": 800,
+   "height": 800,
+   "src": "/demo/tiles/t-1370.jpg",
+   "thumb": "/demo/tiles/t-1370-thumb.jpg"
+  },
+  {
+   "id": "t-1369",
+   "sku": "1369",
+   "name": "Classic Marble",
+   "size": "600x1200mm",
+   "finish": "Glossy",
+   "badge": "Best Seller",
+   "width": 600,
+   "height": 1200,
+   "src": "/demo/tiles/t-1369.jpg",
+   "thumb": "/demo/tiles/t-1369-thumb.jpg"
+  },
+  {
+   "id": "t-1368",
+   "sku": "1368",
+   "name": "Pearl Wave",
+   "size": "800x600mm",
+   "finish": "Matt",
+   "badge": null,
+   "width": 800,
+   "height": 600,
+   "src": "/demo/tiles/t-1368.jpg",
+   "thumb": "/demo/tiles/t-1368-thumb.jpg"
+  }
+ ]
+}

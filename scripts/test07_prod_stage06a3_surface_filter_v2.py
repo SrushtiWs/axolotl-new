@@ -1,0 +1,256 @@
+
+from pathlib import Path
+import importlib.util
+import json
+
+
+BASE = Path("/workspace/axolotl")
+SCRIPTS = BASE / "scripts"
+
+PROD = (
+    BASE
+    / "test07"
+    / "production_pipeline"
+)
+
+STAGE06 = (
+    PROD
+    / "stage06_prop_layer"
+)
+
+INPUT_JSON = (
+    STAGE06
+    / "06a2_pairwise_dedup"
+    / "02_pairwise_verified_inventory.json"
+)
+
+OUT = (
+    STAGE06
+    / "06a3_surface_filter"
+)
+
+OUT.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+LEGACY_SCRIPT = (
+    SCRIPTS
+    / "test07_stage02_v34_surface_filter_only.py"
+)
+
+
+print("=" * 100)
+print("PRODUCTION STAGE 06A3")
+print("CONSERVATIVE STRUCTURAL SURFACE FILTER")
+print("=" * 100)
+
+
+required = {
+    "PAIRWISE INVENTORY":
+        INPUT_JSON,
+
+    "VERIFIED V3.4 SCRIPT":
+        LEGACY_SCRIPT,
+}
+
+
+for name, path in required.items():
+
+    ok = path.exists()
+
+    print(
+        "✅" if ok else "❌",
+        name,
+        path
+    )
+
+    if not ok:
+
+        raise FileNotFoundError(
+            path
+        )
+
+
+# ============================================================
+# LOAD VERIFIED V3.4 IMPLEMENTATION
+# ============================================================
+
+spec = importlib.util.spec_from_file_location(
+    "test07_v34_surface_filter",
+    LEGACY_SCRIPT
+)
+
+module = importlib.util.module_from_spec(
+    spec
+)
+
+spec.loader.exec_module(
+    module
+)
+
+
+print()
+print(
+    "✅ VERIFIED V3.4 SURFACE FILTER LOADED"
+)
+
+
+# ============================================================
+# RUN
+# ============================================================
+
+module.run(
+    input_json=INPUT_JSON,
+    output_dir=OUT,
+)
+
+
+# ============================================================
+# READ RESULTS
+# ============================================================
+
+RESULT_PATH = (
+    OUT
+    / "00_conservative_inventory.json"
+)
+
+REMOVED_PATH = (
+    OUT
+    / "01_removed_surfaces.json"
+)
+
+
+if not RESULT_PATH.exists():
+
+    raise RuntimeError(
+        "Filtered inventory was not produced."
+    )
+
+
+result = json.loads(
+    RESULT_PATH.read_text(
+        encoding="utf-8"
+    )
+)
+
+
+removed = json.loads(
+    REMOVED_PATH.read_text(
+        encoding="utf-8"
+    )
+)
+
+
+# ============================================================
+# PRINT SUMMARY
+# ============================================================
+
+print()
+print("=" * 100)
+print("PRODUCTION 06A3 WRAPPER COMPLETE")
+print("=" * 100)
+
+
+print(
+    "INPUT OBJECTS:",
+    result.get(
+        "input_objects"
+    )
+)
+
+
+print(
+    "REMOVED STRUCTURAL SURFACES:",
+    result.get(
+        "removed_structural_surfaces"
+    )
+)
+
+
+print(
+    "FINAL CLEAN INVENTORY:",
+    result.get(
+        "final_inventory"
+    )
+)
+
+
+print()
+print("REMOVED:")
+
+
+for row in removed:
+
+    print(
+        "-",
+        row.get(
+            "name",
+            ""
+        ),
+        "|",
+        row.get(
+            "grounding_phrase",
+            ""
+        )
+    )
+
+
+print()
+print("CLEAN OBJECT LIST:")
+
+
+for row in result.get(
+    "objects",
+    []
+):
+
+    object_id = int(
+        row.get(
+            "id",
+            0
+        )
+    )
+
+    name = row.get(
+        "name",
+        ""
+    )
+
+    confidence = row.get(
+        "confidence",
+        ""
+    )
+
+    phrase = row.get(
+        "grounding_phrase",
+        ""
+    )
+
+    regions = row.get(
+        "source_regions",
+        [
+            row.get(
+                "source_region",
+                ""
+            )
+        ]
+    )
+
+
+    print(
+        "{:03d}. {} | {} | {} | sources={}".format(
+            object_id,
+            name,
+            confidence,
+            phrase,
+            regions
+        )
+    )
+
+
+print()
+print(
+    "FINAL INVENTORY JSON:",
+    RESULT_PATH
+)

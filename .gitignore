@@ -1,0 +1,24 @@
+backend/.venv/
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+.env
+.env.*
+.DS_Store
+*.log
+.ipynb_checkpoints/
+output/
+backups/
+test07/
+test08/
+backend/models/
+Untitled.ipynb
+.claude/settings.local.json
+.claude/settings.local.json
+.golive/
+
+*.zip
+
+# Render jobs: generated at runtime, regenerable
+backend/jobs/

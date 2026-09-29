@@ -1,0 +1,159 @@
+{
+  "job": "0e0382ed4aad",
+  "segment_job": "52b84ccd5cc4",
+  "image_size": [
+    1200,
+    896
+  ],
+  "tile_size_mm": [
+    1200.0,
+    1800.0
+  ],
+  "grout_mm": 5.0,
+  "pitch_mm": [
+    1205.0,
+    1805.0
+  ],
+  "wall_planes_mm": [
+    [
+      3048.0,
+      3048.0
+    ],
+    [
+      3048.0,
+      3048.0
+    ],
+    [
+      3048.0,
+      3048.0
+    ]
+  ],
+  "horizontal_tile_count": [
+    2.529460580912863,
+    2.529460580912863,
+    2.529460580912863
+  ],
+  "vertical_tile_count": [
+    1.6886426592797783,
+    1.6886426592797783,
+    1.6886426592797783
+  ],
+  "source_wall_mask_area": 516731,
+  "wall_mask_area": 524540,
+  "wall_mask_bbox": [
+    0,
+    0,
+    1199,
+    826
+  ],
+  "ceiling_mask_area": 220330,
+  "floor_mask_area": 292956,
+  "ceiling_overlap_pixels": 0,
+  "floor_overlap_pixels": 0,
+  "strict_ceiling_overlap_pixels": 0,
+  "strict_floor_overlap_pixels": 0,
+  "projected_pixel_count": 485838,
+  "strict_projected_pixel_count": 485838,
+  "clipped_pixel_count": 0,
+  "current_outside_wall_pixels": 0,
+  "strict_outside_wall_pixels": 0,
+  "current_wall_leak_pixels": 0,
+  "strict_wall_leak_pixels": 0,
+  "wall_planes": [
+    {
+      "label": "left",
+      "image_corners": [
+        [
+          -2609.2,
+          3475.7
+        ],
+        [
+          190.5,
+          601.0
+        ],
+        [
+          47.1,
+          -405.5
+        ],
+        [
+          3709.6,
+          3475.7
+        ]
+      ]
+    },
+    {
+      "label": "right",
+      "image_corners": [
+        [
+          1009.5,
+          601.0
+        ],
+        [
+          3809.2,
+          3475.7
+        ],
+        [
+          -2509.6,
+          3475.7
+        ],
+        [
+          1152.9,
+          -405.5
+        ]
+      ]
+    },
+    {
+      "label": "back",
+      "image_corners": [
+        [
+          190.5,
+          601.0
+        ],
+        [
+          1009.5,
+          601.0
+        ],
+        [
+          1152.9,
+          -405.5
+        ],
+        [
+          47.1,
+          -405.5
+        ]
+      ]
+    }
+  ],
+  "wall_components": [
+    {
+      "area": 524540,
+      "bbox": [
+        0,
+        0,
+        1200,
+        827
+      ]
+    }
+  ],
+  "wall_boundary_edge_overlap_pixels": 36419,
+  "wall_boundary_edge_pixels": 73860,
+  "boundary_evidence": {
+    "wall_segmentation_sufficient": false,
+    "confidence_boundary_separation": false,
+    "confidence_available": false,
+    "edge_boundary_separation": "ambiguous",
+    "plane_geometry_useful": "decomposition_only",
+    "existing_opening_masks_useful": false,
+    "recommended_boundary_signal": "No independent reliable visibility boundary is retained. Existing wall argmax is one connected component; geometry decomposes it into planes but does not establish photographed visibility. Architectural edges are mixed with object and texture edges.",
+    "confidence": "insufficient for a generalized production refinement",
+    "production_change_recommended": false,
+    "plane_candidate_pixel_counts": {
+      "0": 67096,
+      "1": 106514,
+      "2": 312228
+    },
+    "existing_opening_signal": "only union object mask is available; no separate persisted door/window surface masks"
+  },
+  "projection": "same metric ray-plane projection; A/B differs only by strict mask",
+  "object_restoration_unchanged": true
+}

@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Bash(python3 -V)",
+      "Bash(lsof -nP -iTCP:8000 -sTCP:LISTEN)",
+      "Bash(lsof -nP -iTCP:5173 -sTCP:LISTEN)",
+      "Bash(curl -s -m 5 -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8000/health)",
+      "Bash(echo \"started pid $!\")",
+      "Bash(curl -s -m 20 -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8000/pipeline/flow)",
+      "Bash(curl -s -m 60 -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8000/pipeline/segments)",
+      "Bash(backend/.venv/bin/pip list *)",
+      "Bash(npm ls *)",
+      "Bash(backend/.venv/bin/python -c \"import torch\")",
+      "Bash(backend/.venv/bin/python -c \"import transformers\")",
+      "Bash(python3 -c \"import torch, transformers; print\\('torch', torch.__version__, '| transformers', transformers.__version__\\)\")",
+      "Bash(backend/.venv/bin/python -c ' *)",
+      "Bash(backend/.venv/bin/pip debug *)",
+      "Bash(backend/.venv/bin/pip index *)",
+      "Bash(curl -s -m 30 \"https://huggingface.co/api/models?search=sam2&filter=onnx&limit=25\")",
+      "Bash(backend/.venv/bin/pip install *)",
+      "Bash(backend/.venv/bin/python -c \"import tokenizers; print\\('tokenizers', tokenizers.__version__\\)\")",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(time ../backend/.venv/bin/python -c ' *)",
+      "Bash(awk '{printf \"%-42s %s MB\\\\n\", $9, int\\($5/1024/1024\\)}')",
+      "Bash(awk '{printf \"%-44s %4d MB\\\\n\", $9, int\\($5/1024/1024\\)}')",
+      "Bash(../backend/.venv/bin/python -c ' *)",
+      "Bash(.venv/bin/python -c ' *)",
+      "Bash(time .venv/bin/python -c ' *)",
+      "Bash(.venv/bin/python -)",
+      "Bash(/Users/mac/Downloads/axolotl/backend/.venv/bin/python -c ' *)",
+      "Bash(kill 4747)",
+      "Bash(echo \"pid $!\")",
+      "Bash(curl -s -m 10 http://localhost:8000/health)",
+      "Bash(backend/.venv/bin/python -m json.tool)",
+      "Bash(time curl -s -m 300 -X POST http://localhost:8000/segment -F \"room_image=@backend/jobs/2b37d32673de/original.png\" -F \"debug=true\" -o /private/tmp/claude-501/-Users-mac-Downloads-axolotl/ddb37308-e67a-40bd-b728-cf162ac5eb19/scratchpad/seg.json -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(time curl -s -m 300 -X POST http://localhost:8000/generate -F room_image=@test07/production_pipeline/stage01_master/00_master_input.png -F tile_image=@backend/jobs/465e15baa184/tile.png -F room_width=8 -F room_length=6 -F room_height=8 -F tile_width=600 -F tile_height=1200 -F rotation=0 -F surface=floor -o /private/tmp/claude-501/-Users-mac-Downloads-axolotl/ddb37308-e67a-40bd-b728-cf162ac5eb19/scratchpad/gen1.json -w 'HTTP %{http_code}\\\\n')",
+      "Bash(time curl -s -m 600 -X POST http://localhost:8000/generate -F room_image=@backend/jobs/2b37d32673de/original.png -F tile_image=@backend/jobs/465e15baa184/tile.png -F room_width=14 -F room_length=16 -F room_height=10 -F tile_width=600 -F tile_height=1200 -F rotation=0 -F surface=floor -o /private/tmp/claude-501/-Users-mac-Downloads-axolotl/ddb37308-e67a-40bd-b728-cf162ac5eb19/scratchpad/gen2.json -w 'HTTP %{http_code}\\\\n')"
+    ]
+  }
+}

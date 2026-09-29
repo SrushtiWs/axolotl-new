@@ -1,0 +1,1761 @@
+/*
+ * Showroom UI — the room picker and the studio.
+ *
+ * Light theme, loaded after index.css so its tokens win. The old dark form
+ * page is no longer mounted; its styles are left in place untouched rather
+ * than deleted, so nothing that still references them breaks.
+ */
+
+:root {
+  --sr-bg: #ffffff;
+  --sr-ink: #16181d;
+  --sr-muted: #6b7280;
+  --sr-faint: #9ca3af;
+  --sr-line: #e6e8ec;
+  --sr-line-soft: #f1f2f5;
+  --sr-raise: #f7f8fa;
+  --sr-dark: #17181c;
+  --sr-accent: #2563eb;
+  --sr-accent-soft: #eef4ff;
+  --sr-warn: #f59e0b;
+  --sr-good: #059669;
+  --sr-bad: #dc2626;
+  --sr-r: 10px;
+  --sr-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 4px 12px rgba(16, 24, 40, 0.06);
+
+  /*
+   * index.css declares `color-scheme: dark` and is loaded first. Left standing,
+   * the browser renders form controls with its dark-mode defaults — and since a
+   * <button> does not inherit `color`, every control here that did not set one
+   * explicitly drew pale grey text on white. That is what made the category
+   * chips almost unreadable. This puts the whole showroom back on light UA
+   * defaults; `color: inherit` below is the belt to this braces.
+   */
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--sr-bg);
+  color: var(--sr-ink);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.picker button,
+.studio button,
+.picker input,
+.studio input,
+.studio select {
+  font: inherit;
+  /* A control does not inherit colour on its own — without this it falls back
+     to the UA default and stops matching the page. */
+  color: inherit;
+}
+
+/* ============================================================== buttons ==== */
+
+.picker .btn,
+.studio .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--sr-line);
+  background: #fff;
+  color: var(--sr-ink);
+  border-radius: var(--sr-r);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.05s;
+}
+
+.picker .btn:hover,
+.studio .btn:hover {
+  background: var(--sr-raise);
+}
+
+.picker .btn:active,
+.studio .btn:active {
+  transform: translateY(1px);
+}
+
+.btn.primary {
+  background: var(--sr-dark);
+  border-color: var(--sr-dark);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn.primary:hover {
+  background: #000;
+}
+
+.btn.primary:disabled {
+  background: var(--sr-faint);
+  border-color: var(--sr-faint);
+  cursor: not-allowed;
+}
+
+.btn.xl {
+  padding: 16px 28px;
+  font-size: 17px;
+  width: 100%;
+  max-width: 470px;
+}
+
+.btn.outline {
+  border: 1px solid var(--sr-line);
+  color: var(--sr-muted);
+}
+
+.btn.wide {
+  width: 100%;
+  max-width: 470px;
+  padding: 14px 18px;
+}
+
+.btn.tiny {
+  padding: 7px 12px;
+  font-size: 13px;
+}
+
+/* ================================================================ brand ==== */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-mark-img {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.brand-full .brand-mark-img {
+  width: 38px;
+  height: 38px;
+}
+
+.brand-text {
+  display: grid;
+  min-width: 0;
+}
+
+.brand-text strong {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-full .brand-text strong {
+  font-size: 16px;
+}
+
+.brand-text small {
+  font-size: 11.5px;
+  color: var(--sr-muted);
+  line-height: 1.3;
+}
+
+/* =============================================================== picker ==== */
+
+.picker {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.picker-banner {
+  text-align: center;
+  padding: 11px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--sr-line);
+}
+
+.picker-banner a {
+  color: var(--sr-ink);
+  font-weight: 700;
+}
+
+.picker-topbar {
+  display: flex;
+  align-items: center;
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--sr-line);
+}
+
+.picker-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  padding: 40px 48px 8px;
+  align-items: start;
+}
+
+.picker-hero h1 {
+  margin: 0 0 20px;
+  font-size: 40px;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.picker-points {
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  color: var(--sr-ink);
+  font-size: 16px;
+}
+
+.picker-points li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.picker-hero-copy > .btn {
+  margin-bottom: 14px;
+}
+
+.picker-error {
+  color: var(--sr-bad);
+  font-size: 14px;
+}
+
+/* Flat illustration — CSS only, so the page needs no extra asset. */
+.picker-hero-art {
+  position: relative;
+  background: #ded5c8;
+  border-radius: 6px;
+  height: 320px;
+  overflow: hidden;
+}
+
+.art-swatches {
+  position: absolute;
+  left: 40px;
+  top: 34px;
+  display: grid;
+  gap: 10px;
+}
+
+.art-swatches span {
+  display: block;
+  width: 56px;
+  height: 54px;
+  background: #b9bcbe;
+  border: 2px solid #fff;
+}
+
+.art-swatches span:nth-child(2) {
+  background: #b6bd92;
+}
+
+.art-swatches span.art-active {
+  background: #eef1f3;
+  border-color: #3aa7c9;
+}
+
+.art-counter {
+  position: absolute;
+  left: 180px;
+  right: 60px;
+  top: 96px;
+}
+
+.art-top {
+  height: 16px;
+  background: #9fd4d9;
+  border-radius: 3px;
+}
+
+.art-body {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0 0;
+}
+
+.art-lines,
+.art-panel,
+.art-drawers {
+  height: 110px;
+  border: 2px solid #2f6f8f;
+  background: #fff;
+  border-radius: 3px;
+}
+
+.art-lines {
+  flex: 1;
+  background: repeating-linear-gradient(
+    to bottom,
+    #fff 0 8px,
+    #cfe3ee 8px 10px
+  );
+}
+
+.art-panel {
+  flex: 1.2;
+}
+
+.art-drawers {
+  flex: 1;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  background: #d8ecf5;
+}
+
+.art-drawers i {
+  display: block;
+  height: 16px;
+  background: #fff;
+  border: 1px solid #2f6f8f;
+}
+
+.art-legs {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 6px;
+}
+
+.art-legs i {
+  display: block;
+  width: 4px;
+  height: 26px;
+  background: #2f6f8f;
+}
+
+.art-tick {
+  position: absolute;
+  right: 44px;
+  bottom: 44px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f4761f;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.picker-demos {
+  padding: 32px 48px 56px;
+}
+
+.picker-demos h2 {
+  margin: 0 0 18px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.picker-tabs {
+  display: flex;
+  gap: 28px;
+  border-bottom: 1px solid var(--sr-line);
+  padding: 0 4px;
+}
+
+.picker-tab {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 12px 2px;
+  font-size: 15px;
+  color: var(--sr-muted);
+  cursor: pointer;
+}
+
+.picker-tab.active {
+  color: var(--sr-ink);
+  border-bottom-color: var(--sr-ink);
+  font-weight: 600;
+}
+
+.picker-tab:disabled {
+  color: var(--sr-faint);
+  cursor: not-allowed;
+}
+
+.picker-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 18px 0 22px;
+}
+
+.chip {
+  border: 1px solid #d6d9df;
+  background: #fff;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sr-ink);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.chip:hover {
+  background: var(--sr-raise);
+  border-color: var(--sr-faint);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--sr-accent);
+  outline-offset: 2px;
+}
+
+.chip.active {
+  background: var(--sr-dark);
+  border-color: var(--sr-dark);
+  color: #fff;
+  font-weight: 600;
+}
+
+.picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.room-card {
+  position: relative;
+  padding: 0;
+  border: 1px solid var(--sr-line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+}
+
+.room-card:hover {
+  box-shadow: var(--sr-shadow);
+  border-color: var(--sr-faint);
+}
+
+.room-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.room-card-name {
+  display: block;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.room-card-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.picker-empty {
+  color: var(--sr-muted);
+  grid-column: 1 / -1;
+}
+
+.picker-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--sr-line);
+  padding: 20px 28px;
+  display: flex;
+  justify-content: center;
+}
+
+/* =============================================================== studio ==== */
+
+.studio {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr) 260px;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+}
+
+.rail {
+  border-right: 1px solid var(--sr-line);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.rail-brand {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--sr-line);
+}
+
+/*
+ * Two surfaces, one row. A segmented control rather than two loose buttons:
+ * the pair shares a border and splits the width evenly, so the labels stay
+ * aligned and the active state reads as a selection instead of a press.
+ */
+.rail-surface {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 14px;
+  padding: 4px;
+  background: var(--sr-raise);
+  border: 1px solid var(--sr-line);
+  border-radius: 10px;
+}
+
+.surface-btn.active {
+  background: #fff;
+  color: var(--sr-ink);
+  font-weight: 600;
+  box-shadow: var(--sr-shadow);
+}
+
+.rail-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  padding: 0 14px 14px;
+  gap: 10px;
+}
+
+.rail-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--sr-line);
+  border-radius: 8px;
+  padding: 9px 12px;
+}
+
+.rail-search input {
+  border: 0;
+  outline: none;
+  width: 100%;
+  background: none;
+}
+
+.rail-tools {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.view-toggle {
+  display: flex;
+  border: 1px solid var(--sr-line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.view {
+  border: 0;
+  background: #fff;
+  padding: 7px 11px;
+  cursor: pointer;
+}
+
+.view.active {
+  background: var(--sr-dark);
+  color: #fff;
+}
+
+.rail-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--sr-muted);
+}
+
+.rail-sort select {
+  border: 0;
+  background: none;
+  outline: none;
+  color: var(--sr-ink);
+  flex: 1;
+  cursor: pointer;
+}
+
+.rail-upload {
+  border: 1px dashed var(--sr-line);
+  background: var(--sr-raise);
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--sr-muted);
+}
+
+.rail-upload:hover {
+  border-color: var(--sr-accent);
+  color: var(--sr-accent);
+}
+
+.rail-list {
+  overflow-y: auto;
+  display: grid;
+  gap: 10px;
+  padding-right: 4px;
+  min-height: 0;
+}
+
+.rail-list.grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.product {
+  display: flex;
+  gap: 12px;
+  text-align: left;
+  border: 1px solid var(--sr-line);
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.product:hover {
+  border-color: var(--sr-faint);
+}
+
+.product.active {
+  border-color: var(--sr-ink);
+  box-shadow: 0 0 0 1px var(--sr-ink);
+}
+
+.product img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.rail-list.grid .product {
+  flex-direction: column;
+}
+
+.rail-list.grid .product img {
+  width: 100%;
+  height: 84px;
+}
+
+.product-meta {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.product-meta strong {
+  font-size: 12.5px;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-meta small {
+  font-size: 11.5px;
+  color: var(--sr-muted);
+}
+
+.tag {
+  justify-self: start;
+  margin-top: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: var(--sr-line-soft);
+  color: var(--sr-muted);
+}
+
+.tag.on-sale {
+  background: #e7f6ef;
+  color: var(--sr-good);
+}
+
+.tag.best-seller {
+  background: var(--sr-accent-soft);
+  color: var(--sr-accent);
+}
+
+.tag.out-of-stock {
+  background: #fdeaea;
+  color: var(--sr-bad);
+}
+
+.tag.new {
+  background: #fff5e6;
+  color: var(--sr-warn);
+}
+
+.rail-empty {
+  color: var(--sr-muted);
+  font-size: 14px;
+}
+
+/* ---------------------------------------------------------------- stage --- */
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.stage-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--sr-line);
+  flex-wrap: wrap;
+}
+
+.stage-top-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.icon-btn {
+  border: 1px solid var(--sr-line);
+  background: #fff;
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid transparent;
+  background: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--sr-ink);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.top-btn:hover {
+  background: var(--sr-raise);
+}
+
+.top-btn.dark {
+  background: var(--sr-dark);
+  color: #fff;
+}
+
+.top-btn:disabled,
+.top-btn[aria-disabled='true'] {
+  color: var(--sr-faint);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.badge {
+  background: var(--sr-bad);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 11px;
+  padding: 1px 6px;
+}
+
+.stage-canvas {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  background: var(--sr-raise);
+  overflow: hidden;
+}
+
+.stage-image,
+.compare-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/*
+ * The surface badges on the room are buttons, not labels: clicking one picks
+ * that surface, which is what the badge appears to promise. They carry a real
+ * selected state so the room agrees with the tabs in the rail.
+ */
+.stage-pill {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  background: rgba(23, 24, 28, 0.72);
+  color: #fff;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(3px);
+  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+}
+
+/* The chosen surface reads as chosen: solid, ringed, and slightly larger. */
+.stage-pill.active {
+  background: #fff;
+  color: var(--sr-ink);
+  border-color: var(--sr-ink);
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(16, 24, 40, 0.28);
+}
+
+.stage-pill.active::before {
+  content: '●';
+  font-size: 8px;
+  line-height: 1;
+  color: var(--sr-good);
+}
+
+.stage-busy {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.82);
+  text-align: center;
+  padding: 24px;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--sr-line);
+  border-top-color: var(--sr-dark);
+  border-radius: 50%;
+  animation: sr-spin 0.9s linear infinite;
+}
+
+@keyframes sr-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stage-error {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  background: #fdeaea;
+  border: 1px solid #f5c2c2;
+  color: var(--sr-bad);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.stage-powered {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 11px;
+  color: var(--sr-muted);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* ------------------------------------------ stage body: image + controls --- */
+
+.stage-main {
+  flex: 1 0 auto;
+  min-height: min(56vh, 520px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  padding: 14px;
+}
+
+.stage-canvas {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  background: var(--sr-raise);
+  border: 1px solid var(--sr-line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* The five controls, stacked beside the room rather than under it, so the
+   image keeps the full height of the stage. */
+.tools {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 168px;
+}
+
+.tool {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--sr-line);
+  background: #fff;
+  border-radius: 10px;
+  padding: 11px 13px;
+  font-size: 14px;
+  color: var(--sr-ink);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.tool:hover:not(:disabled) {
+  background: var(--sr-raise);
+  border-color: var(--sr-faint);
+}
+
+.tool em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--sr-muted);
+}
+
+.tool.active {
+  background: var(--sr-dark);
+  border-color: var(--sr-dark);
+  color: #fff;
+}
+
+.tool.active em {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.tool.primary {
+  background: var(--sr-dark);
+  border-color: var(--sr-dark);
+  color: #fff;
+  font-weight: 600;
+  justify-content: center;
+}
+
+.tool.primary:hover:not(:disabled) {
+  background: #000;
+  border-color: #000;
+}
+
+.tool:disabled {
+  color: var(--sr-faint);
+  background: var(--sr-raise);
+  cursor: not-allowed;
+}
+
+.tool-popover {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 0;
+  width: 264px;
+  background: #fff;
+  border: 1px solid var(--sr-line);
+  border-radius: 12px;
+  box-shadow: var(--sr-shadow);
+  padding: 14px 16px;
+  z-index: 6;
+}
+
+.tool-popover h4 {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  color: var(--sr-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.popover-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.pill {
+  border: 1px solid var(--sr-line);
+  background: #fff;
+  color: var(--sr-ink);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.pill:hover {
+  background: var(--sr-raise);
+}
+
+.pill.active {
+  background: var(--sr-dark);
+  border-color: var(--sr-dark);
+  color: #fff;
+}
+
+.popover-note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--sr-muted);
+  line-height: 1.45;
+}
+
+/* Grout: a −/+ stepper and a slider, both writing the same millimetre value. */
+.stepper {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  border: 1px solid var(--sr-line);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.stepper button {
+  border: 0;
+  background: var(--sr-raise);
+  padding: 10px 0;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--sr-ink);
+}
+
+.stepper button:hover:not(:disabled) {
+  background: var(--sr-line-soft);
+}
+
+.stepper button:disabled {
+  color: var(--sr-faint);
+  cursor: not-allowed;
+}
+
+.stepper span {
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.slider {
+  width: 100%;
+  margin: 0 0 12px;
+  accent-color: var(--sr-dark);
+}
+
+.size-grid {
+  display: grid;
+  gap: 9px;
+}
+
+.size-field {
+  display: grid;
+  grid-template-columns: 1fr 86px;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--sr-muted);
+}
+
+.size-field input {
+  border: 1px solid var(--sr-line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--sr-ink);
+  width: 100%;
+}
+
+/* -------------------------------------------------------------- compare --- */
+
+.compare {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  cursor: ew-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+.compare-top {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.compare-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+.compare-handle span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  box-shadow: var(--sr-shadow);
+}
+
+.compare-tag {
+  position: absolute;
+  top: 12px;
+  background: rgba(23, 24, 28, 0.8);
+  color: #fff;
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 4px 9px;
+}
+
+.compare-tag.left {
+  left: 12px;
+}
+
+.compare-tag.right {
+  right: 12px;
+}
+
+/* ------------------------------------------------------- room clearing --- */
+
+.analysis {
+  border-top: 1px solid var(--sr-line);
+  padding: 14px 16px;
+}
+
+.analysis-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.analysis-head h3 {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sr-muted);
+}
+
+.analysis-count {
+  font-size: 12.5px;
+  color: var(--sr-muted);
+}
+
+.analysis-error {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--sr-bad);
+}
+
+.analysis-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.analysis-strip figure {
+  margin: 0;
+}
+
+.analysis-strip img,
+.analysis-slot {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  border: 1px solid var(--sr-line);
+  border-radius: 10px;
+  background: var(--sr-raise);
+}
+
+/* A checkerboard behind a transparent layer, so its alpha is visible. */
+.analysis-strip img.alpha {
+  background-color: #fff;
+  background-image: linear-gradient(45deg, #eceef1 25%, transparent 25%),
+    linear-gradient(-45deg, #eceef1 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #eceef1 75%),
+    linear-gradient(-45deg, transparent 75%, #eceef1 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+.analysis-slot {
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  color: var(--sr-faint);
+}
+
+.analysis-strip figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.analysis-strip figcaption em {
+  font-style: normal;
+  color: var(--sr-muted);
+  font-weight: 400;
+}
+
+.analysis-note {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: var(--sr-muted);
+  line-height: 1.5;
+  max-width: 76ch;
+}
+
+/* ------------------------------------------------------------- shelves --- */
+
+.shelves {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+  padding: 14px 16px 18px;
+  border-top: 1px solid var(--sr-line);
+}
+
+.shelf-card {
+  border: 1px solid var(--sr-line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.shelf-card header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.shelf-card small {
+  grid-column: 1 / -1;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--sr-faint);
+}
+
+.shelf-card h3 {
+  margin: 2px 0 0;
+  font-size: 14px;
+}
+
+.shelf-card .count {
+  grid-row: 2;
+  font-size: 12px;
+  color: var(--sr-muted);
+  background: var(--sr-raise);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.shelf-card .btn.tiny {
+  margin-bottom: 10px;
+}
+
+.shelf-empty,
+.shelf-note {
+  font-size: 12.5px;
+  color: var(--sr-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.shelf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.shelf-grid figure {
+  margin: 0;
+}
+
+.shelf-grid img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--sr-line);
+}
+
+.shelf-grid figcaption {
+  font-size: 11px;
+  color: var(--sr-muted);
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shelf-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.shelf-list li {
+  border: 1px solid var(--sr-line);
+  border-radius: 8px;
+  padding: 9px 11px;
+}
+
+.shelf-list span {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.shelf-list em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--sr-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+/* -------------------------------------------------- current selection --- */
+
+.nowbar {
+  border-left: 1px solid var(--sr-line);
+  padding: 16px 14px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.nowbar h3 {
+  margin: 18px 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sr-muted);
+}
+
+.nowbar-tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--sr-line);
+  border-radius: 10px;
+  padding: 10px;
+  min-width: 0;
+}
+
+.nowbar-tile img {
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.nowbar-tile small {
+  display: block;
+  font-size: 11px;
+  color: var(--sr-muted);
+  text-transform: capitalize;
+}
+
+.nowbar-tile strong {
+  display: block;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+
+/* --------------------------------------------------------------- narrow --- */
+
+@media (max-width: 1400px) {
+  .studio {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+
+  .nowbar {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .stage-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Controls sit under the image once there is no room beside it. */
+  .tools {
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .tool {
+    flex: 1 1 128px;
+  }
+
+  .tool-popover {
+    right: auto;
+    left: 0;
+    top: calc(100% + 8px);
+    width: min(320px, 100%);
+  }
+}
+
+@media (max-width: 900px) {
+  .picker-hero {
+    grid-template-columns: 1fr;
+    padding: 28px 20px 8px;
+  }
+
+  .picker-hero-art {
+    display: none;
+  }
+
+  .picker-demos {
+    padding: 24px 20px 40px;
+  }
+
+  .studio {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .rail {
+    border-right: 0;
+    border-bottom: 1px solid var(--sr-line);
+  }
+
+  .rail-list {
+    max-height: 320px;
+  }
+
+  .stage {
+    overflow: visible;
+  }
+
+  .stage-main {
+    min-height: 52vh;
+  }
+}
+
+/* ------------------------------------------------------ wall selection --- */
+
+/*
+ * One control per wall the room box has. The dot is the state: filled black
+ * when that wall is being tiled, hollow white when it is not — so a glance at
+ * the list says which surfaces the next Apply will touch. Selection is
+ * independent per wall, and the backend is sent exactly this list.
+ */
+.walls {
+  margin: 0 14px 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--sr-line);
+  border-radius: 10px;
+  background: var(--sr-raise);
+}
+
+.wall-row.on {
+  border-color: var(--sr-ink);
+  background: #fff;
+}
+
+/* Hollow white = off. Solid black = on. */
+.wall-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid var(--sr-faint);
+  background: #fff;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.wall-row.on .wall-dot {
+  background: var(--sr-ink);
+  border-color: var(--sr-ink);
+  box-shadow: inset 0 0 0 2.5px #fff;
+}
+
+.wall-row.on .wall-name {
+  font-weight: 600;
+}
+
+/* A dot on the Floor / Wall tabs, matching the per-wall controls. */
+.surface-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid var(--sr-faint);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.surface-btn.active .surface-dot {
+  background: var(--sr-ink);
+  border-color: var(--sr-ink);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.rail-invalid {
+  margin: 14px 14px 0;
+  padding: 10px 12px;
+  border: 1px solid #f5c2c2;
+  background: #fdeaea;
+  border-radius: 10px;
+  font-size: 12.5px;
+  color: var(--sr-bad);
+  line-height: 1.45;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+/* ------------------------------------------- surfaces, marked on the room --- */
+
+.markers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/*
+ * One marker per detected surface, sitting on the room: a dot, nothing more.
+ * Black means that surface is being tiled, white means it is not. The name
+ * lives in the control's accessible name and its tooltip — printing it on the
+ * room would cover the tile the customer is trying to judge.
+ */
+.marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+  transition: transform 0.1s;
+}
+
+.marker:hover:not(:disabled) {
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.marker:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.marker:focus-visible {
+  outline: 2px solid var(--sr-ink);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+.marker-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(16, 24, 40, 0.28);
+  background: #fff;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 6px rgba(16, 24, 40, 0.35);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.marker.on .marker-dot {
+  background: var(--sr-ink);
+  border-color: #fff;
+}
+
+.marker-dot svg {
+  width: 13px;
+  height: 13px;
+}
+
+/*
+ * The floor's control is a labelled pill — "Floor" — with the same dot inside
+ * it, so it reads as the floor button and still shows selected / not selected
+ * the same way the wall dots do.
+ */
+.marker.pill {
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px 5px 14px;
+  border-radius: 999px;
+  background: rgba(16, 24, 40, 0.72);
+  color: #fff;
+  font: 600 13px/1 inherit;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.25);
+}
+
+.marker.pill.on {
+  background: rgba(16, 24, 40, 0.88);
+}
+
+.marker.pill .marker-dot {
+  width: 18px;
+  height: 18px;
+}
+
+.marker.failed {
+  opacity: 0.45;
+}
+
+/* Its tiles are being laid: the dot breathes until they arrive. */
+.marker.pending .marker-dot {
+  animation: marker-pending 1.1s ease-in-out infinite;
+}
+
+@keyframes marker-pending {
+  50% {
+    box-shadow: 0 0 0 6px rgba(16, 24, 40, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker.pending .marker-dot {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(16, 24, 40, 0.18);
+  }
+}
+
+.rail-hint {
+  margin: 14px 14px 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--sr-line);
+  border-radius: 10px;
+  font-size: 12.5px;
+  color: var(--sr-muted);
+  line-height: 1.45;
+}
+
+/* The reconstructed room: an ordinary opaque image, shown as one. */
+.clean-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  border: 1px solid var(--sr-line);
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* The fallback composite, on a checkerboard so its gaps read as removed. */
+.clean-canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  border: 1px solid var(--sr-line);
+  border-radius: 10px;
+  background-color: #fff;
+  background-image: linear-gradient(45deg, #eceef1 25%, transparent 25%),
+    linear-gradient(-45deg, #eceef1 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #eceef1 75%),
+    linear-gradient(-45deg, transparent 75%, #eceef1 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+.clean-meta {
+  font-size: 11px;
+  color: var(--sr-muted);
+}
+
+/* Saved design captions: "Room 1.2", the tile, and which surface it went on. */
+.shelf-grid figcaption {
+  display: grid;
+  gap: 1px;
+  line-height: 1.25;
+}
+
+.shelf-grid figcaption strong {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sr-ink);
+}
+
+.shelf-grid figcaption span {
+  font-size: 11px;
+  color: var(--sr-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shelf-surface {
+  text-transform: capitalize;
+  font-size: 10.5px !important;
+  color: var(--sr-faint) !important;
+}
