@@ -635,7 +635,9 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
   // The white mask of the surfaces in play (selected, or still showing tiles):
   // the Clean Room job's own FLOOR_MASK.png and wall-N.png -- exactly what the
-  // renderer clips to -- joined into one white-on-black image, in the browser.
+  // renderer clips to -- joined into one white-on-black image, in the browser,
+  // minus the objects the Clean Room removed and puts back on top of the tiles
+  // (ALL_OBJECTS.png, MIRRORS_ONLY.png). So white is where tiles will be SEEN.
   const maskSurfaces = [...new Set([...selected, ...Object.keys(shownKey)])].sort()
   const maskKey = jobId ? `${jobId}|${maskSurfaces.join(',')}` : ''
 
@@ -654,8 +656,12 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
       })
     // No surface in play: an all-black mask, sized from the floor mask.
     const sources = urls.length ? urls : [`${base}FLOOR_MASK.png`]
-    Promise.all(sources.map(load))
-      .then((images) => {
+    // Restored object layers; a room without one simply has none (optional).
+    const covers = Promise.all(
+      [`${base}ALL_OBJECTS.png`, `${base}MIRRORS_ONLY.png`].map((url) => load(url).catch(() => null)),
+    )
+    Promise.all([Promise.all(sources.map(load)), covers])
+      .then(([images, layers]) => {
         if (cancelled) return
         const canvas = document.createElement('canvas')
         canvas.width = images[0].naturalWidth
@@ -666,6 +672,12 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
         if (urls.length) {
           ctx.globalCompositeOperation = 'lighten'          // union: white wherever any mask is white
           for (const image of images) ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
+          // Objects restored over the tiles: erased by their alpha, then black behind.
+          ctx.globalCompositeOperation = 'destination-out'
+          for (const layer of layers) if (layer) ctx.drawImage(layer, 0, 0, canvas.width, canvas.height)
+          ctx.globalCompositeOperation = 'destination-over'
+          ctx.fillStyle = '#000'
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
         }
         setMaskUrl(canvas.toDataURL('image/png'))
       })
@@ -791,7 +803,7 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
                   title={
                     item === 'mask'
                       ? maskSurfaces.length
-                        ? `White = where tiles may go (${maskSurfaces.length} surface${maskSurfaces.length > 1 ? 's' : ''})`
+                        ? `White = where tiles will be seen on ${maskSurfaces.length} surface${maskSurfaces.length > 1 ? 's' : ''} (objects stay on top)`
                         : 'Select a surface to see its mask'
                       : item === 'before' ? 'The photograph' : 'The tiled result'
                   }
