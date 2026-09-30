@@ -417,6 +417,12 @@ def detect_room_geometry(
         if structural is not None:
             floor_geo = structural
 
+    # The floor's depth VP judged on the room's LONG structural lines (image
+    # lines on floor and walls plus the mask boundaries, camera/boundary_vp.py):
+    # kept when they support it; replaced by the pool's own VP when that is
+    # confident instead; rejected when neither is -- never used on faith.
+    floor_geo, vp_report = _check_depth_vp(room_bgr, floor, wall, removed, floor_geo, request, opts)
+
     walls = []
     masks = {}
 
@@ -437,16 +443,73 @@ def detect_room_geometry(
         laid, layout_info = junction_layout.layout(
             floor, wall, horizon_y, f, cx, cy, depth_point, junction_runs, junction_share)
 
+    # 1b. Otherwise the edges the walls do show -- floor junction and ceiling
+    #     line together -- when enough of them is in view (edge_layout.py):
+    #     corners only where an edge visibly bends, never across a hidden gap.
+    #     Used only when it sees at least one corner: with none seen (a corner
+    #     hidden in a gap of both edges) it would merge walls it cannot tell
+    #     apart, so the pipeline's own split is kept instead.
+    edged, edge_info = (None, {})
+    if not laid:
+        from .surface.wall import edge_layout
+        edged, edge_info = edge_layout.layout(floor, wall, horizon_y, f, cx, cy, depth_point, objects)
+        if edged and not edge_info.get("corners"):
+            edged, edge_info = None, {**edge_info, "stage": "no-corner-seen: pipeline split kept"}
+
     if laid:
         refined = [(i, m, d) for i, (m, d) in enumerate(laid)]
         split_report = {"method": "floor-junction", **layout_info, "walls": len(refined)}
+    elif edged:
+        # A wall neither edge gives a run for keeps the pipeline's own direction.
+        refined = [(i, m, d if d is not None else wall_refine._direction(room_bgr, m, floor, wall, floor_geo, f, cx, cy))
+                   for i, (m, d) in enumerate(edged)]
+        split_report = {"method": "floor-junction+ceiling-line", "junction_layout": layout_info,
+                        **edge_info, "walls": len(refined)}
     else:
         # 2. Otherwise the pipeline's split, regrouped by direction (refine.py).
         refined, split_report = (
             wall_refine.refine(instances, room_bgr, floor, wall, floor_geo, f, cx, cy, objects)
             if instances else ([], {"walls": 0})
         )
-        split_report = {"method": "refined-split", "junction_layout": layout_info, **split_report}
+        split_report = {"method": "refined-split", "junction_layout": layout_info,
+                        "edge_layout": edge_info, **split_report}
+
+    # Every wall pixel in exactly one wall: a pixel two pieces of the split both
+    # claim stays with the first (the refined split can overlap by a few pixels).
+    claimed = np.zeros(wall.shape, dtype=bool)
+    disjoint = []
+    for index, mask, direction in refined:
+        mask = mask & ~claimed
+        if mask.any():
+            claimed |= mask
+            disjoint.append((index, mask, direction))
+    overlap_px = int(sum(int(m.sum()) for _, m, _ in refined) - claimed.sum())
+    if overlap_px:
+        split_report = {**split_report, "overlap_pixels_resolved": overlap_px}
+    refined = disjoint
+
+    # Each wall's direction from its OWN junction and ceiling line, fitted
+    # robustly (surface/wall/edge_direction.py). A wall with no usable line of
+    # its own keeps the pipeline's direction only if every one of its pixels can
+    # be tiled with it, and is then not validated; otherwise it has none.
+    from .surface.wall import edge_direction
+    from .surface.wall.geometry import _reach as _wall_reach
+    directed = []
+    for index, mask, direction in refined:
+        fitted = edge_direction.fit(mask, floor, objects, horizon_y, f, cx, cy, depth_point)
+        if fitted is not None:
+            direction = fitted
+        elif direction is not None:
+            reach = _wall_reach(np.asarray(direction["normal"], float), mask, f, cx, cy)
+            if reach < 1.0:
+                direction = None
+            else:
+                direction = {**direction, "validated": False,
+                             "validation": f"no usable junction or ceiling line; direction from "
+                                           f"{direction.get('source') or 'wall lines'}, every pixel tileable"}
+        directed.append((index, mask, direction))
+    refined = directed
+    split_report = {**split_report, "direction_check": _direction_check(refined, horizon_y, depth_point, f, cx)}
 
     for index, mask, direction in refined:
         ys, xs = np.nonzero(mask)
@@ -478,6 +541,7 @@ def detect_room_geometry(
         "version": GEOMETRY_VERSION,
         "room_frame": room_frame,
         "wall_split": split_report,
+        "vp_report": vp_report,
         "canvas": [int(width), int(height)],
         "camera": {
             "focal_px": float(f),
@@ -492,6 +556,70 @@ def detect_room_geometry(
     }
 
     return geometry, masks
+
+
+def _check_depth_vp(room_bgr, floor, wall, objects, floor_geo: dict, request, opts):
+    """(floor_geo, report): the depth VP scored on long structural lines (see the call site)."""
+    from .camera import boundary_vp
+    from .surface.floor import geometry as floor_geometry
+
+    pool = boundary_vp.long_line_pool(room_bgr, floor, wall, objects)
+    vps = (floor_geo.get("vanishing_points") or {})
+    current = vps.get("depth_vp") if floor_geo.get("status") == "detected" else None
+    report = {"rule": {"inliers": boundary_vp.ACCEPT_INLIERS, "support": boundary_vp.ACCEPT_SUPPORT,
+                       "spread_deg": boundary_vp.ACCEPT_SPREAD_DEG, "inlier_deg": boundary_vp.INLIER_DEG},
+              "pool_lines": len(pool),
+              "floor_vp": {"point": current, "origin": vps.get("origin", "floor-lines"),
+                           "detector_confidence": vps.get("confidence"), **boundary_vp.score_vp(pool, current)}}
+    fitted = boundary_vp.fit_vp(pool, finite_only=True) if len(pool) >= 2 else None
+    pool_point = fitted["image"] if fitted and fitted.get("image") else None
+    report["pool_vp"] = {"point": pool_point, **boundary_vp.score_vp(pool, pool_point)}
+
+    if current is not None and report["floor_vp"]["confident"]:
+        report["decision"] = "floor VP kept: confident on the room's long lines"
+        return floor_geo, report
+    if pool_point is not None and report["pool_vp"]["confident"]:
+        replaced = floor_geometry.from_room_structure(
+            room_bgr, floor, [pool_point], floor_geo, request.camera_height_mm, opts.depth_perspective_gain)
+        if replaced is not None:
+            replaced["vanishing_points"]["origin"] = "long-structural-lines"
+            report["decision"] = ("floor VP replaced by the long lines' VP" if current is not None
+                                  else "long lines' VP used (the floor gave none)")
+            return replaced, report
+        report["pool_vp"]["structure_check"] = "failed (floor coverage or pitch)"
+    if current is None:
+        report["decision"] = "no confident depth VP"
+        return floor_geo, report
+    rejected = dict(floor_geo)
+    rejected["status"] = "rejected"
+    rejected["vanishing_points"] = {**vps, "rejected_reason": "low confidence on the room's long lines"}
+    report["decision"] = "floor VP rejected: low confidence, and no confident alternative"
+    return rejected, report
+
+
+def _direction_check(walls, horizon_y, depth_vp, f, cx) -> dict:
+    """
+    The walls' directions checked against each other: side walls against the
+    room's depth direction, the back wall facing the camera, one horizon.
+    """
+    az_depth = None if depth_vp is None else math.degrees(math.atan2(depth_vp[0] - cx, f)) % 180.0
+    rows = []
+    for index, mask, d in walls:
+        if d is None:
+            rows.append({"wall": f"wall-{index}", "direction": None, "validated": False})
+            continue
+        n = d["normal"]
+        az = math.degrees(math.atan2(-n[2], n[0])) % 180.0       # along-wall direction (n rotated 90 deg)
+        off = None if az_depth is None else min(abs(az - az_depth) % 180.0, 180.0 - abs(az - az_depth) % 180.0)
+        rows.append({"wall": f"wall-{index}", "faces": d.get("faces"), "source": d.get("source"),
+                     "snapped_to_depth_vp": (d.get("evidence") or {}).get("snapped_to_depth_vp"),
+                     "deg_from_depth_direction": None if off is None else round(off, 2),
+                     "horizon_y": (d.get("evidence") or {}).get("horizon_y"),
+                     "validated": d.get("validated", True), "validation": d.get("validation")})
+    horizons = {r.get("horizon_y") for r in rows if r.get("horizon_y") is not None}
+    return {"horizon_y": None if horizon_y is None else round(float(horizon_y), 1),
+            "one_horizon": len(horizons) <= 1, "depth_vp": None if depth_vp is None else [round(float(v), 1) for v in depth_vp],
+            "walls": rows}
 
 
 def _stored_floor(geometry: Optional[dict], shape, fallback_vp):
@@ -664,7 +792,7 @@ def render_room(
         room = room_geometry.solve(geometry["room_frame"], {
             "width": request.room_width_mm, "length": request.room_length_mm,
             "height": request.room_height_mm,
-        })
+        }, floor_mask=floor)
         info["room"] = room
         request = _replace(request, camera_height_mm=float(room["camera_height_mm"]))
         metric_planes = {
@@ -751,6 +879,9 @@ def render_room(
                 wall_point = interior_point(owned[wall_index])
 
             opts = _options(request, "wall", exif_focal_px, wall_point=wall_point)
+            if geometry and geometry.get("room_frame"):
+                from dataclasses import replace as _with
+                opts = _with(opts, vertical_vp=geometry["room_frame"].get("vertical_vp"))
 
             # The reference frontend requested depth with the wall mask, so
             # `/depth` re-spread it across the wall before the renderer saw it.

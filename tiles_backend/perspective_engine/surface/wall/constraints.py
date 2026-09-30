@@ -47,8 +47,18 @@ def rotation_baseline(evidence, opts) -> float:
     confident and modest. Reported through evidence.info so a surprising
     result is explainable rather than mysterious.
     """
+    from ...camera import vertical_vp
+
     roll = float(evidence.info.get("roll_rad", 0.0) or 0.0)
     conf = float(evidence.confidence or 0.0)
+
+    # Camera roll is applied only on a confident VP_Y: one gate for the image.
+    apply, why = vertical_vp.roll_gate(getattr(opts, "vertical_vp", None))
+    evidence.info["roll_gate"] = why
+    if not apply:
+        evidence.info["roll_applied_deg"] = 0.0
+        evidence.info["roll_rejected"] = why
+        return 0.0
 
     if conf < MIN_ROLL_CONFIDENCE:
         evidence.info["roll_applied_deg"] = 0.0

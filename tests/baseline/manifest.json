@@ -1,0 +1,459 @@
+{
+  "created": "2026-09-29 17:01:42",
+  "settings": {
+    "tile_width": 1200,
+    "tile_height": 1800,
+    "grout_mm": 5,
+    "room_mode": "auto",
+    "rotations": [
+      0,
+      45,
+      90,
+      135
+    ],
+    "tile": "tests/fixtures/tile.png",
+    "overrides": []
+  },
+  "rooms": {
+    "bedroom": {
+      "name": "bedroom",
+      "source_photo": "bedroom.png",
+      "clean_room_job": "3b62cfc520fb",
+      "frozen_at": "2026-09-29 15:27:27"
+    },
+    "empty": {
+      "name": "empty",
+      "source_photo": "emptyroom.png",
+      "clean_room_job": "f48bf7f69ef7",
+      "frozen_at": "2026-09-29 15:23:30"
+    },
+    "living": {
+      "name": "living",
+      "source_photo": "living.png",
+      "clean_room_job": "036e73f259cf",
+      "frozen_at": "2026-09-29 15:25:36"
+    }
+  },
+  "cases": {
+    "bedroom/floor/r0": {
+      "status": 200,
+      "result_hash": "30f910a1cd23c9dedbab5a0fedae9a034231a305fbf6a3a1c10293c6b9bb38fb",
+      "tile_mask_hash": "98d32e18d5a7c699ee9b0cad0a4a894da986d85a2710955518be604d4aa1502d",
+      "tile_pixels": 322143,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/floor/r45": {
+      "status": 200,
+      "result_hash": "353000061c8fe8acdbc0f54a66c75191321e42438d4d9c94442bbb6d03639ee8",
+      "tile_mask_hash": "98d32e18d5a7c699ee9b0cad0a4a894da986d85a2710955518be604d4aa1502d",
+      "tile_pixels": 322143,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/floor/r90": {
+      "status": 200,
+      "result_hash": "da5e88dc8287875649361637491f5628f6b81644d6459a8d2c6d8d0c60c6c75e",
+      "tile_mask_hash": "98d32e18d5a7c699ee9b0cad0a4a894da986d85a2710955518be604d4aa1502d",
+      "tile_pixels": 322143,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/floor/r135": {
+      "status": 200,
+      "result_hash": "195bcc09f24a34796217a31d12a0b850df1db10c7b34861b312bd8faed81baed",
+      "tile_mask_hash": "98d32e18d5a7c699ee9b0cad0a4a894da986d85a2710955518be604d4aa1502d",
+      "tile_pixels": 322143,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-0/r0": {
+      "status": 200,
+      "result_hash": "890f881052cbff271057f607843c37c44bed206a9e60267aab7f684680865a3f",
+      "tile_mask_hash": "0622daea157f015986d4ccd176571cea4a2c1e23fa18bf9f05ca2b96faf9efdd",
+      "tile_pixels": 258793,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-0/r45": {
+      "status": 200,
+      "result_hash": "1dca07490c07169d9418d37f996eda3f548eefb14ea2d339f9409221b2690826",
+      "tile_mask_hash": "fcc0c8cf224f5fa9fa0df86ae69f250bbfb3fcb9f6de8cb5e63409b99fb44e9f",
+      "tile_pixels": 258798,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-0/r90": {
+      "status": 200,
+      "result_hash": "0eb4957b70bd54133fb77bd617df11f63b184b97843b6c0a2b0f1034582ad1d3",
+      "tile_mask_hash": "db9e33f95c96aab0a6396161064597a3eb240a0cf79c8545f808469d5d0b6e6d",
+      "tile_pixels": 258794,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-0/r135": {
+      "status": 200,
+      "result_hash": "06ba89e29babeaa5fd60be0a3a8ef062e1eb1b326fddccf63fe582260aa4ec7f",
+      "tile_mask_hash": "707e536a7f1cb033858c272a732292d86b748c6a3293c961a4693b9af5b1ddaa",
+      "tile_pixels": 258799,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-1/r0": {
+      "status": 200,
+      "result_hash": "3d4f8c6f327b091a5806732530c733069769c53c549cfb19df987289d5e84286",
+      "tile_mask_hash": "8adb109f387422b86c6cbdd045f57a7432411be4214af4c14a94ce495e474498",
+      "tile_pixels": 214381,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-1/r45": {
+      "status": 200,
+      "result_hash": "38ee5e026f5a03cb04589ae2911e623912fecfcf9387546a3c99cee02dee9da4",
+      "tile_mask_hash": "8adb109f387422b86c6cbdd045f57a7432411be4214af4c14a94ce495e474498",
+      "tile_pixels": 214381,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-1/r90": {
+      "status": 200,
+      "result_hash": "92a48a032c28bc5c981559ca4df5b676614f51a2cf240b022c080be30e654cb8",
+      "tile_mask_hash": "8adb109f387422b86c6cbdd045f57a7432411be4214af4c14a94ce495e474498",
+      "tile_pixels": 214381,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-1/r135": {
+      "status": 200,
+      "result_hash": "2c3737eb0de9bb010435ae77fc4b84da4f1f850808c74bd129dc6fbd9241ad84",
+      "tile_mask_hash": "8adb109f387422b86c6cbdd045f57a7432411be4214af4c14a94ce495e474498",
+      "tile_pixels": 214381,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-2/r0": {
+      "status": 200,
+      "result_hash": "dad3142b76f9f07122dc6f086764f9d815cb60df2c5ade73b42ec2dc73cf935e",
+      "tile_mask_hash": "377f03fbb12879f0703cbf56317d81837bd38a3b5d4161fcb83ea594141934db",
+      "tile_pixels": 61959,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-2/r45": {
+      "status": 200,
+      "result_hash": "99d53890227cbee7fc430dd269eff408ef5bfe2ddecc3ab836a2409feb454f68",
+      "tile_mask_hash": "377f03fbb12879f0703cbf56317d81837bd38a3b5d4161fcb83ea594141934db",
+      "tile_pixels": 61959,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-2/r90": {
+      "status": 200,
+      "result_hash": "4cf3e71d18602a3de65b8c7ec2a5f8ef489c96c2786c301244dacdc79e8cb76a",
+      "tile_mask_hash": "377f03fbb12879f0703cbf56317d81837bd38a3b5d4161fcb83ea594141934db",
+      "tile_pixels": 61959,
+      "room_status": "ESTIMATED"
+    },
+    "bedroom/wall-2/r135": {
+      "status": 200,
+      "result_hash": "b3916c11787443d86f3db0630d462ae269c37308963f073218c21291c715dc2c",
+      "tile_mask_hash": "377f03fbb12879f0703cbf56317d81837bd38a3b5d4161fcb83ea594141934db",
+      "tile_pixels": 61959,
+      "room_status": "ESTIMATED"
+    },
+    "empty/floor/r0": {
+      "status": 200,
+      "result_hash": "f8eb9e4606732a4ed96576449cb7964508a98c2ecc20719ec2ef1f3449f3d926",
+      "tile_mask_hash": "fa4c658a4a443fb1e089c60f6f3618341aa26dbda61b8cffce0b8566436e3999",
+      "tile_pixels": 228237,
+      "room_status": "ESTIMATED"
+    },
+    "empty/floor/r45": {
+      "status": 200,
+      "result_hash": "47f29a387e7d4748a5c2eae3714cc268dc412319338e8ef8dc917bd4e9371a42",
+      "tile_mask_hash": "fa4c658a4a443fb1e089c60f6f3618341aa26dbda61b8cffce0b8566436e3999",
+      "tile_pixels": 228237,
+      "room_status": "ESTIMATED"
+    },
+    "empty/floor/r90": {
+      "status": 200,
+      "result_hash": "ad17faa0456a9b64edfecdeab291c73a3a893fe80ceacc1ea98a8303a3d81711",
+      "tile_mask_hash": "fa4c658a4a443fb1e089c60f6f3618341aa26dbda61b8cffce0b8566436e3999",
+      "tile_pixels": 228237,
+      "room_status": "ESTIMATED"
+    },
+    "empty/floor/r135": {
+      "status": 200,
+      "result_hash": "82f6c3a7b8ed6c847e10b54326838e0e193e68aefe9f9b65bc6ed4d144cf3107",
+      "tile_mask_hash": "fa4c658a4a443fb1e089c60f6f3618341aa26dbda61b8cffce0b8566436e3999",
+      "tile_pixels": 228237,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-0/r0": {
+      "status": 200,
+      "result_hash": "2f0c56ed20e8298dd0af082b7ef18e502af7b209f87f5cdd53e118b99e7de970",
+      "tile_mask_hash": "8584e1696cc7db9de446f70820634d2e4fe12b2652120419ec29eb42c23a4440",
+      "tile_pixels": 73858,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-0/r45": {
+      "status": 200,
+      "result_hash": "045fd2db77e5c750db7a897ded106d438376d64dd95d748da6b7619c9bdbb7ee",
+      "tile_mask_hash": "8584e1696cc7db9de446f70820634d2e4fe12b2652120419ec29eb42c23a4440",
+      "tile_pixels": 73858,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-0/r90": {
+      "status": 200,
+      "result_hash": "ab0bd3b3c74e6c16da2963c1be14bb2cc444b0152909e964e02ae56a722bec72",
+      "tile_mask_hash": "8584e1696cc7db9de446f70820634d2e4fe12b2652120419ec29eb42c23a4440",
+      "tile_pixels": 73858,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-0/r135": {
+      "status": 200,
+      "result_hash": "bc36977c84a6c46994106274f43df817b8ebc102550cc623f7d1a9bfd285cea4",
+      "tile_mask_hash": "8584e1696cc7db9de446f70820634d2e4fe12b2652120419ec29eb42c23a4440",
+      "tile_pixels": 73858,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-1/r0": {
+      "status": 200,
+      "result_hash": "a34f45381c27c619bd34db373911f48bec01d07b909628fb0437acfca45bb62f",
+      "tile_mask_hash": "ef634eb616007e80f94b8890258cfef7451e52acc721ab6a9d1d06ffd0c7c6fd",
+      "tile_pixels": 64526,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-1/r45": {
+      "status": 200,
+      "result_hash": "d3ab4ac8656ee91f2aa499416afad9446fbcf427096baa2bde8a5250196e5a3f",
+      "tile_mask_hash": "ef634eb616007e80f94b8890258cfef7451e52acc721ab6a9d1d06ffd0c7c6fd",
+      "tile_pixels": 64526,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-1/r90": {
+      "status": 200,
+      "result_hash": "9f6f1e7cf958e43f4105798ca70dff210e0ff26f28a11773b66152a11ea711d6",
+      "tile_mask_hash": "ef634eb616007e80f94b8890258cfef7451e52acc721ab6a9d1d06ffd0c7c6fd",
+      "tile_pixels": 64526,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-1/r135": {
+      "status": 200,
+      "result_hash": "1b6af313c3ce06a2944c528b65e1e3c8c46840c622fb497943c6af2461275ee5",
+      "tile_mask_hash": "ef634eb616007e80f94b8890258cfef7451e52acc721ab6a9d1d06ffd0c7c6fd",
+      "tile_pixels": 64526,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-2/r0": {
+      "status": 200,
+      "result_hash": "d9260625d5ddcdcea8c74d3983a24cf4f46dd8ef1ada8f951a285b5efc59b7ac",
+      "tile_mask_hash": "871806dcc1ee56cf88456f00085d1872335970cc0c9711d5cb4eee54e54ab7a3",
+      "tile_pixels": 68395,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-2/r45": {
+      "status": 200,
+      "result_hash": "8e3c3b701a16d2e965a81e4f879d85c95d79e2d7cd11d342c2599562cf904f23",
+      "tile_mask_hash": "871806dcc1ee56cf88456f00085d1872335970cc0c9711d5cb4eee54e54ab7a3",
+      "tile_pixels": 68395,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-2/r90": {
+      "status": 200,
+      "result_hash": "7bdcc7aac8e4c817b45a460f9643d2e2684ed930b8687cba1dcb88d6cf7903ed",
+      "tile_mask_hash": "871806dcc1ee56cf88456f00085d1872335970cc0c9711d5cb4eee54e54ab7a3",
+      "tile_pixels": 68395,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-2/r135": {
+      "status": 200,
+      "result_hash": "6bf2090a985ff4a039afc3e7b47a8407202845beeb34b7ebaca13cabc68f88d9",
+      "tile_mask_hash": "871806dcc1ee56cf88456f00085d1872335970cc0c9711d5cb4eee54e54ab7a3",
+      "tile_pixels": 68395,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-3/r0": {
+      "status": 200,
+      "result_hash": "fb4387a9a86ed23eeb6c84d390286e0d95c3ad7e52d10b3b342c2d7f3e6edd42",
+      "tile_mask_hash": "1752d069f3fb1a25085d64a8724d73fca89e06e94a722bffe2ebad92266bd796",
+      "tile_pixels": 21086,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-3/r45": {
+      "status": 200,
+      "result_hash": "939469ec398ba8a065f62cd0aacaa8a8ca44f570c9cd85c48db5cdfdda44bbac",
+      "tile_mask_hash": "1752d069f3fb1a25085d64a8724d73fca89e06e94a722bffe2ebad92266bd796",
+      "tile_pixels": 21086,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-3/r90": {
+      "status": 200,
+      "result_hash": "b5b86dedc5c223790f7abd3c081dd90ab59eac31716c44e3db4139e4b77a24b8",
+      "tile_mask_hash": "1752d069f3fb1a25085d64a8724d73fca89e06e94a722bffe2ebad92266bd796",
+      "tile_pixels": 21086,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-3/r135": {
+      "status": 200,
+      "result_hash": "05dc0fda003c2efaa49ccf8a94851194ee5fefc1da1451d509dcaab83b32df14",
+      "tile_mask_hash": "1752d069f3fb1a25085d64a8724d73fca89e06e94a722bffe2ebad92266bd796",
+      "tile_pixels": 21086,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-4/r0": {
+      "status": 200,
+      "result_hash": "d53ed591339b24bad3cada31a7d2a2b16fb7315e5b42a2a72b16c464816ce35f",
+      "tile_mask_hash": "aee2494ae1cb27c07c25dc4d48e71a0a837262477c879568aef5d9d42a804989",
+      "tile_pixels": 413628,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-4/r45": {
+      "status": 200,
+      "result_hash": "4fca8b3127c81da2491ebb19e819ef6137e1ca08bedaf5492344e713e0d35dea",
+      "tile_mask_hash": "aee2494ae1cb27c07c25dc4d48e71a0a837262477c879568aef5d9d42a804989",
+      "tile_pixels": 413628,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-4/r90": {
+      "status": 200,
+      "result_hash": "c5036f7aad3a6f4685ed6d6589b0a628ebbf354e23c24754d9fff3d3cbb4bd59",
+      "tile_mask_hash": "aee2494ae1cb27c07c25dc4d48e71a0a837262477c879568aef5d9d42a804989",
+      "tile_pixels": 413628,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-4/r135": {
+      "status": 200,
+      "result_hash": "83fcab4f8d5a2a835f5845b484ef1fd12dd3756a09f67d4ed0404be71af31a07",
+      "tile_mask_hash": "aee2494ae1cb27c07c25dc4d48e71a0a837262477c879568aef5d9d42a804989",
+      "tile_pixels": 413628,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-5/r0": {
+      "status": 200,
+      "result_hash": "051ad908052b818ec661680157f3afbd0d0687b815a16927be64b76c4a5c45b6",
+      "tile_mask_hash": "af4cf9f5ed19fff4ffed07aa5269eae869f24e49a0b9dd40d3274b3eea8e46ac",
+      "tile_pixels": 141431,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-5/r45": {
+      "status": 200,
+      "result_hash": "37e3f1381e67326f5a622f32807277c0838f9a429e7dc0d3041344221c3ea029",
+      "tile_mask_hash": "af4cf9f5ed19fff4ffed07aa5269eae869f24e49a0b9dd40d3274b3eea8e46ac",
+      "tile_pixels": 141431,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-5/r90": {
+      "status": 200,
+      "result_hash": "0ae412c09e3c933c9d4d253f6243a3978fc9d695e0a576287350403cde6ec5e8",
+      "tile_mask_hash": "af4cf9f5ed19fff4ffed07aa5269eae869f24e49a0b9dd40d3274b3eea8e46ac",
+      "tile_pixels": 141431,
+      "room_status": "ESTIMATED"
+    },
+    "empty/wall-5/r135": {
+      "status": 200,
+      "result_hash": "5f1ac99e941f3327e2c53120178e1803cf70fd6debf276e297007e301f409eb7",
+      "tile_mask_hash": "af4cf9f5ed19fff4ffed07aa5269eae869f24e49a0b9dd40d3274b3eea8e46ac",
+      "tile_pixels": 141431,
+      "room_status": "ESTIMATED"
+    },
+    "living/floor/r0": {
+      "status": 200,
+      "result_hash": "4a0da8e9ea32ca4e5645d12ddcbca06184011dbb35056bda1246a4aaf443e273",
+      "tile_mask_hash": "3e8295d6abde8220737f60bbcf279a87d19772387044075fff6d4963c0e214aa",
+      "tile_pixels": 332641,
+      "room_status": "ESTIMATED"
+    },
+    "living/floor/r45": {
+      "status": 200,
+      "result_hash": "b270d25b7c760c62a580bf414fe1e6a74b4e5003414ce3f03b3fc93fe9474014",
+      "tile_mask_hash": "3e8295d6abde8220737f60bbcf279a87d19772387044075fff6d4963c0e214aa",
+      "tile_pixels": 332641,
+      "room_status": "ESTIMATED"
+    },
+    "living/floor/r90": {
+      "status": 200,
+      "result_hash": "4e90063d54430b3397b5deb12b8f08ec7320a2823e02d3d3a30fcba1c46f1f79",
+      "tile_mask_hash": "3e8295d6abde8220737f60bbcf279a87d19772387044075fff6d4963c0e214aa",
+      "tile_pixels": 332641,
+      "room_status": "ESTIMATED"
+    },
+    "living/floor/r135": {
+      "status": 200,
+      "result_hash": "b9e17d347565b7eecf5630b42236692c3b1e14a7557ff7eb896e550b8685577c",
+      "tile_mask_hash": "3e8295d6abde8220737f60bbcf279a87d19772387044075fff6d4963c0e214aa",
+      "tile_pixels": 332641,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-0/r0": {
+      "status": 200,
+      "result_hash": "aa482296d6229a31500425014b548a91424d30d2842f095f7e34b19db86a056f",
+      "tile_mask_hash": "5f54fd0db93360d9e872e399eb3766fd071477f4c1143df4535d4dab81fe6fc2",
+      "tile_pixels": 224504,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-0/r45": {
+      "status": 200,
+      "result_hash": "b7c5a4aeee6da0bb77dd05de6fc36c1466825730f6d23692adca73fc2c433f63",
+      "tile_mask_hash": "5f54fd0db93360d9e872e399eb3766fd071477f4c1143df4535d4dab81fe6fc2",
+      "tile_pixels": 224504,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-0/r90": {
+      "status": 200,
+      "result_hash": "2b43d8a6a301f38cfe3d073f223c77621ca1cd62b5ea6bc8caf77b8fca5787ad",
+      "tile_mask_hash": "5f54fd0db93360d9e872e399eb3766fd071477f4c1143df4535d4dab81fe6fc2",
+      "tile_pixels": 224504,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-0/r135": {
+      "status": 200,
+      "result_hash": "3e3d911680597c3584b1902bbeff72923a3148cce99fc3fd9ef1d4e68719fbc0",
+      "tile_mask_hash": "5f54fd0db93360d9e872e399eb3766fd071477f4c1143df4535d4dab81fe6fc2",
+      "tile_pixels": 224504,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-2/r0": {
+      "status": 200,
+      "result_hash": "e8ca39dbcd76cb50808362f94ec33354572de9e8b412c413d5d4984ecf785cf2",
+      "tile_mask_hash": "b9ee854ca47981cfa9ffdef5a381d59877189b2a17829d9c35561e7f651b6814",
+      "tile_pixels": 105184,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-2/r45": {
+      "status": 200,
+      "result_hash": "fdad8d2bcb9a5b31b2b5dd0a9aca39a4917c2fb19748577791f857387c9d85d1",
+      "tile_mask_hash": "b9ee854ca47981cfa9ffdef5a381d59877189b2a17829d9c35561e7f651b6814",
+      "tile_pixels": 105184,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-2/r90": {
+      "status": 200,
+      "result_hash": "550b5910ac250855545382f80e0d0adcb669936e34ba32232ef8f6441b7a2228",
+      "tile_mask_hash": "b9ee854ca47981cfa9ffdef5a381d59877189b2a17829d9c35561e7f651b6814",
+      "tile_pixels": 105184,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-2/r135": {
+      "status": 200,
+      "result_hash": "09bb087479befba3b33d0ecd3ff254ee60523de501d41f35ca1d15bcfbf0562d",
+      "tile_mask_hash": "8d20a9bf2a597a6768d9fe9a6c89ef6ab0d3f01eb60a46eb76e2e9f346a956fe",
+      "tile_pixels": 105183,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-1/r0": {
+      "status": 200,
+      "result_hash": "2feeac68a94e4d29eb4a4258f596fee7158b13a368b4f2cfe9153f0f4f3b2a57",
+      "tile_mask_hash": "cc0344daf24e6d8bafe2518385edf6af261ef3b8f36787f10f85426b67d27b7a",
+      "tile_pixels": 147586,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-1/r45": {
+      "status": 200,
+      "result_hash": "8496a9d6b572d557cc1a487d984e9815c8316b97cbecafd33725c0155fdfdbec",
+      "tile_mask_hash": "edfac0777d5d46634475abbc81eefbc66847cf782b7ee5377895708a1e78076f",
+      "tile_pixels": 147592,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-1/r90": {
+      "status": 200,
+      "result_hash": "76932c688ca24166ff4a0216d5b0ee47dc0a499df5db5d2f0d8aa5a89dde4755",
+      "tile_mask_hash": "cc0344daf24e6d8bafe2518385edf6af261ef3b8f36787f10f85426b67d27b7a",
+      "tile_pixels": 147586,
+      "room_status": "ESTIMATED"
+    },
+    "living/wall-1/r135": {
+      "status": 200,
+      "result_hash": "2fa20be53663899cd5880aead6962e6ed65291041fdb193483a3593ffaf9f199",
+      "tile_mask_hash": "cc0344daf24e6d8bafe2518385edf6af261ef3b8f36787f10f85426b67d27b7a",
+      "tile_pixels": 147586,
+      "room_status": "ESTIMATED"
+    }
+  }
+}

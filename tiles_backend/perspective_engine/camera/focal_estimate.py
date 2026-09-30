@@ -44,6 +44,8 @@ from typing import Optional, Tuple
 
 import numpy as np
 
+from ..core.memo import room_memo
+
 # Plausible focal range as a multiple of image width. 0.30*W is about a 118
 # degree horizontal field of view (wider than any phone ultra-wide);
 # 4.0*W is about 14 degrees (longer than any phone tele). Anything outside is
@@ -79,6 +81,7 @@ def focal_to_hfov_degrees(f: float, image_width: int) -> float:
     return math.degrees(2.0 * math.atan(image_width / (2.0 * max(f, 1e-6))))
 
 
+@room_memo  # per photo: a tile change must not re-read the camera
 def estimate_focal_from_exif(image_bytes: bytes, image_width: int):
     """
     Focal length in pixels from the photo's own EXIF, or (None, info).

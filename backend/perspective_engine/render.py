@@ -66,7 +66,6 @@ from tiles_backend.perspective_engine import (  # noqa: E402
 
 from perspective_engine import geometry as geometry_store  # noqa: E402
 
-MM_PER_FOOT = 304.8
 
 
 @dataclass
@@ -97,6 +96,72 @@ def _instance(label: str, mask: np.ndarray) -> Instance:
     )
 
     return Instance(label=label, mask=mask, bbox=bbox, pixels=int(mask.sum()))
+
+
+def _room_box_mm(room_mm: tuple, geometry: dict | None,
+                 floor: np.ndarray | None = None) -> tuple[tuple[float, float, float], str]:
+    """
+    All three room dimensions for the legacy room box: the typed ones as they
+    are, the rest from RoomGeometry's estimate for this photo. Raises
+    ValueError (a 422) when a dimension is neither typed nor estimable.
+    """
+    if all(value is not None for value in room_mm):
+        return tuple(float(v) for v in room_mm), "USER_INPUT"
+
+    frame = (geometry or {}).get("room_frame")
+
+    if not frame:
+        raise ValueError(
+            "Please enter one known measurement: this room has no stored geometry to "
+            "estimate its size from (re-running Clean Room also works)."
+        )
+
+    from tiles_backend.perspective_engine.room import geometry as room_geometry
+
+    solved = room_geometry.solve(frame, dict(zip(("width", "length", "height"), room_mm)),
+                                 floor_mask=floor)
+    filled = tuple(
+        typed if typed is not None else solved.get(f"{name}_mm")
+        for typed, name in zip(room_mm, ("width", "length", "height"))
+    )
+
+    missing = [name for value, name in zip(filled, ("width", "length", "height")) if not value]
+
+    if missing:
+        raise ValueError(
+            "Please enter one known measurement: the room " + " and ".join(missing)
+            + " could not be estimated from this photo."
+        )
+
+    source = "ESTIMATED" if all(value is None for value in room_mm) else "USER_INPUT+ESTIMATED"
+
+    return tuple(float(v) for v in filled), source
+
+
+def _detected_horizon_vp(geometry: dict | None, shape: tuple[int, int]):
+    """
+    ((x, y), pitch_deg) of the horizon straight ahead, from the room frame's
+    DETECTED floor plane -- its up axis in camera coordinates (floor VPs /
+    horizon, stored at Clean Room) -- or None without a room frame. No room
+    size enters it.
+
+    The horizon is where rays meet no floor: at the centre column, the row v
+    with Y_y * (v - cy) / f + Y_z = 0 for the up axis Y.
+    """
+    fr = (geometry or {}).get("room_frame") or {}
+    axes, K = fr.get("axes_camera"), fr.get("K")
+    if not axes or not K:
+        return None
+    up = axes["Y"]
+    if abs(up[1]) < 1e-9:
+        return None
+    height, width = shape
+    cw, ch = fr.get("canvas") or [width, height]
+    sx, sy = width / cw, height / ch
+    f, cx, cy = K[0][0], K[0][2], K[1][2]
+    v = cy - f * up[2] / up[1]
+    pitch = math.degrees(math.asin(max(-1.0, min(1.0, -up[2]))))
+    return (cx * sx, v * sy), pitch
 
 
 def _horizon_vp(estimate: dict, shape: tuple[int, int]) -> tuple[float, float]:
@@ -142,6 +207,8 @@ def _summary(info: dict) -> dict:
                     for key in (
                         "index", "label", "plane_source", "wall_width_mm", "wall_height_mm",
                         "tiles_across", "tiles_up", "grid_rotation_deg",
+                        "roll_applied_deg", "roll_rejected", "roll_gate",
+                        "placement", "validated", "validation",
                     )
                 }
                 for entry in wall.get("walls", [])
@@ -166,7 +233,7 @@ def render_tiled_room(
     wall_mask: np.ndarray,
     spec: TileSpec,
     surface: str,
-    room_ft: tuple[float, float, float],
+    room_mm: tuple[float | None, float | None, float | None],
     *,
     clean: np.ndarray | None = None,
     props: np.ndarray | None = None,
@@ -196,6 +263,11 @@ def render_tiled_room(
 
     floor, wall, contested = masks.prepare(floor_mask, wall_mask, shape)
 
+    # `room_mm` is what the user typed (None = AUTO). The room box below only
+    # supplies the fallback horizon, and needs all three: missing ones come from
+    # the room geometry's own estimate, never from a default.
+    box_mm, box_source = _room_box_mm(room_mm, geometry, floor)
+
     base = room if clean is None else clean
 
     # ---- existing geometry: the estimated camera, for its horizon ----
@@ -203,15 +275,24 @@ def render_tiled_room(
         room,
         [],
         [_instance("floor", floor), _instance("wall", wall)],
-        room_ft[0],
-        room_ft[1],
-        room_ft[2],
+        room_mm=box_mm,
         clean=clean,
         props=props,
         object_count=object_count,
     )
 
-    fallback_vp = _horizon_vp(estimate, shape)
+    # The fallback horizon for the floor (used only when the floor's own VP is
+    # rejected). AUTO: from the detected floor plane -- never from a room length
+    # nobody measured. MANUAL: the room box fitted to the typed size, as before.
+    detected = _detected_horizon_vp(geometry, shape) if all(v is None for v in room_mm) else None
+    if detected is not None:
+        fallback_vp, horizon_pitch = detected
+        horizon_source = "detected floor plane (room frame)"
+    else:
+        fallback_vp = _horizon_vp(estimate, shape)
+        horizon_pitch = estimate["camera_pitch_deg"]
+        horizon_source = ("room box fitted to the typed size" if any(v is not None for v in room_mm)
+                          else "room box (no room frame for this photo)")
 
     # ---- which walls, when only some were asked for ----
     #
@@ -228,9 +309,7 @@ def render_tiled_room(
             room,
             [],
             [_instance("floor", floor), _instance("wall", wall)],
-            room_ft[0],
-            room_ft[1],
-            room_ft[2],
+            room_mm=box_mm,
             wall_labels=tuple(wall_labels),
             clean=clean,
             props=props,
@@ -246,9 +325,9 @@ def render_tiled_room(
         tile_height_mm=spec.height_mm,
         rotation_deg=spec.rotation_deg,
         grout_mm=spec.grout_mm,
-        room_width_mm=room_ft[0] * MM_PER_FOOT,
-        room_length_mm=room_ft[1] * MM_PER_FOOT,
-        room_height_mm=room_ft[2] * MM_PER_FOOT,
+        room_width_mm=room_mm[0],
+        room_length_mm=room_mm[1],
+        room_height_mm=room_mm[2],
     )
 
     tiled = render_room(
@@ -301,11 +380,16 @@ def render_tiled_room(
         "renderer": "tiles_backend.perspective_engine",
         "surface_masks": clip["masks"],
         "fallback_vp": [round(fallback_vp[0], 1), round(fallback_vp[1], 1)],
+        "fallback_horizon": {"source": horizon_source, "pitch_deg": round(float(horizon_pitch), 2)},
         "estimated_camera": {
             key: estimate[key]
             for key in ("focal_px", "horizontal_fov_deg", "camera_pitch_deg", "camera_height_mm")
         },
-        "room_mm": [round(value * MM_PER_FOOT, 1) for value in room_ft],
+        "room_mode": "manual" if any(value is not None for value in room_mm) else "auto",
+        # Typed by the user; None = not typed (AUTO).
+        "room_mm": [None if value is None else round(value, 1) for value in room_mm],
+        "room_box_mm": [round(value, 1) for value in box_mm],
+        "room_box_source": box_source,
         "object_count": estimate["object_count"],
         "walls_selected": list(wall_labels) if wall_labels else "all",
         **_summary(tiled.info),
@@ -331,6 +415,24 @@ def render_tiled_room(
         if key in regions and entry.get("three"):
             three[key] = entry["three"]
 
+    # A wall whose stored direction was not validated (weak or disagreeing
+    # edges) is not validated either, whatever placed its plane.
+    stored_dirs = {int(w.get("index")): (w.get("direction") or {}) for w in (geometry_in or {}).get("walls") or []}
+    for entry in (geometry.get("wall") or {}).get("walls") or []:
+        d = stored_dirs.get(entry.get("index"))
+        if d is not None and d.get("validated") is False:
+            entry["validated"] = False
+            entry["validation"] = "; ".join(filter(None, [entry.get("validation"),
+                                                          f"direction not validated: {d.get('validation')}"]))
+
+    # Tile count and edge cuts from the room's mm and the tile's mm (reporting
+    # only; computed after the render, from the same RoomGeometry it used).
+    if tiled.info.get("room"):
+        from tiles_backend.perspective_engine.room import tile_count
+
+        geometry["tile_layout"] = tile_count.room_layout(
+            tiled.info["room"], spec.width_mm, spec.height_mm, spec.rotation_deg)
+
     room_debug = None
     if tiled.info.get("room") and geometry_in and geometry_in.get("room_frame"):
         from tiles_backend.perspective_engine.room import debug as room_debug_mod
@@ -338,6 +440,7 @@ def render_tiled_room(
         room_debug = room_debug_mod.draw(
             cv2.cvtColor(np.ascontiguousarray(base), cv2.COLOR_RGB2BGR),
             geometry_in["room_frame"], tiled.info["room"],
+            layout=geometry.get("tile_layout"),
         )
 
     return Rendered(result=result, scene=scene, geometry=geometry, clip=clip, regions=regions,

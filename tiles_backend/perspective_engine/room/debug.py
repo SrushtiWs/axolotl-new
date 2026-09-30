@@ -57,7 +57,22 @@ def _vp_marker(img, vp, color, label):
     cv2.putText(img, label + " (off image)", tuple(int(t) for t in tip + 8), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
 
 
-def draw(clean_bgr: np.ndarray, fr: dict, room: dict) -> np.ndarray:
+def _layout_lines(layout: dict) -> list[str]:
+    """One panel line per surface: count per axis (full + cut) and totals."""
+    lines = []
+    for sid, s in (layout.get("surfaces") or {}).items():
+        if s.get("status") == "UNAVAILABLE":
+            lines.append(f"tiles {sid}: n/a ({s.get('reason')})")
+            continue
+        axes = " x ".join(
+            f"{n.upper()} {s[f'tile_count_{n}']} ({s[f'full_{n}']} full + {s[f'edge_cut_{n}_mm']:g} mm cut)"
+            for n in s["axes"])
+        lines.append(f"tiles {sid} @{s['rotation_deg']}: {axes} = {s['total_tiles']} "
+                     f"({s['full_tiles']} full, {s['partial_tiles']} cut) [{s['status']}]")
+    return lines
+
+
+def draw(clean_bgr: np.ndarray, fr: dict, room: dict, layout: dict | None = None) -> np.ndarray:
     img = (clean_bgr.astype(np.float32) * 0.6).astype(np.uint8)
     h, w = img.shape[:2]
 
@@ -104,6 +119,8 @@ def draw(clean_bgr: np.ndarray, fr: dict, room: dict) -> np.ndarray:
         f"reprojection mean {fmt(room.get('reprojection_error_mean_px'), 1)} px  max {fmt(room.get('reprojection_error_max_px'), 1)} px",
         f"residuals {room.get('residuals')}",
     ]
+    if layout:
+        lines += _layout_lines(layout)
     panel_h = 22 * len(lines) + 12
     cv2.rectangle(img, (0, h - panel_h), (w, h), (0, 0, 0), -1)
     for i, t in enumerate(lines):

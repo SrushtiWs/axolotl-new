@@ -1,0 +1,2649 @@
+{
+  "source": {
+    "width": 626,
+    "height": 417
+  },
+  "working_resolution": [
+    626,
+    417
+  ],
+  "counts": {
+    "raw_detections": 93,
+    "accepted": 26,
+    "mirrors": 0,
+    "objects": 26,
+    "rejected": 67
+  },
+  "timings": {
+    "surfaces_s": 3.82,
+    "detection_s": 73.65,
+    "segmentation_s": 21.22,
+    "selection_s": 0.28,
+    "overlap_adjustments": 21,
+    "png_s": 0.33,
+    "inpaint_s": 10.78
+  },
+  "objects": [
+    {
+      "id": "object_001",
+      "label": "lamp",
+      "confidence": 0.7103,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        163,
+        227,
+        206,
+        291
+      ],
+      "detection_bbox": [
+        161,
+        226,
+        207,
+        292
+      ],
+      "mask_area": 1882,
+      "alpha_area": 1799,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9063,
+        "mask_area": 1883,
+        "bbox_area": 3036,
+        "mask_to_bbox_ratio": 0.6202,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.00721,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.7346,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "pendant light"
+        ],
+        "final_mask_area": 1882,
+        "final_frame_fraction": 0.00721,
+        "final_surface_overlap": 0.0027
+      },
+      "cleanup": {
+        "area_in": 1883,
+        "after_close": 1890,
+        "after_open": 1888,
+        "after_components": 1888,
+        "after_holes": 1888,
+        "after_contours": 1888,
+        "area_out": 1888,
+        "net_change_fraction": 0.0027
+      }
+    },
+    {
+      "id": "object_002",
+      "label": "lamp",
+      "confidence": 0.6946,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        450,
+        226,
+        496,
+        289
+      ],
+      "detection_bbox": [
+        449,
+        226,
+        497,
+        290
+      ],
+      "mask_area": 1915,
+      "alpha_area": 1828,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9015,
+        "mask_area": 1928,
+        "bbox_area": 3072,
+        "mask_to_bbox_ratio": 0.6276,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.00739,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 2,
+        "rank": 0.7372,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "pendant light"
+        ],
+        "final_mask_area": 1915,
+        "final_frame_fraction": 0.00734,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 1928,
+        "after_close": 1938,
+        "after_open": 1934,
+        "after_components": 1934,
+        "after_holes": 1934,
+        "after_contours": 1934,
+        "area_out": 1934,
+        "net_change_fraction": 0.0031
+      }
+    },
+    {
+      "id": "object_003",
+      "label": "bedside table",
+      "confidence": 0.6429,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        148,
+        289,
+        220,
+        342
+      ],
+      "detection_bbox": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "mask_area": 2952,
+      "alpha_area": 2900,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9501,
+        "mask_area": 2944,
+        "bbox_area": 4332,
+        "mask_to_bbox_ratio": 0.6796,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.01128,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.7878,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "desk",
+          "table",
+          "vanity",
+          "tray",
+          "coffee table",
+          "side table",
+          "kitchen cabinet",
+          "refrigerator",
+          "dining table",
+          "table lamp"
+        ],
+        "final_mask_area": 2952,
+        "final_frame_fraction": 0.01131,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 2944,
+        "after_close": 2946,
+        "after_open": 2944,
+        "after_components": 2944,
+        "after_holes": 2944,
+        "after_contours": 2944,
+        "area_out": 2944,
+        "net_change_fraction": 0.0
+      }
+    },
+    {
+      "id": "object_004",
+      "label": "bedside table",
+      "confidence": 0.566,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        442,
+        287,
+        512,
+        342
+      ],
+      "detection_bbox": [
+        439,
+        285,
+        514,
+        343
+      ],
+      "mask_area": 2170,
+      "alpha_area": 2114,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9399,
+        "mask_area": 2200,
+        "bbox_area": 4350,
+        "mask_to_bbox_ratio": 0.5057,
+        "inside_box_ratio": 0.9986,
+        "frame_fraction": 0.00843,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.679,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "table",
+          "desk",
+          "vanity",
+          "tray",
+          "coffee table",
+          "side table",
+          "dining table"
+        ],
+        "final_mask_area": 2170,
+        "final_frame_fraction": 0.00831,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 2200,
+        "after_close": 2202,
+        "after_open": 2195,
+        "after_components": 2195,
+        "after_holes": 2195,
+        "after_contours": 2195,
+        "area_out": 2195,
+        "net_change_fraction": -0.0023
+      }
+    },
+    {
+      "id": "object_005",
+      "label": "artwork",
+      "confidence": 0.5098,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        260,
+        93,
+        303,
+        145
+      ],
+      "detection_bbox": [
+        260,
+        92,
+        304,
+        145
+      ],
+      "mask_area": 2213,
+      "alpha_area": 2210,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9648,
+        "mask_area": 2204,
+        "bbox_area": 2332,
+        "mask_to_bbox_ratio": 0.9451,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.00844,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.953,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 2213,
+        "final_frame_fraction": 0.00848,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 2204,
+        "after_close": 2211,
+        "after_open": 2209,
+        "after_components": 2209,
+        "after_holes": 2209,
+        "after_contours": 2209,
+        "area_out": 2209,
+        "net_change_fraction": 0.0023
+      }
+    },
+    {
+      "id": "object_006",
+      "label": "artwork",
+      "confidence": 0.4958,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        359,
+        93,
+        402,
+        146
+      ],
+      "detection_bbox": [
+        358,
+        92,
+        402,
+        145
+      ],
+      "mask_area": 2208,
+      "alpha_area": 2200,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9329,
+        "mask_area": 2205,
+        "bbox_area": 2332,
+        "mask_to_bbox_ratio": 0.9455,
+        "inside_box_ratio": 0.9937,
+        "frame_fraction": 0.00845,
+        "surface_overlap_ratio": 0.0018,
+        "connected_component_count": 1,
+        "rank": 0.936,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 2208,
+        "final_frame_fraction": 0.00846,
+        "final_surface_overlap": 0.0018
+      },
+      "cleanup": {
+        "area_in": 2205,
+        "after_close": 2205,
+        "after_open": 2204,
+        "after_components": 2204,
+        "after_holes": 2204,
+        "after_contours": 2204,
+        "area_out": 2204,
+        "net_change_fraction": -0.0005
+      }
+    },
+    {
+      "id": "object_007",
+      "label": "artwork",
+      "confidence": 0.4767,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        310,
+        93,
+        353,
+        146
+      ],
+      "detection_bbox": [
+        309,
+        92,
+        353,
+        145
+      ],
+      "mask_area": 2210,
+      "alpha_area": 2197,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9276,
+        "mask_area": 2208,
+        "bbox_area": 2332,
+        "mask_to_bbox_ratio": 0.9468,
+        "inside_box_ratio": 0.9937,
+        "frame_fraction": 0.00846,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.9355,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 2210,
+        "final_frame_fraction": 0.00847,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 2208,
+        "after_close": 2209,
+        "after_open": 2208,
+        "after_components": 2208,
+        "after_holes": 2208,
+        "after_contours": 2208,
+        "area_out": 2208,
+        "net_change_fraction": 0.0
+      }
+    },
+    {
+      "id": "object_008",
+      "label": "artwork",
+      "confidence": 0.4763,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        338,
+        151,
+        391,
+        194
+      ],
+      "detection_bbox": [
+        337,
+        150,
+        391,
+        193
+      ],
+      "mask_area": 2214,
+      "alpha_area": 2185,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9334,
+        "mask_area": 2199,
+        "bbox_area": 2322,
+        "mask_to_bbox_ratio": 0.947,
+        "inside_box_ratio": 0.99,
+        "frame_fraction": 0.00842,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.9359,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 2214,
+        "final_frame_fraction": 0.00848,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 2199,
+        "after_close": 2211,
+        "after_open": 2209,
+        "after_components": 2209,
+        "after_holes": 2209,
+        "after_contours": 2209,
+        "area_out": 2209,
+        "net_change_fraction": 0.0045
+      }
+    },
+    {
+      "id": "object_009",
+      "label": "artwork",
+      "confidence": 0.4752,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        272,
+        151,
+        325,
+        194
+      ],
+      "detection_bbox": [
+        271,
+        150,
+        325,
+        193
+      ],
+      "mask_area": 2260,
+      "alpha_area": 2256,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9272,
+        "mask_area": 2254,
+        "bbox_area": 2322,
+        "mask_to_bbox_ratio": 0.9707,
+        "inside_box_ratio": 0.9791,
+        "frame_fraction": 0.00863,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.9411,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 2260,
+        "final_frame_fraction": 0.00866,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 2254,
+        "after_close": 2254,
+        "after_open": 2252,
+        "after_components": 2252,
+        "after_holes": 2252,
+        "after_contours": 2252,
+        "area_out": 2252,
+        "net_change_fraction": -0.0009
+      }
+    },
+    {
+      "id": "object_010",
+      "label": "object",
+      "confidence": 0.3726,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        312,
+        5,
+        346,
+        41
+      ],
+      "detection_bbox": [
+        310,
+        0,
+        344,
+        42
+      ],
+      "mask_area": 811,
+      "alpha_area": 741,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.8938,
+        "mask_area": 844,
+        "bbox_area": 1428,
+        "mask_to_bbox_ratio": 0.591,
+        "inside_box_ratio": 0.9941,
+        "frame_fraction": 0.00323,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.71,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror",
+          "mirror partition",
+          "wall mirror",
+          "bathroom mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "pendant light",
+          "mirror",
+          "lamp",
+          "mirror partition",
+          "wall mirror",
+          "bathroom mirror"
+        ],
+        "detector_label": "lamp",
+        "final_mask_area": 811,
+        "final_frame_fraction": 0.00311,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 844,
+        "after_close": 846,
+        "after_open": 843,
+        "after_components": 843,
+        "after_holes": 843,
+        "after_contours": 843,
+        "area_out": 843,
+        "net_change_fraction": -0.0012
+      }
+    },
+    {
+      "id": "object_011",
+      "label": "object",
+      "confidence": 0.3705,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        260,
+        93,
+        494,
+        193
+      ],
+      "detection_bbox": [
+        257,
+        90,
+        496,
+        195
+      ],
+      "mask_area": 10691,
+      "alpha_area": 10641,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.6621,
+        "mask_area": 9992,
+        "bbox_area": 25095,
+        "mask_to_bbox_ratio": 0.3982,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.03828,
+        "surface_overlap_ratio": 0.0004,
+        "connected_component_count": 113,
+        "rank": 0.5037,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.1251,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "framed mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 13% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "artwork",
+          "framed mirror"
+        ],
+        "detector_label": "artwork",
+        "final_mask_area": 10691,
+        "final_frame_fraction": 0.04096,
+        "final_surface_overlap": 0.0004
+      },
+      "cleanup": {
+        "area_in": 9992,
+        "after_close": 11153,
+        "after_open": 11006,
+        "after_components": 10928,
+        "after_holes": 11122,
+        "after_contours": 11122,
+        "area_out": 11122,
+        "net_change_fraction": 0.1131
+      }
+    },
+    {
+      "id": "object_012",
+      "label": "throw pillow",
+      "confidence": 0.279,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        238,
+        238,
+        327,
+        280
+      ],
+      "detection_bbox": [
+        236,
+        237,
+        327,
+        281
+      ],
+      "mask_area": 3422,
+      "alpha_area": 3378,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.702,
+        "mask_area": 3452,
+        "bbox_area": 4004,
+        "mask_to_bbox_ratio": 0.8621,
+        "inside_box_ratio": 0.9997,
+        "frame_fraction": 0.01322,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.7979,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "throw pillow"
+        ],
+        "final_mask_area": 3422,
+        "final_frame_fraction": 0.01311,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 3452,
+        "after_close": 3455,
+        "after_open": 3452,
+        "after_components": 3452,
+        "after_holes": 3452,
+        "after_contours": 3452,
+        "area_out": 3452,
+        "net_change_fraction": 0.0
+      }
+    },
+    {
+      "id": "object_013",
+      "label": "throw pillow",
+      "confidence": 0.2766,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        326,
+        237,
+        419,
+        281
+      ],
+      "detection_bbox": [
+        326,
+        236,
+        420,
+        281
+      ],
+      "mask_area": 3407,
+      "alpha_area": 3370,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.6728,
+        "mask_area": 3436,
+        "bbox_area": 4230,
+        "mask_to_bbox_ratio": 0.8123,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.01316,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.7565,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "throw pillow"
+        ],
+        "final_mask_area": 3407,
+        "final_frame_fraction": 0.01305,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 3436,
+        "after_close": 3436,
+        "after_open": 3433,
+        "after_components": 3433,
+        "after_holes": 3433,
+        "after_contours": 3433,
+        "area_out": 3433,
+        "net_change_fraction": -0.0009
+      }
+    },
+    {
+      "id": "object_014",
+      "label": "oven",
+      "confidence": 0.2703,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        195,
+        216,
+        487,
+        391
+      ],
+      "detection_bbox": [
+        194,
+        214,
+        488,
+        392
+      ],
+      "mask_area": 39373,
+      "alpha_area": 39125,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.8465,
+        "mask_area": 36287,
+        "bbox_area": 52332,
+        "mask_to_bbox_ratio": 0.6934,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.13901,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 40,
+        "rank": 0.7546,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "chair",
+          "dining chair",
+          "desk",
+          "oven",
+          "couch",
+          "table",
+          "seat cushion",
+          "refrigerator"
+        ],
+        "final_mask_area": 39373,
+        "final_frame_fraction": 0.15083,
+        "final_surface_overlap": 0.0001
+      },
+      "cleanup": {
+        "area_in": 36287,
+        "after_close": 37143,
+        "after_open": 36842,
+        "after_components": 36575,
+        "after_holes": 39270,
+        "after_contours": 39270,
+        "area_out": 39270,
+        "net_change_fraction": 0.0822
+      }
+    },
+    {
+      "id": "object_015",
+      "label": "rug",
+      "confidence": 0.2678,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        129,
+        351,
+        564,
+        410
+      ],
+      "detection_bbox": [
+        125,
+        343,
+        570,
+        412
+      ],
+      "mask_area": 10923,
+      "alpha_area": 10780,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9655,
+        "mask_area": 10913,
+        "bbox_area": 30705,
+        "mask_to_bbox_ratio": 0.3554,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.04181,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.5994,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "blanket",
+          "sink",
+          "seat cushion",
+          "table",
+          "basin",
+          "bench"
+        ],
+        "final_mask_area": 10923,
+        "final_frame_fraction": 0.04184,
+        "final_surface_overlap": 0.0011
+      },
+      "cleanup": {
+        "area_in": 10913,
+        "after_close": 10918,
+        "after_open": 10915,
+        "after_components": 10915,
+        "after_holes": 10915,
+        "after_contours": 10915,
+        "area_out": 10915,
+        "net_change_fraction": 0.0002
+      }
+    },
+    {
+      "id": "object_016",
+      "label": "window",
+      "confidence": 0.2591,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        0,
+        0,
+        108,
+        398
+      ],
+      "detection_bbox": [
+        1,
+        0,
+        110,
+        400
+      ],
+      "mask_area": 36874,
+      "alpha_area": 36778,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9562,
+        "mask_area": 36788,
+        "bbox_area": 43600,
+        "mask_to_bbox_ratio": 0.8438,
+        "inside_box_ratio": 0.9892,
+        "frame_fraction": 0.14093,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.8833,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "window"
+        ],
+        "final_mask_area": 36874,
+        "final_frame_fraction": 0.14126,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 36788,
+        "after_close": 36806,
+        "after_open": 36805,
+        "after_components": 36805,
+        "after_holes": 36805,
+        "after_contours": 36805,
+        "area_out": 36805,
+        "net_change_fraction": 0.0005
+      }
+    },
+    {
+      "id": "object_017",
+      "label": "desk",
+      "confidence": 0.2436,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        199,
+        279,
+        480,
+        343
+      ],
+      "detection_bbox": [
+        146,
+        285,
+        514,
+        345
+      ],
+      "mask_area": 15621,
+      "alpha_area": 15500,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.6786,
+        "mask_area": 17773,
+        "bbox_area": 22080,
+        "mask_to_bbox_ratio": 0.8049,
+        "inside_box_ratio": 0.9553,
+        "frame_fraction": 0.06808,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 21,
+        "rank": 0.7328,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "table"
+        ],
+        "final_mask_area": 15621,
+        "final_frame_fraction": 0.05984,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 17773,
+        "after_close": 18151,
+        "after_open": 18039,
+        "after_components": 17308,
+        "after_holes": 17376,
+        "after_contours": 17376,
+        "area_out": 17376,
+        "net_change_fraction": -0.0223
+      }
+    },
+    {
+      "id": "object_019",
+      "label": "cabinet",
+      "confidence": 0.229,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        543,
+        0,
+        626,
+        378
+      ],
+      "detection_bbox": [
+        529,
+        0,
+        625,
+        383
+      ],
+      "mask_area": 27103,
+      "alpha_area": 27140,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9794,
+        "mask_area": 26961,
+        "bbox_area": 36768,
+        "mask_to_bbox_ratio": 0.7333,
+        "inside_box_ratio": 0.986,
+        "frame_fraction": 0.10328,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.8256,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "desk",
+          "refrigerator",
+          "cupboard",
+          "kitchen cabinet",
+          "book"
+        ],
+        "final_mask_area": 27103,
+        "final_frame_fraction": 0.10383,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 26961,
+        "after_close": 26970,
+        "after_open": 26967,
+        "after_components": 26967,
+        "after_holes": 26967,
+        "after_contours": 26967,
+        "area_out": 26967,
+        "net_change_fraction": 0.0002
+      }
+    },
+    {
+      "id": "object_020",
+      "label": "drawer",
+      "confidence": 0.2226,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        195,
+        340,
+        486,
+        392
+      ],
+      "detection_bbox": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "mask_area": 13946,
+      "alpha_area": 13866,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9812,
+        "mask_area": 13922,
+        "bbox_area": 15288,
+        "mask_to_bbox_ratio": 0.9106,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.05333,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.9388,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "seat cushion",
+          "sink",
+          "oven",
+          "table",
+          "cushion"
+        ],
+        "final_mask_area": 13946,
+        "final_frame_fraction": 0.05342,
+        "final_surface_overlap": 0.0001
+      },
+      "cleanup": {
+        "area_in": 13922,
+        "after_close": 13926,
+        "after_open": 13926,
+        "after_components": 13926,
+        "after_holes": 13926,
+        "after_contours": 13926,
+        "area_out": 13926,
+        "net_change_fraction": 0.0003
+      }
+    },
+    {
+      "id": "object_022",
+      "label": "bottle",
+      "confidence": 0.1956,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        201,
+        276,
+        216,
+        292
+      ],
+      "detection_bbox": [
+        201,
+        272,
+        215,
+        291
+      ],
+      "mask_area": 169,
+      "alpha_area": 138,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.8186,
+        "mask_area": 160,
+        "bbox_area": 266,
+        "mask_to_bbox_ratio": 0.6015,
+        "inside_box_ratio": 0.8688,
+        "frame_fraction": 0.00061,
+        "surface_overlap_ratio": 0.1,
+        "connected_component_count": 1,
+        "rank": 0.6089,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 169,
+        "final_frame_fraction": 0.00065,
+        "final_surface_overlap": 0.2367
+      },
+      "cleanup": {
+        "area_in": 160,
+        "after_close": 175,
+        "after_open": 174,
+        "after_components": 174,
+        "after_holes": 174,
+        "after_contours": 174,
+        "area_out": 174,
+        "net_change_fraction": 0.0875
+      }
+    },
+    {
+      "id": "object_023",
+      "label": "bottle",
+      "confidence": 0.1867,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        532,
+        161,
+        546,
+        187
+      ],
+      "detection_bbox": [
+        533,
+        160,
+        545,
+        186
+      ],
+      "mask_area": 296,
+      "alpha_area": 268,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.8502,
+        "mask_area": 311,
+        "bbox_area": 312,
+        "mask_to_bbox_ratio": 0.9968,
+        "inside_box_ratio": 0.9325,
+        "frame_fraction": 0.00119,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.8978,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 296,
+        "final_frame_fraction": 0.00113,
+        "final_surface_overlap": 0.0101
+      },
+      "cleanup": {
+        "area_in": 311,
+        "after_close": 313,
+        "after_open": 312,
+        "after_components": 312,
+        "after_holes": 312,
+        "after_contours": 312,
+        "area_out": 312,
+        "net_change_fraction": 0.0032
+      }
+    },
+    {
+      "id": "object_024",
+      "label": "pendant light",
+      "confidence": 0.184,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        135,
+        120,
+        169,
+        161
+      ],
+      "detection_bbox": [
+        134,
+        32,
+        170,
+        161
+      ],
+      "mask_area": 1017,
+      "alpha_area": 948,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9115,
+        "mask_area": 1046,
+        "bbox_area": 4644,
+        "mask_to_bbox_ratio": 0.2252,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.00401,
+        "surface_overlap_ratio": 0.0124,
+        "connected_component_count": 2,
+        "rank": 0.4966,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 1017,
+        "final_frame_fraction": 0.0039,
+        "final_surface_overlap": 0.0059
+      },
+      "cleanup": {
+        "area_in": 1046,
+        "after_close": 1051,
+        "after_open": 1038,
+        "after_components": 1038,
+        "after_holes": 1038,
+        "after_contours": 1038,
+        "area_out": 1038,
+        "net_change_fraction": -0.0076
+      }
+    },
+    {
+      "id": "object_025",
+      "label": "refrigerator",
+      "confidence": 0.1772,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        532,
+        60,
+        545,
+        335
+      ],
+      "detection_bbox": [
+        530,
+        58,
+        547,
+        336
+      ],
+      "mask_area": 2797,
+      "alpha_area": 2677,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.8443,
+        "mask_area": 2999,
+        "bbox_area": 4726,
+        "mask_to_bbox_ratio": 0.6346,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.01149,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 2,
+        "rank": 0.7185,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "cabinet",
+          "book"
+        ],
+        "final_mask_area": 2797,
+        "final_frame_fraction": 0.01071,
+        "final_surface_overlap": 0.0029
+      },
+      "cleanup": {
+        "area_in": 2999,
+        "after_close": 3076,
+        "after_open": 3071,
+        "after_components": 3071,
+        "after_holes": 3071,
+        "after_contours": 3071,
+        "area_out": 3071,
+        "net_change_fraction": 0.024
+      }
+    },
+    {
+      "id": "object_026",
+      "label": "object",
+      "confidence": 0.1628,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        200,
+        29,
+        474,
+        42
+      ],
+      "detection_bbox": [
+        177,
+        29,
+        462,
+        46
+      ],
+      "mask_area": 1259,
+      "alpha_area": 972,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.5298,
+        "mask_area": 1342,
+        "bbox_area": 4845,
+        "mask_to_bbox_ratio": 0.277,
+        "inside_box_ratio": 0.968,
+        "frame_fraction": 0.00514,
+        "surface_overlap_ratio": 0.7571,
+        "connected_component_count": 20,
+        "rank": 0.2317,
+        "chosen_candidate": 0,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "detector_label": "mirror",
+        "final_mask_area": 1259,
+        "final_frame_fraction": 0.00482,
+        "final_surface_overlap": 0.7474
+      },
+      "cleanup": {
+        "area_in": 1342,
+        "after_close": 1419,
+        "after_open": 1419,
+        "after_components": 1366,
+        "after_holes": 1366,
+        "after_contours": 1366,
+        "area_out": 1366,
+        "net_change_fraction": 0.0179
+      }
+    },
+    {
+      "id": "object_027",
+      "label": "window",
+      "confidence": 0.1549,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        67,
+        31,
+        108,
+        354
+      ],
+      "detection_bbox": [
+        67,
+        29,
+        110,
+        356
+      ],
+      "mask_area": 11368,
+      "alpha_area": 11302,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.963,
+        "mask_area": 11315,
+        "bbox_area": 14061,
+        "mask_to_bbox_ratio": 0.8047,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.04335,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.868,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 11368,
+        "final_frame_fraction": 0.04355,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 11315,
+        "after_close": 11327,
+        "after_open": 11326,
+        "after_components": 11326,
+        "after_holes": 11326,
+        "after_contours": 11326,
+        "area_out": 11326,
+        "net_change_fraction": 0.001
+      }
+    },
+    {
+      "id": "object_028",
+      "label": "seat cushion",
+      "confidence": 0.1502,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        195,
+        278,
+        487,
+        391
+      ],
+      "detection_bbox": [
+        194,
+        279,
+        487,
+        391
+      ],
+      "mask_area": 29519,
+      "alpha_area": 29492,
+      "source_width": 626,
+      "source_height": 417,
+      "metrics": {
+        "sam_predicted_iou": 0.9219,
+        "mask_area": 29399,
+        "bbox_area": 32816,
+        "mask_to_bbox_ratio": 0.8959,
+        "inside_box_ratio": 0.9999,
+        "frame_fraction": 0.11262,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.9062,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 29519,
+        "final_frame_fraction": 0.11308,
+        "final_surface_overlap": 0.0001
+      },
+      "cleanup": {
+        "area_in": 29399,
+        "after_close": 29406,
+        "after_open": 29405,
+        "after_components": 29405,
+        "after_holes": 29405,
+        "after_contours": 29405,
+        "area_out": 29405,
+        "net_change_fraction": 0.0002
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "label": "window",
+      "confidence": 0.187,
+      "box": [
+        2,
+        1,
+        624,
+        415
+      ],
+      "reason": "box covers 99% of the frame \u2014 this is the room"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.652,
+      "box": [
+        444,
+        137,
+        495,
+        187
+      ],
+      "merged_into": "decorative mirror",
+      "extent": [
+        444,
+        137,
+        495,
+        187
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "pendant light",
+      "confidence": 0.481,
+      "box": [
+        161,
+        226,
+        207,
+        292
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        161,
+        226,
+        207,
+        292
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "pendant light",
+      "confidence": 0.422,
+      "box": [
+        449,
+        226,
+        497,
+        290
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        449,
+        226,
+        497,
+        290
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "artwork",
+      "confidence": 0.399,
+      "box": [
+        445,
+        137,
+        495,
+        186
+      ],
+      "merged_into": "decorative mirror",
+      "extent": [
+        444,
+        137,
+        495,
+        187
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "pendant light",
+      "confidence": 0.3,
+      "box": [
+        310,
+        20,
+        343,
+        42
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        310,
+        20,
+        343,
+        42
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.291,
+      "box": [
+        310,
+        21,
+        343,
+        42
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        310,
+        20,
+        343,
+        42
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.284,
+      "box": [
+        147,
+        287,
+        221,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.273,
+      "box": [
+        147,
+        287,
+        222,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.264,
+      "box": [
+        440,
+        287,
+        514,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        439,
+        285,
+        514,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw pillow",
+      "confidence": 0.256,
+      "box": [
+        253,
+        248,
+        317,
+        280
+      ],
+      "merged_into": "throw pillow",
+      "extent": [
+        236,
+        237,
+        327,
+        281
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.256,
+      "box": [
+        440,
+        287,
+        513,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        439,
+        285,
+        514,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw pillow",
+      "confidence": 0.248,
+      "box": [
+        340,
+        248,
+        404,
+        281
+      ],
+      "merged_into": "throw pillow",
+      "extent": [
+        326,
+        236,
+        420,
+        281
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.242,
+      "box": [
+        194,
+        214,
+        487,
+        391
+      ],
+      "merged_into": "oven",
+      "extent": [
+        194,
+        214,
+        487,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "window",
+      "confidence": 0.237,
+      "box": [
+        1,
+        1,
+        73,
+        398
+      ],
+      "merged_into": "window",
+      "extent": [
+        1,
+        0,
+        110,
+        400
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "pendant light",
+      "confidence": 0.226,
+      "box": [
+        310,
+        1,
+        344,
+        42
+      ],
+      "merged_into": "pendant light",
+      "extent": [
+        310,
+        1,
+        344,
+        43
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.218,
+      "box": [
+        194,
+        214,
+        487,
+        391
+      ],
+      "merged_into": "oven",
+      "extent": [
+        194,
+        214,
+        487,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "artwork",
+      "confidence": 0.214,
+      "box": [
+        257,
+        90,
+        496,
+        195
+      ],
+      "merged_into": "artwork",
+      "extent": [
+        257,
+        90,
+        496,
+        195
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "blanket",
+      "confidence": 0.211,
+      "box": [
+        126,
+        345,
+        569,
+        411
+      ],
+      "merged_into": "rug",
+      "extent": [
+        125,
+        345,
+        570,
+        411
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "sink",
+      "confidence": 0.21,
+      "box": [
+        126,
+        343,
+        569,
+        412
+      ],
+      "merged_into": "rug",
+      "extent": [
+        125,
+        343,
+        570,
+        412
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.199,
+      "box": [
+        530,
+        0,
+        625,
+        383
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        530,
+        0,
+        625,
+        383
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.199,
+      "box": [
+        194,
+        214,
+        488,
+        391
+      ],
+      "merged_into": "oven",
+      "extent": [
+        194,
+        214,
+        488,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "seat cushion",
+      "confidence": 0.194,
+      "box": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "vanity",
+      "confidence": 0.193,
+      "box": [
+        147,
+        287,
+        222,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "lamp",
+      "confidence": 0.19,
+      "box": [
+        310,
+        0,
+        343,
+        42
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        310,
+        0,
+        343,
+        42
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "seat cushion",
+      "confidence": 0.19,
+      "box": [
+        126,
+        345,
+        569,
+        411
+      ],
+      "merged_into": "rug",
+      "extent": [
+        125,
+        343,
+        570,
+        412
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.181,
+      "box": [
+        194,
+        280,
+        486,
+        391
+      ],
+      "merged_into": "oven",
+      "extent": [
+        194,
+        214,
+        488,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.18,
+      "box": [
+        136,
+        0,
+        513,
+        45
+      ],
+      "merged_into": "mirror",
+      "extent": [
+        136,
+        0,
+        513,
+        45
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.179,
+      "box": [
+        125,
+        343,
+        569,
+        412
+      ],
+      "merged_into": "rug",
+      "extent": [
+        125,
+        343,
+        570,
+        412
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.178,
+      "box": [
+        146,
+        285,
+        514,
+        345
+      ],
+      "merged_into": "desk",
+      "extent": [
+        146,
+        285,
+        514,
+        345
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "pendant light",
+      "confidence": 0.178,
+      "box": [
+        227,
+        0,
+        411,
+        43
+      ],
+      "merged_into": "mirror",
+      "extent": [
+        136,
+        0,
+        513,
+        45
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "basin",
+      "confidence": 0.177,
+      "box": [
+        126,
+        343,
+        569,
+        412
+      ],
+      "merged_into": "rug",
+      "extent": [
+        125,
+        343,
+        570,
+        412
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "lamp",
+      "confidence": 0.176,
+      "box": [
+        310,
+        10,
+        344,
+        42
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        310,
+        0,
+        344,
+        42
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "sink",
+      "confidence": 0.176,
+      "box": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.175,
+      "box": [
+        258,
+        90,
+        403,
+        195
+      ],
+      "merged_into": "artwork",
+      "extent": [
+        257,
+        90,
+        496,
+        195
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.174,
+      "box": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.173,
+      "box": [
+        530,
+        58,
+        547,
+        336
+      ],
+      "merged_into": "refrigerator",
+      "extent": [
+        530,
+        58,
+        547,
+        336
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "couch",
+      "confidence": 0.173,
+      "box": [
+        194,
+        214,
+        487,
+        391
+      ],
+      "merged_into": "oven",
+      "extent": [
+        194,
+        214,
+        488,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "vanity",
+      "confidence": 0.172,
+      "box": [
+        441,
+        287,
+        514,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        439,
+        285,
+        514,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.168,
+      "box": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "tray",
+      "confidence": 0.167,
+      "box": [
+        441,
+        287,
+        513,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        439,
+        285,
+        514,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "refrigerator",
+      "confidence": 0.167,
+      "box": [
+        530,
+        1,
+        625,
+        383
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        530,
+        0,
+        625,
+        383
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.166,
+      "box": [
+        310,
+        21,
+        343,
+        42
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        310,
+        0,
+        344,
+        42
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "tray",
+      "confidence": 0.166,
+      "box": [
+        147,
+        287,
+        221,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "book",
+      "confidence": 0.165,
+      "box": [
+        530,
+        59,
+        547,
+        334
+      ],
+      "merged_into": "refrigerator",
+      "extent": [
+        530,
+        58,
+        547,
+        336
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "coffee table",
+      "confidence": 0.165,
+      "box": [
+        147,
+        287,
+        222,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.164,
+      "box": [
+        194,
+        214,
+        487,
+        392
+      ],
+      "merged_into": "oven",
+      "extent": [
+        194,
+        214,
+        488,
+        392
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "side table",
+      "confidence": 0.162,
+      "box": [
+        147,
+        287,
+        222,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall mirror",
+      "confidence": 0.162,
+      "box": [
+        310,
+        21,
+        343,
+        42
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        310,
+        0,
+        344,
+        42
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bathroom mirror",
+      "confidence": 0.162,
+      "box": [
+        310,
+        21,
+        343,
+        42
+      ],
+      "merged_into": "lamp",
+      "extent": [
+        310,
+        0,
+        344,
+        42
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "coffee table",
+      "confidence": 0.161,
+      "box": [
+        440,
+        287,
+        514,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        439,
+        285,
+        514,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bench",
+      "confidence": 0.161,
+      "box": [
+        126,
+        346,
+        569,
+        411
+      ],
+      "merged_into": "rug",
+      "extent": [
+        125,
+        343,
+        570,
+        412
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "seat cushion",
+      "confidence": 0.16,
+      "box": [
+        194,
+        215,
+        487,
+        392
+      ],
+      "merged_into": "oven",
+      "extent": [
+        194,
+        214,
+        488,
+        392
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cushion",
+      "confidence": 0.16,
+      "box": [
+        193,
+        340,
+        487,
+        391
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        193,
+        339,
+        487,
+        391
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "kitchen cabinet",
+      "confidence": 0.157,
+      "box": [
+        147,
+        287,
+        221,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "refrigerator",
+      "confidence": 0.156,
+      "box": [
+        147,
+        287,
+        221,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining table",
+      "confidence": 0.155,
+      "box": [
+        147,
+        287,
+        222,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table lamp",
+      "confidence": 0.154,
+      "box": [
+        147,
+        287,
+        221,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        146,
+        286,
+        222,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cupboard",
+      "confidence": 0.153,
+      "box": [
+        530,
+        0,
+        625,
+        382
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        530,
+        0,
+        625,
+        383
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "kitchen cabinet",
+      "confidence": 0.153,
+      "box": [
+        530,
+        0,
+        625,
+        382
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        530,
+        0,
+        625,
+        383
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "refrigerator",
+      "confidence": 0.152,
+      "box": [
+        194,
+        214,
+        487,
+        391
+      ],
+      "merged_into": "oven",
+      "extent": [
+        194,
+        214,
+        488,
+        392
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "book",
+      "confidence": 0.152,
+      "box": [
+        529,
+        0,
+        625,
+        383
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        529,
+        0,
+        625,
+        383
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "side table",
+      "confidence": 0.151,
+      "box": [
+        441,
+        287,
+        514,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        439,
+        285,
+        514,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining table",
+      "confidence": 0.15,
+      "box": [
+        440,
+        287,
+        514,
+        343
+      ],
+      "merged_into": "bedside table",
+      "extent": [
+        439,
+        285,
+        514,
+        343
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "id": "object_029",
+      "label": "decorative mirror",
+      "confidence": 0.681,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_018",
+      "label": "pendant light",
+      "confidence": 0.231,
+      "reason": "final mask is 100% identical to an object already written \u2014 a duplicate of it"
+    },
+    {
+      "id": "object_021",
+      "label": "object",
+      "confidence": 0.204,
+      "reason": "97% of the refined mask is wall/floor/ceiling and it covers 3% of the frame"
+    }
+  ],
+  "models": {
+    "detection": "Grounding DINO tiny (ONNX, CPU)",
+    "segmentation": "SAM 2.1 Hiera-large (ONNX, CPU)",
+    "surfaces": "SegFormer-B4 ADE20K (ONNX, CPU)",
+    "matting": "colour guided filter + foreground decontamination",
+    "inpainting": "LaMa (big-lama, ONNX, CPU)"
+  },
+  "thresholds": {
+    "box_threshold": 0.15,
+    "text_threshold": 0.1,
+    "duplicate_iou": 0.65
+  },
+  "clean_room": {
+    "model": "LaMa (big-lama, ONNX, CPU)",
+    "grid": 512,
+    "hole_px": 141224,
+    "grow_px": 2,
+    "windows": 1,
+    "whole_frame": true,
+    "filled_px": 150849,
+    "available": true,
+    "filename": "CLEAN_ROOM.png",
+    "checks": {
+      "outside_changed": 0,
+      "hole_px": 150849,
+      "dark_px": 0,
+      "mean_rgb": [
+        132.1,
+        123.0,
+        101.4
+      ],
+      "surface_delta": {
+        "wall": 17.21,
+        "floor": 15.95,
+        "ceiling": 8.09
+      }
+    }
+  },
+  "fragments_removed": {
+    "all_objects": {
+      "removed": 0,
+      "components": 13
+    },
+    "mirrors": {
+      "removed": 0,
+      "components": 0
+    }
+  }
+}

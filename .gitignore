@@ -22,3 +22,7 @@ Untitled.ipynb
 
 # Render jobs: generated at runtime, regenerable
 backend/jobs/
+
+# Regression harness: scratch renders, and baseline images (large; hashes are in manifest.json)
+tests/.work/
+tests/baseline/images/

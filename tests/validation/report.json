@@ -1,0 +1,341 @@
+[
+  {
+    "name": "empty",
+    "image": [
+      1200,
+      912
+    ],
+    "notes": "emptyroom.png",
+    "auto": {
+      "status": "ESTIMATED",
+      "confidence": 0.166,
+      "width_mm": 4220.881136736183,
+      "length_mm": 5142.944140803835,
+      "height_mm": 3481.2490131059526,
+      "width_source": "ESTIMATED",
+      "length_source": "ESTIMATED",
+      "height_source": "ESTIMATED",
+      "width_is_lower_bound": false,
+      "length_is_lower_bound": true,
+      "room_check": "Estimated dimensions: 4.22 m wide, at least 5.14 m long, 3.48 m high"
+    },
+    "vp": {
+      "floor_vp_source": "auto",
+      "floor_vp_confidence": 0.751,
+      "vp_y_confidence": 1.0,
+      "axes_source": "back wall facing the camera (709 junction columns)",
+      "VP_X": "at infinity",
+      "VP_Z": "(600, 436)"
+    },
+    "camera": {
+      "focal_px": 866.6666666666666,
+      "focal_source": "stored:prior",
+      "pitch_deg": 1.3353851611064929,
+      "yaw_deg": -0.0,
+      "roll_deg": -0.009848736185648875,
+      "roll_source": "vertical vanishing point (VP_Y confidence 1.00 >= 0.80)",
+      "height_mm": 1500.0,
+      "height_source": "CAMERA_HEIGHT_PRIOR"
+    },
+    "reprojection_px": {
+      "mean": 16.187248255838853,
+      "max": 25.280207035856392,
+      "corners": 4
+    },
+    "walls": [
+      {
+        "wall": "wall-0",
+        "placement": "room-geometry",
+        "validated": true,
+        "seam_gap": 0.001945500249390557,
+        "scale_ratio": 0.9995244647828785
+      },
+      {
+        "wall": "wall-1",
+        "placement": "room-geometry",
+        "validated": true,
+        "seam_gap": 0.0019316041410055228,
+        "scale_ratio": 0.9821619186799216
+      },
+      {
+        "wall": "wall-2",
+        "placement": "room-geometry",
+        "validated": true,
+        "seam_gap": 0.004027847861171169,
+        "scale_ratio": 0.5781696745238617
+      },
+      {
+        "wall": "wall-3",
+        "placement": "room-geometry",
+        "validated": true,
+        "seam_gap": 0.002526262396996984,
+        "scale_ratio": 1.1211313995084256
+      },
+      {
+        "wall": "wall-4",
+        "placement": "room-geometry",
+        "validated": true,
+        "seam_gap": 0.002211111173857927,
+        "scale_ratio": 0.9789167962305085
+      },
+      {
+        "wall": "wall-5",
+        "placement": "room-geometry",
+        "validated": true,
+        "seam_gap": 0.002036012025569326,
+        "scale_ratio": 1.003296208272865
+      }
+    ],
+    "measured_mm": null
+  },
+  {
+    "name": "living",
+    "image": [
+      1280,
+      864
+    ],
+    "notes": "living.png",
+    "auto": {
+      "status": "ESTIMATED",
+      "confidence": 0.29,
+      "width_mm": 4288.565335794109,
+      "length_mm": 6973.256281148986,
+      "height_mm": 2625.997240519652,
+      "width_source": "ESTIMATED",
+      "length_source": "ESTIMATED",
+      "height_source": "ESTIMATED",
+      "width_is_lower_bound": true,
+      "length_is_lower_bound": true,
+      "room_check": "Estimated dimensions: at least 4.29 m wide, at least 6.97 m long, 2.63 m high"
+    },
+    "vp": {
+      "floor_vp_source": "auto",
+      "floor_vp_confidence": 0.579012888285175,
+      "vp_y_confidence": 1.0,
+      "axes_source": "back wall facing the camera (82 junction columns)",
+      "VP_X": "(-3129, 327)",
+      "VP_Z": "(870, 327)"
+    },
+    "camera": {
+      "focal_px": 924.4444444444445,
+      "focal_source": "stored:prior",
+      "pitch_deg": 6.5041509079719955,
+      "yaw_deg": 13.954344168275599,
+      "roll_deg": 0.14023321386852033,
+      "roll_source": "vertical vanishing point (VP_Y confidence 1.00 >= 0.80)",
+      "height_mm": 1500.0,
+      "height_source": "CAMERA_HEIGHT_PRIOR"
+    },
+    "reprojection_px": {
+      "mean": null,
+      "max": null,
+      "corners": 0
+    },
+    "walls": [
+      {
+        "wall": "wall-0",
+        "placement": "old plane, room scale",
+        "validated": false,
+        "seam_gap": 0.10773604268337454,
+        "scale_ratio": 1.6128324391284865
+      },
+      {
+        "wall": "wall-1",
+        "placement": "room-geometry",
+        "validated": true,
+        "seam_gap": 0.06102373833546758,
+        "scale_ratio": 0.9251941161432251
+      },
+      {
+        "wall": "wall-2",
+        "placement": "old plane, room scale",
+        "validated": false,
+        "seam_gap": 0.25237229789407895,
+        "scale_ratio": 0.6563774418462632
+      }
+    ],
+    "measured_mm": null
+  },
+  {
+    "name": "bedroom",
+    "image": [
+      1376,
+      768
+    ],
+    "notes": "bedroom.png",
+    "auto": {
+      "status": "ESTIMATED",
+      "confidence": 0.058,
+      "width_mm": 5100.75655696359,
+      "length_mm": 11994.913176328344,
+      "height_mm": 3339.403721990728,
+      "width_source": "ESTIMATED",
+      "length_source": "ESTIMATED",
+      "height_source": "ESTIMATED",
+      "width_is_lower_bound": true,
+      "length_is_lower_bound": true,
+      "room_check": "Estimated dimensions: at least 5.10 m wide, at least 11.99 m long, 3.34 m high"
+    },
+    "vp": {
+      "floor_vp_source": "auto",
+      "floor_vp_confidence": 0.1156,
+      "vp_y_confidence": 0.965,
+      "axes_source": "floor depth vanishing point",
+      "VP_X": "(-18698, 293)",
+      "VP_Z": "(739, 293)"
+    },
+    "camera": {
+      "focal_px": 993.7777777777777,
+      "focal_source": "stored:prior",
+      "pitch_deg": 5.232678197085332,
+      "yaw_deg": 2.9590732195089298,
+      "roll_deg": -0.22591702688833445,
+      "roll_source": "vertical vanishing point (VP_Y confidence 0.96 >= 0.80)",
+      "height_mm": 1500.0,
+      "height_source": "CAMERA_HEIGHT_PRIOR"
+    },
+    "reprojection_px": {
+      "mean": null,
+      "max": null,
+      "corners": 0
+    },
+    "walls": [
+      {
+        "wall": "wall-0",
+        "placement": "room-geometry",
+        "validated": true,
+        "seam_gap": 0.012564937866993996,
+        "scale_ratio": 2.3719786267515675
+      },
+      {
+        "wall": "wall-1",
+        "placement": "old plane, room scale",
+        "validated": false,
+        "seam_gap": 0.2113172296968094,
+        "scale_ratio": 0.34085212928789566
+      },
+      {
+        "wall": "wall-2",
+        "placement": "old plane, room scale",
+        "validated": false,
+        "seam_gap": 0.09350172221673088,
+        "scale_ratio": 1.193579658392746
+      }
+    ],
+    "measured_mm": null
+  },
+  {
+    "name": "room01",
+    "image": [
+      626,
+      417
+    ],
+    "notes": "test07/inputs/Room 01.jpg (626x417)",
+    "auto": {
+      "status": "ESTIMATED",
+      "confidence": 0.171,
+      "width_mm": 13284.032311539391,
+      "length_mm": 20651.20963723691,
+      "height_mm": null,
+      "width_source": "ESTIMATED",
+      "length_source": "ESTIMATED",
+      "height_source": "UNKNOWN",
+      "width_is_lower_bound": true,
+      "length_is_lower_bound": true,
+      "room_check": "Please enter one known measurement"
+    },
+    "vp": {
+      "floor_vp_source": "auto",
+      "floor_vp_confidence": 0.3426,
+      "vp_y_confidence": 0.856,
+      "axes_source": "floor depth vanishing point",
+      "VP_X": "(-1173, 290)",
+      "VP_Z": "(455, 290)"
+    },
+    "camera": {
+      "focal_px": 452.1111111111111,
+      "focal_source": "stored:prior",
+      "pitch_deg": -10.24603596193697,
+      "yaw_deg": 17.447184500624928,
+      "roll_deg": -0.047338900613763925,
+      "roll_source": "vertical vanishing point (VP_Y confidence 0.86 >= 0.80)",
+      "height_mm": 1500.0,
+      "height_source": "CAMERA_HEIGHT_PRIOR"
+    },
+    "reprojection_px": {
+      "mean": null,
+      "max": null,
+      "corners": 0
+    },
+    "walls": [
+      {
+        "wall": "wall-0",
+        "error": "wall scale: no physical anchor available. Supply the room height (Room Size panel), render with the "
+      },
+      {
+        "wall": "wall-1",
+        "error": "wall scale: no physical anchor available. Supply the room height (Room Size panel), render with the "
+      }
+    ],
+    "measured_mm": null
+  },
+  {
+    "name": "room03",
+    "image": [
+      358,
+      447
+    ],
+    "notes": "test07/inputs/Room 03.jpg (358x447)",
+    "auto": {
+      "status": "ESTIMATED",
+      "confidence": 0.354,
+      "width_mm": 28362.44823803994,
+      "length_mm": 112124.10805883551,
+      "height_mm": null,
+      "width_source": "ESTIMATED",
+      "length_source": "ESTIMATED",
+      "height_source": "UNKNOWN",
+      "width_is_lower_bound": true,
+      "length_is_lower_bound": true,
+      "room_check": "Please enter one known measurement"
+    },
+    "vp": {
+      "floor_vp_source": "auto",
+      "floor_vp_confidence": 0.7087638465727144,
+      "vp_y_confidence": 0.843,
+      "axes_source": "floor depth vanishing point",
+      "VP_X": "(2050, 303)",
+      "VP_Z": "(140, 303)"
+    },
+    "camera": {
+      "focal_px": 258.55555555555554,
+      "focal_source": "stored:prior",
+      "pitch_deg": -17.107226284835694,
+      "yaw_deg": -8.60176871855278,
+      "roll_deg": -0.08371854587547035,
+      "roll_source": "vertical vanishing point (VP_Y confidence 0.84 >= 0.80)",
+      "height_mm": 1500.0,
+      "height_source": "CAMERA_HEIGHT_PRIOR"
+    },
+    "reprojection_px": {
+      "mean": null,
+      "max": null,
+      "corners": 0
+    },
+    "walls": [
+      {
+        "wall": "wall-0",
+        "error": "wall scale: no physical anchor available. Supply the room height (Room Size panel), render with the "
+      },
+      {
+        "wall": "wall-1",
+        "error": "wall scale: no physical anchor available. Supply the room height (Room Size panel), render with the "
+      },
+      {
+        "wall": "wall-2",
+        "error": "wall scale: no physical anchor available. Supply the room height (Room Size panel), render with the "
+      }
+    ],
+    "measured_mm": null
+  }
+]

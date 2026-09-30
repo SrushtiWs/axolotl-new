@@ -54,6 +54,7 @@ import cv2
 import numpy as np
 
 from .core.composite import decode_depth_array, normalise_depth_within_mask
+from .core.memo import room_memo
 
 MODEL_FILENAME = "midas_dpt_hybrid_384.onnx"
 
@@ -132,6 +133,7 @@ def _preprocess(rgb: np.ndarray) -> np.ndarray:
     return np.ascontiguousarray(np.transpose(normalised, (2, 0, 1))).astype(np.float32)[None]
 
 
+@room_memo  # per room image: a tile change must not re-run MiDaS
 def estimate_depth_heatmap(rgb: np.ndarray) -> np.ndarray:
     """
     The reference project's `estimate_depth_heatmap`: an RGB image in, a

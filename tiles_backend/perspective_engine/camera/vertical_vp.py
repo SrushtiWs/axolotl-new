@@ -38,6 +38,24 @@ ON_WALL_SHARE = 0.6
 MIN_INLIERS = 4
 MIN_SUPPORT = 0.5
 
+#: Camera roll is APPLIED (wall tile grids, RoomGeometry's camera) only when
+#: VP_Y is reliable and its confidence -- support x min(1, inliers / 8) -- is
+#: at least this: 80% of the plumb-line length agreeing, over 7+ lines.
+#: Below it, roll stays 0 and the reason is reported.
+HIGH_CONFIDENCE = 0.8
+
+
+def roll_gate(vertical: Optional[dict]) -> tuple[bool, str]:
+    """(apply roll?, why) for a detect() result; the one gate every roll use shares."""
+    if not vertical:
+        return False, "no VP_Y for this room"
+    conf = float(vertical.get("confidence") or 0.0)
+    if not vertical.get("reliable"):
+        return False, f"VP_Y not reliable ({vertical.get('inliers', 0)} agreeing lines)"
+    if conf < HIGH_CONFIDENCE:
+        return False, f"VP_Y confidence {conf:.2f} < {HIGH_CONFIDENCE:.2f}"
+    return True, f"VP_Y confidence {conf:.2f} >= {HIGH_CONFIDENCE:.2f}"
+
 
 def _share_on(mask: np.ndarray, seg) -> float:
     h, w = mask.shape

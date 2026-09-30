@@ -41,7 +41,10 @@ trap cleanup INT TERM EXIT
 "$VENV/bin/uvicorn" app:app --app-dir "$ROOT/backend" --host 127.0.0.1 --port 8000 --reload &
 BACKEND_PID=$!
 
-(cd "$ROOT/frontend" && npm run dev) &
+(cd "$ROOT/frontend" && exec npm run dev) &
 FRONTEND_PID=$!
 
-wait -n "$BACKEND_PID" "$FRONTEND_PID"
+# `wait -n` needs bash 4.3; macOS ships bash 3.2. Poll until either one exits.
+while kill -0 "$BACKEND_PID" 2>/dev/null && kill -0 "$FRONTEND_PID" 2>/dev/null; do
+  sleep 1
+done

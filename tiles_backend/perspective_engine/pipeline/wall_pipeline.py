@@ -226,23 +226,31 @@ def render_wall_with_info(room_bgr, depth_bgr, mask_bgra, tile_bgra, opts,
     metric = {i: pl for i, pl in metric.items()
               if any(inst.index == i and _room_plane_ok(pl, inst.mask, cx, cy, f) for inst in all_found)}
     legacy_reason = None
+    depth_to_mm = None
     if metric and not any(inst.index in metric for inst in found):
         # The wall asked for cannot be placed by the room geometry (its floor
-        # junction is hidden): it renders exactly as before, per-wall scale.
-        legacy_reason = "room geometry could not place this wall; per-wall scale as before"
-        metric = {}
-    depth_to_mm = None
+        # junction is hidden), but other walls were: it keeps its own plane and
+        # takes the ROOM's scale through their depth->mm ratio -- one scale for
+        # the room, never a second one fitted to this wall's visible height.
+        depth_to_mm = _depth_to_mm(all_found, metric, depth_val, cx, cy, f, opts)
+        if depth_to_mm is None:
+            legacy_reason = "room geometry could not place this wall, and no placed wall gives a depth->mm ratio; per-wall scale"
+            metric = {}
     if metric:
         # ONE metric scale, the room's: walls with a RoomGeometry plane are in
         # millimetres already (camera frame), so the wall frame is 1 mm/unit.
         # A wall the room frame could not place keeps its depth plane, brought
         # into millimetres by the depth->mm ratio of the placed walls -- MiDaS
         # supplies only RELATIVE depth, never a second scale.
-        depth_to_mm = _depth_to_mm(all_found, metric, depth_val, cx, cy, f, opts)
+        depth_to_mm = depth_to_mm or _depth_to_mm(all_found, metric, depth_val, cx, cy, f, opts)
         shared_mm_per_unit = 1.0
         scale_info = {"source": "room-geometry", "depth_to_mm": depth_to_mm}
     else:
-        anchor_inst = _scale_anchor_instance(found)  # the pre-existing per-wall scale
+        # The pre-existing per-wall scale, unchanged. (Anchoring it on another
+        # wall of the room instead was measured and rejected: wall-line planes
+        # are each placed from their own depth sample, so one wall's mm-per-unit
+        # does not hold for another -- seam gaps grew from 11-18% to 14-57%.)
+        anchor_inst = _scale_anchor_instance(found)
         anchor_geom = _geometry(anchor_inst, room_bgr, depth_val, opts, profile, cx, cy, f, room_vps,
                                 plane_normals)
         geoms[anchor_inst.index] = anchor_geom
@@ -297,11 +305,25 @@ def render_wall_with_info(room_bgr, depth_bgr, mask_bgra, tile_bgra, opts,
         "scale_source": scale_info.get("source"),
         "scale_caveat": scale_info.get("caveat"),
         "scale_anchor_instance": "room-geometry" if metric else anchor_inst.label,
+        "room_geometry_note": legacy_reason,
         "room_vps": [list(v) for v in room_vps],
         "walls": instance_info,
         "failures": failures,
     }
     return out, info
+
+
+def _placement(plane_source: str, scale_info: dict) -> dict:
+    """Where a rendered wall's plane and scale came from, and whether that is validated."""
+    if plane_source == "room-geometry":
+        return {"placement": "room-geometry", "validated": True, "validation": None}
+    if plane_source.endswith("+room-scale"):
+        return {"placement": "old plane, room scale", "validated": False,
+                "validation": "not validated: the room geometry could not place this wall; its own "
+                              "plane is on the room's scale via the depth->mm ratio of the placed walls"}
+    return {"placement": "old path", "validated": False,
+            "validation": f"not validated: no room geometry for this room; per-wall scale from "
+                          f"{scale_info.get('source')}, which assumes this wall runs floor to ceiling"}
 
 
 def _room_plane_ok(plane, mask, cx, cy, f) -> bool:
@@ -663,6 +685,11 @@ def _render_one(base_bgr, room_bgr, tile_bgra, mask_factor, instance, geom, opts
         "vp_confidence": float(evidence.confidence),
         "plane_source": evidence.info.get("plane_source"),
         "grid_rotation_deg": math.degrees(rad),
+        # Placed by the room geometry (validated against the room) or not.
+        **_placement(evidence.info.get("plane_source") or "", scale_info),
+        "roll_applied_deg": evidence.info.get("roll_applied_deg"),
+        "roll_rejected": evidence.info.get("roll_rejected"),
+        "roll_gate": evidence.info.get("roll_gate"),
         "wall_width_mm": wall_w_mm,
         "wall_height_mm": wall_h_mm,
         "tile_footprint_mm": [across_mm, deep_mm],

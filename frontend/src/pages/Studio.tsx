@@ -33,6 +33,7 @@ import { ThreeTileLayer } from '../3js'
 import type { ImageFrame, SurfaceMarker } from '../components/SurfaceMarkers'
 import { TileRail } from '../components/TileRail'
 import {
+  API_BASE_URL,
   composeLayers,
   fetchSurfaces,
   generateVisualization,
@@ -43,6 +44,7 @@ import type {
   CatalogueTile,
   Catalogue,
   ComposeResponse,
+  RoomMode,
   Rotation,
   SegmentsResponse,
   SurfacesResponse,
@@ -83,6 +85,22 @@ interface Settings {
   tileSize: { width: number; height: number }
 }
 
+type RoomSize = { width: string; length: string; height: string }
+
+/** The room dimensions the user typed, in feet. Empty fields are left out. */
+function typedRoomSize(size: RoomSize) {
+  const typed: { room_width?: number; room_length?: number; room_height?: number } = {}
+  if (size.width.trim()) typed.room_width = Number(size.width)
+  if (size.length.trim()) typed.room_length = Number(size.length)
+  if (size.height.trim()) typed.room_height = Number(size.height)
+  return typed
+}
+
+/** MANUAL as soon as any dimension is typed; AUTO while all are empty. */
+function roomModeOf(size: RoomSize): RoomMode {
+  return size.width.trim() || size.length.trim() || size.height.trim() ? 'manual' : 'auto'
+}
+
 /** Grout range in millimetres, and the step the −/+ control moves by. */
 const GROUT_MIN = 1
 const GROUT_MAX = 12
@@ -105,12 +123,18 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
   const [rotation, setRotation] = useState<Rotation>(0)
   const [grout, setGrout] = useState(5)
-  const [size, setSize] = useState({ width: '10', length: '10', height: '10' })
+  // Empty = AUTO (estimated from the photo); any typed value = MANUAL.
+  const [size, setSize] = useState({ width: '', length: '', height: '' })
+  const roomMode = roomModeOf(size)
 
   const [panel, setPanel] = useState<Panel>(null)
   const [compare, setCompare] = useState(false)
   // Optional 3D view of the same tiles (Three.js), over the 2D image.
   const [view3d, setView3d] = useState(false)
+
+  /** Before -> Mask -> After: the photo, the white mask tiles may go on, the result. */
+  const [step, setStep] = useState<'before' | 'mask' | 'after'>('after')
+  const [maskUrl, setMaskUrl] = useState<string | null>(null)
 
   const [error, setError] = useState<string | null>(null)
 
@@ -147,6 +171,9 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
   /** Each finished render's notes, by job id. */
   const [jobNotes, setJobNotes] = useState<Record<string, string[]>>({})
+
+  /** Each finished render's room-size check line, and the room size it was for. */
+  const [roomChecks, setRoomChecks] = useState<Record<string, { line: string | null; size: string }>>({})
 
   /** Surfaces being rendered right now. */
   const [pendingIds, setPendingIds] = useState<Record<string, boolean>>({})
@@ -208,6 +235,7 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
     setShownKey({})
     setRenders({})
     setJobNotes({})
+    setRoomChecks({})
     setPendingIds({})
     setFailures({})
     setComposed(null)
@@ -319,9 +347,8 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
         const response = await generateVisualization({
           room_image: room.file,
           tile_image: tileFile,
-          room_width: Number(settings.size.width) || 10,
-          room_length: Number(settings.size.length) || 10,
-          room_height: Number(settings.size.height) || 10,
+          ...typedRoomSize(settings.size),
+          room_mode: roomModeOf(settings.size),
           tile_width: settings.tileSize.width,
           tile_height: settings.tileSize.height,
           rotation: settings.rotation,
@@ -342,6 +369,11 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
         // Kept even if superseded: selecting these settings again is instant.
         setRenders((current) => ({ ...current, [`${id}|${key}`]: response.job_id! }))
         setJobNotes((current) => ({ ...current, [response.job_id!]: response.notes ?? [] }))
+        const measured = response.geometry?.room as { room_check?: string | null } | undefined
+        setRoomChecks((current) => ({
+          ...current,
+          [response.job_id!]: { line: measured?.room_check ?? null, size: JSON.stringify(settings.size) },
+        }))
         setFailures((current) => without(current, id))
       } catch (cause) {
         if (inflight.current[id] !== key) return
@@ -573,6 +605,20 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
   const tiling = Object.keys(pendingIds).length > 0
 
+  // MANUAL: "Consistent" / "Conflict with photo"; AUTO: "Estimated dimensions
+  // ..." -- from a render on screen at the current room size, none before.
+  const sizeKey = JSON.stringify(size)
+  const roomCheck =
+    layers.map((item) => roomChecks[item.job]).find((check) => check?.size === sizeKey && check.line)
+      ?.line ?? null
+
+  // AUTO that could not size the room says so here, not only on the surface.
+  const MEASURE_PROMPT = 'Please enter one known measurement'
+  const roomLine =
+    roomMode === 'auto' && Object.values(failures).some((reason) => reason.startsWith(MEASURE_PROMPT))
+      ? MEASURE_PROMPT
+      : roomCheck
+
   /**
    * Every note the renders on screen came with, once each — renders of
    * different surfaces report the objects and the mask clip in the same words.
@@ -587,7 +633,56 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
     ]),
   ]
 
-  const shown = composed?.result_image_url ?? room.previewUrl
+  // The white mask of the surfaces in play (selected, or still showing tiles):
+  // the Clean Room job's own FLOOR_MASK.png and wall-N.png -- exactly what the
+  // renderer clips to -- joined into one white-on-black image, in the browser.
+  const maskSurfaces = [...new Set([...selected, ...Object.keys(shownKey)])].sort()
+  const maskKey = jobId ? `${jobId}|${maskSurfaces.join(',')}` : ''
+
+  useEffect(() => {
+    if (step !== 'mask' || !jobId) return
+    let cancelled = false
+    const base = `${API_BASE_URL}/jobs/${jobId}/segments/`
+    const urls = maskSurfaces.map((id) => (id === 'floor' ? `${base}FLOOR_MASK.png` : `${base}wall/walls/${id}.png`))
+    const load = (url: string) =>
+      new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image()
+        image.crossOrigin = 'anonymous'
+        image.onload = () => resolve(image)
+        image.onerror = () => reject(new Error(`mask unavailable: ${url}`))
+        image.src = url
+      })
+    // No surface in play: an all-black mask, sized from the floor mask.
+    const sources = urls.length ? urls : [`${base}FLOOR_MASK.png`]
+    Promise.all(sources.map(load))
+      .then((images) => {
+        if (cancelled) return
+        const canvas = document.createElement('canvas')
+        canvas.width = images[0].naturalWidth
+        canvas.height = images[0].naturalHeight
+        const ctx = canvas.getContext('2d')!
+        ctx.fillStyle = '#000'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        if (urls.length) {
+          ctx.globalCompositeOperation = 'lighten'          // union: white wherever any mask is white
+          for (const image of images) ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
+        }
+        setMaskUrl(canvas.toDataURL('image/png'))
+      })
+      .catch((cause) => !cancelled && setError(cause instanceof Error ? cause.message : 'mask unavailable'))
+    return () => {
+      cancelled = true
+    }
+    // maskKey describes jobId + the surfaces
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, maskKey])
+
+  const shown =
+    step === 'before'
+      ? room.previewUrl
+      : step === 'mask'
+        ? (maskUrl ?? room.previewUrl)
+        : (composed?.result_image_url ?? room.previewUrl)
 
   return (
     <div className="studio">
@@ -685,7 +780,35 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
         <div className="stage-main">
           <div className="stage-canvas" ref={canvasRef}>
-            {compare && composed ? (
+            <div className="step-switch" role="group" aria-label="Before, mask, after">
+              {(['before', 'mask', 'after'] as const).map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  className={step === item ? 'active' : ''}
+                  aria-pressed={step === item}
+                  disabled={item === 'mask' && !jobId}
+                  title={
+                    item === 'mask'
+                      ? maskSurfaces.length
+                        ? `White = where tiles may go (${maskSurfaces.length} surface${maskSurfaces.length > 1 ? 's' : ''})`
+                        : 'Select a surface to see its mask'
+                      : item === 'before' ? 'The photograph' : 'The tiled result'
+                  }
+                  onClick={() => {
+                    setStep(item)
+                    if (item !== 'after') {
+                      setCompare(false)
+                      setView3d(false)
+                    }
+                  }}
+                >
+                  {item === 'before' ? 'Before' : item === 'mask' ? 'Mask' : 'After'}
+                </button>
+              ))}
+            </div>
+
+            {step === 'after' && compare && composed ? (
               <CompareSlider before={room.previewUrl} after={composed.result_image_url} />
             ) : (
               <img
@@ -697,7 +820,7 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
               />
             )}
 
-            {view3d && !compare && composed && (
+            {step === 'after' && view3d && !compare && composed && (
               <ThreeTileLayer
                 layers={layers}
                 frame={frame}
@@ -738,7 +861,10 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
             <button
               type="button"
               className={compare ? 'tool active' : 'tool'}
-              onClick={() => setCompare((value) => !value)}
+              onClick={() => {
+                setStep('after')
+                setCompare((value) => !value)
+              }}
               disabled={!composed}
               title={composed ? 'Before / after' : 'Select a surface first'}
             >
@@ -748,7 +874,10 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
             <button
               type="button"
               className={view3d ? 'tool active' : 'tool'}
-              onClick={() => setView3d((value) => !value)}
+              onClick={() => {
+                setStep('after')
+                setView3d((value) => !value)
+              }}
               disabled={!composed}
               title={composed ? 'Show the tiles with the 3D renderer' : 'Select a surface first'}
             >
@@ -780,7 +909,7 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
             >
               <span aria-hidden="true">⤢</span> Room Size
               <em>
-                {size.width}×{size.length}
+                <span className={`mode-badge ${roomMode}`}>{roomMode.toUpperCase()}</span>
               </em>
             </button>
 
@@ -885,6 +1014,11 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
                     <p className="popover-note">
                       Used for tile scale. Applied automatically.
                     </p>
+                    {roomLine && (
+                      <p className="popover-note room-check" role="status">
+                        {roomLine}
+                      </p>
+                    )}
                   </>
                 )}
 

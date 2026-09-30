@@ -1,0 +1,90 @@
+{
+  "canvas": [
+    626,
+    417
+  ],
+  "focal_px": 452.1111111111111,
+  "focal_source": "prior",
+  "principal_point": [
+    313.0,
+    208.5
+  ],
+  "version": 5,
+  "wall_split": {
+    "method": "refined-split",
+    "junction_layout": {
+      "stage": "junction-hidden"
+    },
+    "pieces": 4,
+    "merges": [
+      "ghost of a removed object",
+      "ghost of a removed object"
+    ],
+    "walls": 2
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "index": 0,
+      "pixels": 83300,
+      "bbox": [
+        0,
+        0,
+        398,
+        397
+      ],
+      "select_point": [
+        211,
+        138
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            -0.9999991113738491,
+            -0.0013331315833445844,
+            3.419584168604289e-06
+          ],
+          "at_infinity": false,
+          "image": [
+            -292432.95736218157,
+            -389.8519579030292
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          -0.001544378532220675,
+          -0.0,
+          -0.9999988074467635
+        ],
+        "yaw_deg": -0.08848640704177334,
+        "faces": "front",
+        "evidence": {
+          "segments": 9,
+          "inliers": 3,
+          "junctions": [
+            "floor-junction"
+          ],
+          "support_share": 0.757
+        }
+      },
+      "orientation_source": "wall-lines"
+    },
+    {
+      "id": "wall-1",
+      "index": 1,
+      "pixels": 66140,
+      "bbox": [
+        305,
+        8,
+        625,
+        366
+      ],
+      "select_point": [
+        522,
+        161
+      ],
+      "direction": null,
+      "orientation_source": "room-vp (pipeline)"
+    }
+  ]
+}

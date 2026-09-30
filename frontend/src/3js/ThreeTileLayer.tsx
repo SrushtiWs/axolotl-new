@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { API_BASE_URL } from '../services/api'
 import type { ImageFrame } from '../components/SurfaceMarkers'
-import { loadThreeJob, TileLayerRenderer } from './threeTiles'
+import { loadThreeJob, roomConsistency, TileLayerRenderer } from './threeTiles'
 import type { ThreeJobData, ThreeLayer } from './threeTiles'
 import './three-layer.css'
 
@@ -63,6 +63,11 @@ export function ThreeTileLayer({ layers, frame, onUnavailable }: ThreeTileLayerP
         if (controller.signal.aborted) return
         const missing = resolved.find((item) => !item.data.surfaces[item.surface])
         if (missing) throw new Error(`no 3D data for ${missing.surface}`)
+        // Only the room object's own camera, scale and tile mm are drawn.
+        for (const item of resolved) {
+          const problems = roomConsistency(item.data, item.surface)
+          if (problems.length) throw new Error(`${item.surface} does not match its room (${problems.join('; ')})`)
+        }
         await rendererRef.current?.render(resolved)
         if (controller.signal.aborted) return
         setFirst(resolved[0]?.data ?? null)

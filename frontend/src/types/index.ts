@@ -70,6 +70,9 @@ export type ValidationErrors = Partial<
   >
 >
 
+/** How the room size is known: typed by the user, or estimated from the photo. */
+export type RoomMode = 'auto' | 'manual'
+
 /**
  * The payload the backend will receive at POST /generate.
  * Field names match the agreed multipart form keys exactly.
@@ -77,9 +80,18 @@ export type ValidationErrors = Partial<
 export interface GenerateRequest {
   room_image: File
   tile_image: File
-  room_width: number
-  room_length: number
-  room_height: number
+  /**
+   * Room size in feet. Only the dimensions the user typed are sent: an empty
+   * one is left for the backend to estimate from the photo.
+   */
+  room_width?: number
+  room_length?: number
+  room_height?: number
+  /**
+   * MANUAL when any room dimension was typed, AUTO when none was. Optional:
+   * without it the backend infers the mode from which dimensions arrived.
+   */
+  room_mode?: RoomMode
   tile_width: number
   tile_height: number
   rotation: Rotation

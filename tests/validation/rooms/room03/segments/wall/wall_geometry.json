@@ -1,0 +1,77 @@
+{
+  "canvas": [
+    358,
+    447
+  ],
+  "focal_px": 258.55555555555554,
+  "focal_source": "prior",
+  "principal_point": [
+    179.0,
+    223.5
+  ],
+  "version": 5,
+  "wall_split": {
+    "method": "refined-split",
+    "junction_layout": {
+      "stage": "junction-hidden"
+    },
+    "pieces": 4,
+    "merges": [
+      "ghost of a removed object"
+    ],
+    "walls": 3
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "index": 0,
+      "pixels": 42015,
+      "bbox": [
+        177,
+        63,
+        357,
+        389
+      ],
+      "select_point": [
+        282,
+        175
+      ],
+      "direction": null,
+      "orientation_source": "room-vp (pipeline)"
+    },
+    {
+      "id": "wall-1",
+      "index": 1,
+      "pixels": 33607,
+      "bbox": [
+        25,
+        28,
+        223,
+        328
+      ],
+      "select_point": [
+        103,
+        129
+      ],
+      "direction": null,
+      "orientation_source": "room-vp (pipeline)"
+    },
+    {
+      "id": "wall-2",
+      "index": 2,
+      "pixels": 5224,
+      "bbox": [
+        96,
+        197,
+        256,
+        341
+      ],
+      "select_point": [
+        155,
+        229
+      ],
+      "direction": null,
+      "orientation_source": "room-vp (pipeline)"
+    }
+  ]
+}

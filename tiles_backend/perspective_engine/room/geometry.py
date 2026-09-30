@@ -55,6 +55,10 @@ MIN_JUNCTION_SHARE = 0.15
 #: Scale candidates disagreeing with the fit by more than this -> CONFLICT.
 CONFLICT_TOLERANCE = 0.12
 
+#: Robust range of the visible floor (percentiles) used for lower bounds:
+#: a few stray mask pixels must not stretch the room.
+FLOOR_EXTENT_PERCENTILES = (1.0, 99.0)
+
 #: Plausible camera heights for a room photograph (mm).
 CAMERA_HEIGHT_RANGE_MM = (700.0, 2600.0)
 
@@ -270,10 +274,58 @@ def _project(K, P):
     return [float(p[0] / p[2]), float(p[1] / p[2])]
 
 
-def solve(fr: dict, dims_mm: Optional[dict] = None) -> dict:
+def _box_ceiling(fr: dict, box: dict):
+    """
+    (height in camera heights, walls used, walls with a top that were not used).
+
+    The same length-weighted median of wall tops the room frame takes, over the
+    box walls only; any other wall with a top -- a pillar face, a partial wall,
+    a recess -- is listed as excluded instead.
+    """
+    box_ids = {box.get("left_wall"), box.get("right_wall"), box.get("back_wall")} - {None}
+    tops = [(wid, e["top_height"], e.get("top_columns") or 0)
+            for wid, e in (fr.get("walls") or {}).items() if e.get("top_height")]
+    used = [t for t in tops if t[0] in box_ids]
+    excluded = sorted(t[0] for t in tops if t[0] not in box_ids)
+    if not used:
+        return None, [], excluded
+    hs = np.array([t[1] for t in used]); ws = np.array([t[2] for t in used], float)
+    order = np.argsort(hs); cum = np.cumsum(ws[order])
+    return float(hs[order][np.searchsorted(cum, cum[-1] / 2)]), sorted(t[0] for t in used), excluded
+
+
+def _floor_extent(fr: dict, K, X, Y, Z, floor_mask) -> Optional[dict]:
+    """
+    How far the visible floor reaches along the room's X and Z axes, in camera
+    heights: each floor pixel's ray meets the floor plane (Y = -1, the camera
+    is at height 1). A room is at least this wide and this deep.
+    """
+    if floor_mask is None or not np.any(floor_mask):
+        return None
+    ys, xs = np.nonzero(floor_mask)
+    cw, ch = fr.get("canvas") or [floor_mask.shape[1], floor_mask.shape[0]]
+    xs = xs * (cw / floor_mask.shape[1])
+    ys = ys * (ch / floor_mask.shape[0])
+    rays = _rays(xs, ys, float(K[0, 0]), float(K[0, 2]), float(K[1, 2]))
+    down = rays @ Y
+    below = down < -1e-9                          # below the horizon: meets the floor
+    if not np.any(below):
+        return None
+    P = rays[below] * (-1.0 / down[below])[:, None]
+    x, z = P @ X, P @ Z
+    lo, hi = FLOOR_EXTENT_PERCENTILES
+    return {"x_min": float(np.percentile(x, lo)), "x_max": float(np.percentile(x, hi)),
+            "z_max": float(np.percentile(z, hi)), "pixels": int(below.sum())}
+
+
+def solve(fr: dict, dims_mm: Optional[dict] = None, floor_mask: Optional[np.ndarray] = None) -> dict:
     """
     RoomGeometry for one request. `dims_mm` = {"width", "length", "height"} in
     millimetres (already converted from feet), any of them None.
+
+    `floor_mask` (optional) bounds what the walls cannot measure: with no side
+    wall or no back wall, the visible floor's extent is a lower bound for the
+    width or length. Lower bounds are reported, never used for the scale.
     """
     dims_mm = {k: (float(v) if v else None) for k, v in (dims_mm or {}).items()}
     room = {
@@ -293,9 +345,20 @@ def solve(fr: dict, dims_mm: Optional[dict] = None) -> dict:
     X = np.array(fr["axes_camera"]["X"]); Y = np.array(fr["axes_camera"]["Y"]); Z = np.array(fr["axes_camera"]["Z"])
     box = fr["box_units"]
     W_u = (box["right_x"] - box["left_x"]) if box["left_x"] is not None and box["right_x"] is not None else None
-    H_u = box["ceiling_y"]
+    # Ceiling height from the room box's own walls only (left / right / back):
+    # a pillar, a partial wall or a hidden wall must not redefine the height.
+    H_u, ceiling_from, ceiling_excluded = _box_ceiling(fr, box)
     B_u = box["back_z"]
     W, L, H = dims_mm.get("width"), dims_mm.get("length"), dims_mm.get("height")
+
+    ext = _floor_extent(fr, K, X, Y, Z, floor_mask)
+    W_lb = B_lb = None
+    if W_u is None and ext:
+        x_lo = box["left_x"] if box["left_x"] is not None else ext["x_min"]
+        x_hi = box["right_x"] if box["right_x"] is not None else ext["x_max"]
+        W_lb = (x_hi - x_lo) if x_hi > x_lo else None
+    if B_u is None and ext and ext["z_max"] > 0:
+        B_lb = ext["z_max"]
 
     # ---- ONE scale: camera height in mm --------------------------------------
     cands = []
@@ -312,24 +375,49 @@ def solve(fr: dict, dims_mm: Optional[dict] = None) -> dict:
     residuals = {c[0]: round(c[1] / s - 1.0, 4) for c in cands}
 
     length_conflict = None
-    if L and B_u:
+    if L and B_u and cands:
         # The camera stands inside the room: the room is at least as deep as
-        # the back wall is from the camera.
+        # the back wall is from the camera. Checked only on a metric scale --
+        # against the camera-height prior it would be a conflict with an
+        # assumption, not with the photo.
         needed = B_u * s
         if L < 0.95 * needed:
             length_conflict = round(L / needed - 1.0, 4)
     conflict = any(abs(r) > CONFLICT_TOLERANCE for r in residuals.values()) or length_conflict is not None
 
-    def dim(user, measured_units, lower_bound=False):
+    # ---- Each typed dimension: did it set the scale, and does the photo agree?
+    # A typed value is never replaced; this says what was done with it, so one
+    # the photo cannot measure is reported as unchecked instead of passing
+    # silently as if it had been used.
+    input_checks = {}
+    for name, typed, units in (("width", W, W_u), ("height", H, H_u), ("length", L, B_u)):
+        if not typed:
+            continue
+        entry = {"typed_mm": typed, "used_for_scale": name in residuals}
+        if name in residuals:
+            entry.update(photo_mm=units * s, residual=residuals[name],
+                         check="CONFLICT" if abs(residuals[name]) > CONFLICT_TOLERANCE else "CONSISTENT")
+        elif name == "length" and units and cands:
+            entry.update(photo_min_mm=units * s, residual=length_conflict,
+                         check="CONFLICT" if length_conflict is not None else "CONSISTENT")
+        else:
+            entry.update(check="NOT_CHECKED", reason=(
+                f"the photo does not show the room's {name}" if not units else
+                "the photo gives no metric scale to check it against (no width or height it can measure was typed)"))
+        input_checks[name] = entry
+
+    def dim(user, measured_units, lower_units=None):
         if user:
             return user, "USER_INPUT"
         if measured_units:
             return measured_units * s, ("DETECTED" if cands else "ESTIMATED")
+        if lower_units:
+            return lower_units * s, ("DETECTED" if cands else "ESTIMATED")
         return None, "UNKNOWN"
 
-    width, width_src = dim(W, W_u)
+    width, width_src = dim(W, W_u, W_lb)
     height, height_src = dim(H, H_u)
-    length, length_src = dim(L, B_u)
+    length, length_src = dim(L, B_u, B_lb)
     if conflict:
         if "width" in residuals and abs(residuals["width"]) > CONFLICT_TOLERANCE:
             width_src = "CONFLICT"
@@ -358,11 +446,15 @@ def solve(fr: dict, dims_mm: Optional[dict] = None) -> dict:
         "roll_deg": 0.0, "roll_source": "level (no plumb evidence)",
     }
     vert = fr.get("vertical_vp") or {}
-    if vert.get("reliable"):
+    from ..camera.vertical_vp import roll_gate
+    apply_roll, why = roll_gate(vert)
+    if apply_roll:
         up_v = np.array(vert["up_camera"])
         camera["roll_deg"] = float(vert["roll_deg"])
-        camera["roll_source"] = "vertical vanishing point"
+        camera["roll_source"] = f"vertical vanishing point ({why})"
         camera["vertical_vs_floor_deg"] = math.degrees(math.acos(min(1.0, abs(float(up_v @ Y)))))
+    else:
+        camera["roll_source"] = f"level, roll not applied: {why}"
     if x0 is not None and z0 is not None:
         camera["position_mm"] = [float(-x0 * s), float(s), float(-z0 * s)]
     camera["height_mm"] = s
@@ -411,11 +503,13 @@ def solve(fr: dict, dims_mm: Optional[dict] = None) -> dict:
     lo, hi = CAMERA_HEIGHT_RANGE_MM
     if not lo <= s <= hi:
         warnings.append(f"camera height {s:.0f} mm is outside {lo:.0f}-{hi:.0f} mm")
-    measured_dims = sum(v is not None for v in (W_u, H_u, B_u))
+    measured_dims = sum(v is not None for v in (W_u, H_u, B_u, W_lb, B_lb))
     if conflict:
         status = "CONFLICT"
     elif cands:
         status = "OK"
+    elif input_checks:
+        status = "UNCHECKED"          # typed, but nothing the photo can measure
     elif measured_dims:
         status = "ESTIMATED"
     else:
@@ -432,9 +526,20 @@ def solve(fr: dict, dims_mm: Optional[dict] = None) -> dict:
         "status": status,
         "width_mm": width, "length_mm": length, "height_mm": height,
         "width_source": width_src, "length_source": length_src, "height_source": height_src,
-        "length_is_lower_bound": bool(not L and B_u is not None),
+        # Nothing typed: the room is at least this big. Width from the visible
+        # floor when no pair of side walls is measured; length always (the
+        # front wall is behind the camera), from the back wall or, when that
+        # is not visible, from the farthest visible floor.
+        "width_is_lower_bound": bool(not W and W_u is None and W_lb is not None),
+        "length_is_lower_bound": bool(not L and length is not None),
+        "length_basis": (None if L else "back wall" if B_u is not None
+                         else "farthest visible floor" if B_lb is not None else None),
+        "is_estimated": not cands,
+        "floor_extent_units": ext,
         "camera_height_mm": s, "camera_height_source": s_source,
         "measured_units": {"width": W_u, "height": H_u, "back_depth": B_u},
+        "height_from_walls": ceiling_from,
+        "height_excluded_walls": ceiling_excluded,
         "residuals": {**{f"{k}_residual": v for k, v in residuals.items()},
                       **({"length_residual": length_conflict} if length_conflict is not None else {})},
         "camera": camera,
@@ -451,5 +556,32 @@ def solve(fr: dict, dims_mm: Optional[dict] = None) -> dict:
         "reprojection_error_max_px": float(np.max(err_vals)) if err_vals else None,
         "confidence": round(conf, 3),
         "warnings": warnings,
+        "input_checks": input_checks,
+        "room_check": _room_check(status, input_checks, room_dims=(width, length, height),
+                                  width_lb=bool(not W and W_u is None and W_lb is not None),
+                                  length_lb=bool(not L and length is not None)),
     })
     return room
+
+
+def _room_check(status: str, input_checks: dict, room_dims=(None, None, None),
+                width_lb: bool = False, length_lb: bool = False) -> Optional[str]:
+    """
+    The one status line. Typed size: "Consistent" / "Conflict with photo" /
+    "Not checked against photo". Nothing typed: "Estimated dimensions ..." when
+    all three could be estimated, else "Please enter one known measurement".
+    """
+    if not input_checks:
+        if not all(room_dims):
+            return "Please enter one known measurement"
+        w, l, h = (v / 1000.0 for v in room_dims)
+        at_least = lambda flag: "at least " if flag else ""  # noqa: E731
+        return (f"Estimated dimensions: {at_least(width_lb)}{w:.2f} m wide, "
+                f"{at_least(length_lb)}{l:.2f} m long, {h:.2f} m high")
+    unchecked = [n for n, e in input_checks.items() if e["check"] == "NOT_CHECKED"]
+    tail = f" ({', '.join(unchecked)} not checked)" if unchecked and status != "UNCHECKED" else ""
+    if status == "CONFLICT":
+        return "Conflict with photo" + tail
+    if status == "OK":
+        return "Consistent" + tail
+    return "Not checked against photo"

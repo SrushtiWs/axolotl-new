@@ -1,0 +1,127 @@
+{
+  "canvas": [
+    1200,
+    912
+  ],
+  "principal_point": [
+    600.0,
+    456.0
+  ],
+  "focal_px": 866.6666666666666,
+  "room_horizontal": {
+    "points": [
+      [
+        1636.9592640014548,
+        397.5465426987787
+      ],
+      [
+        1086.1321823387104,
+        229.0442849321734
+      ]
+    ],
+    "info": {
+      "total_lines": 205,
+      "wall_lines": 53,
+      "horizontal_lines": 27,
+      "stage": "ok"
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "vanishing_point": {
+        "homogeneous": [
+          706.2404889609579,
+          435.79705625545716,
+          1.0
+        ],
+        "at_infinity": false,
+        "image": [
+          706.2404889609579,
+          435.79705625545716
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-1",
+      "vanishing_point": {
+        "homogeneous": [
+          82.0,
+          1.0,
+          0.0
+        ],
+        "at_infinity": true,
+        "image": null,
+        "image_direction_deg": 0.6986943829834713
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-2",
+      "vanishing_point": {
+        "homogeneous": [
+          706.2404889609579,
+          435.79705625545716,
+          1.0
+        ],
+        "at_infinity": false,
+        "image": [
+          706.2404889609579,
+          435.79705625545716
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-3",
+      "vanishing_point": {
+        "homogeneous": [
+          706.2404889609579,
+          435.79705625545716,
+          1.0
+        ],
+        "at_infinity": false,
+        "image": [
+          706.2404889609579,
+          435.79705625545716
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-4",
+      "vanishing_point": {
+        "homogeneous": [
+          709.0,
+          13.0,
+          0.0
+        ],
+        "at_infinity": true,
+        "image": null,
+        "image_direction_deg": 1.0504396034701715
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-5",
+      "vanishing_point": {
+        "homogeneous": [
+          706.2404889609579,
+          435.79705625545716,
+          1.0
+        ],
+        "at_infinity": false,
+        "image": [
+          706.2404889609579,
+          435.79705625545716
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-junction"
+    }
+  ]
+}

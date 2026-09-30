@@ -101,6 +101,10 @@ class SurfaceRenderOptions:
     # freedom that noisy depth most often gets wrong, and stops a wall leaning
     # a few degrees out of true and shearing the tile grid.
     lock_vertical_wall: bool = True
+    # The room's VP_Y (camera/vertical_vp.detect), when known. The wall grid's
+    # roll correction is applied only when it passes vertical_vp.roll_gate;
+    # None (no room geometry) keeps the roll at 0.
+    vertical_vp: Optional[dict] = None
     # Physical room dimensions, when the user has supplied them. These are the
     # preferred metric anchor for a wall -- see surface/wall/scale.py -- and
     # are ignored entirely by the floor path.

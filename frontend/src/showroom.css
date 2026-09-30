@@ -963,6 +963,56 @@ body {
   color: var(--sr-muted);
 }
 
+/* Room Size: whether the size is typed (MANUAL) or estimated (AUTO). */
+.mode-badge {
+  display: inline-block;
+  padding: 0 4px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 14px;
+}
+
+/* Keep "Room Size" on one line beside the wider MANUAL badge. */
+.tool:has(.mode-badge) {
+  white-space: nowrap;
+  gap: 6px;
+}
+
+/* Before / Mask / After, on the image's top-left corner. */
+.step-switch {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.72);
+}
+
+.step-switch button {
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 12px;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+}
+
+.step-switch button.active {
+  background: #fff;
+  color: #111;
+}
+
+.step-switch button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 .tool.active {
   background: var(--sr-dark);
   border-color: var(--sr-dark);

@@ -37,6 +37,8 @@ import floor_wall
 import live_scene
 import perspective_engine
 from tiles_backend.perspective_engine import depth as perspective_engine_depth
+from tiles_backend.perspective_engine.room.geometry import feet_to_mm
+from tiles_backend.perspective_engine.camera.metric_scale import MetricScaleError
 import pipeline_assets
 import reuse
 import scene as scene_module
@@ -159,6 +161,23 @@ def _positive(value: float, field: str) -> float:
     return float(value)
 
 
+def _legacy_room_mm(room_mm: tuple) -> tuple:
+    """
+    The room box (`live_scene`) cannot run without all three dimensions, and
+    these paths have no stored room geometry to estimate the missing ones from.
+    Saying so beats inventing a size.
+    """
+    if any(value is None for value in room_mm):
+        raise HTTPException(
+            422,
+            "Please enter one known measurement: this photo has no stored room geometry "
+            "to estimate the room size from (run Clean Room first, or enter the room "
+            "width, length and height).",
+        )
+
+    return room_mm
+
+
 def _wall_note(geometry: dict) -> str:
     """What the response says about wall tiling. Identical on both paths."""
     walls = geometry.get("walls") or []
@@ -217,13 +236,20 @@ def _tile_engine_notes(geometry: dict, clip: dict, job_id: str) -> list[str]:
 
         chosen = geometry.get("walls_selected")
 
-        placed = (wall.get("scale_source") == "room-geometry")
+        unvalidated = [entry for entry in wall["walls"] if entry.get("validated") is False]
+        placed = (wall.get("scale_source") == "room-geometry") and not unvalidated
+        on_room_scale = (wall.get("scale_source") == "room-geometry")
         notes.append(
             f"{len(wall['walls'])} wall(s), each on its own plane"
-            + (", placed from the room geometry on the same scale as the floor"
-               if placed else " and scaled from the room height you entered")
+            + (", placed from the room geometry on the same scale as the floor" if placed
+               else ", on the room's single scale" if on_room_scale
+               else (" and scaled from the room height you entered"
+                     if geometry.get("room_mode") == "manual"
+                     else " and scaled without a room size (AUTO)"))
             + f": {described or 'none rendered'}."
             + (f" Kept: {', '.join(chosen)}." if isinstance(chosen, list) else "")
+            + "".join(f" wall-{entry.get('index')} {entry.get('validation')}."
+                      for entry in unvalidated)
         )
 
         if wall.get("failures"):
@@ -238,11 +264,16 @@ def _tile_engine_notes(geometry: dict, clip: dict, job_id: str) -> list[str]:
         err = room.get("reprojection_error_mean_px")
         status_text = {
             "OK": "Room geometry agrees with the room size you entered",
-            "ESTIMATED": "Room size estimated from the photo (no size entered to fix the scale)",
+            "ESTIMATED": "Room size ESTIMATED from the photo (no size entered to fix the scale; "
+                         f"confidence {room.get('confidence')})",
             "CONFLICT": "The room size you entered disagrees with the photo's geometry",
+            "UNCHECKED": "The room size you entered could not be checked against the photo "
+                         "(it shows none of the typed dimensions); the scale is the assumed "
+                         "camera height",
         }.get(room["status"], room["status"])
         notes.append(
-            f"{status_text}: width {mm(room.get('width_mm'))} ({room.get('width_source')}), "
+            f"{status_text}: width {mm(room.get('width_mm'))} ({room.get('width_source')}"
+            + (", at least" if room.get("width_is_lower_bound") else "") + "), "
             f"length {mm(room.get('length_mm'))} ({room.get('length_source')}"
             + (", at least" if room.get("length_is_lower_bound") else "") + "), "
             f"height {mm(room.get('height_mm'))} ({room.get('height_source')}); camera "
@@ -1362,9 +1393,11 @@ async def generate(
     request: Request,
     room_image: UploadFile = File(...),
     tile_image: UploadFile = File(...),
-    room_width: float = Form(...),
-    room_length: float = Form(...),
-    room_height: float = Form(...),
+    # Room size in feet. Each one is optional: an absent dimension is AUTO,
+    # estimated from the photo's room geometry; a sent one is the user's.
+    room_width: float | None = Form(None),
+    room_length: float | None = Form(None),
+    room_height: float | None = Form(None),
     tile_width: float = Form(...),
     tile_height: float = Form(...),
     rotation: int = Form(...),
@@ -1387,6 +1420,9 @@ async def generate(
     # with surface=wall on a Clean Room job; each wall is then rendered as its
     # own scale anchor, so one wall's tiles never depend on another's.
     wall_id: str = Form(""),
+    # "manual" (at least one dimension typed) or "auto" (none). Absent: taken
+    # from which dimensions arrived, so an older caller is unaffected.
+    room_mode: str = Form(""),
 ) -> dict:
     if rotation not in ALLOWED_ROTATIONS:
         raise HTTPException(422, f"rotation must be one of {sorted(ALLOWED_ROTATIONS)}.")
@@ -1415,10 +1451,27 @@ async def generate(
             422, f"walls must be drawn from {sorted(ALLOWED_WALLS)}; got {unknown}."
         )
 
+    typed_ft = {"width": room_width, "length": room_length, "height": room_height}
+
+    for name, value in typed_ft.items():
+        if value is not None:
+            _positive(value, f"room_{name}")
+
+    any_typed = any(value is not None for value in typed_ft.values())
+    room_mode = room_mode.strip().lower() or ("manual" if any_typed else "auto")
+
+    if room_mode not in ("auto", "manual"):
+        raise HTTPException(422, "room_mode must be 'auto' or 'manual'.")
+    if room_mode == "auto" and any_typed:
+        raise HTTPException(422, "room_mode=auto takes no room dimensions; send room_mode=manual.")
+    if room_mode == "manual" and not any_typed:
+        raise HTTPException(422, "room_mode=manual needs at least one room dimension.")
+
+    # The one feet -> millimetres conversion (1 ft = 304.8 mm). Everything
+    # past this point works in millimetres; None = not typed (AUTO).
+    room_mm = tuple(feet_to_mm(typed_ft[name]) for name in ("width", "length", "height"))
+
     for value, field in (
-        (room_width, "room_width"),
-        (room_length, "room_length"),
-        (room_height, "room_height"),
         (tile_width, "tile_width"),
         (tile_height, "tile_height"),
     ):
@@ -1528,7 +1581,7 @@ async def generate(
                     surface_masks[1],
                     spec,
                     surface,
-                    (room_width, room_length, room_height),
+                    room_mm,
                     clean=clean_rgb,
                     props=props,
                     wall_labels=requested_walls or None,
@@ -1550,9 +1603,7 @@ async def generate(
                     room_rgb,
                     [],
                     bundle.surfaces,
-                    room_width,
-                    room_length,
-                    room_height,
+                    room_mm=_legacy_room_mm(room_mm),
                     wall_labels=requested_walls or None,
                     clean=clean_rgb,
                     props=props,
@@ -1561,6 +1612,10 @@ async def generate(
         except MissingGeometryError as error:
             raise HTTPException(422, str(error)) from error
         except ValueError as error:
+            # AUTO with nothing to fix a wall's scale: the one thing that helps
+            # is a measurement, so say that first (the engine's reason follows).
+            if room_mode == "auto" and isinstance(error, MetricScaleError):
+                raise HTTPException(422, f"Please enter one known measurement: {error}") from error
             raise HTTPException(422, str(error)) from error
 
         geometry["masks"] = f"reused from segment job {job_id}"
@@ -1623,9 +1678,7 @@ async def generate(
                 room_rgb,
                 extraction.objects,
                 found_surfaces,
-                room_width,
-                room_length,
-                room_height,
+                room_mm=_legacy_room_mm(room_mm),
                 # Empty means "every wall", preserving the previous behaviour.
                 wall_labels=requested_walls or None,
                 clean=clean_rgb,
@@ -1721,12 +1774,10 @@ async def generate(
         cv2.imwrite(str(job_dir / ROOM_DEBUG_FILENAME), rendered.room_debug)
 
     submitted = {
+        "room_mode": room_mode,
+        # What was typed; None = not typed, estimated from the photo.
         "room_ft": [room_width, room_length, room_height],
-        "room_mm": [
-            round(room_width * MM_PER_FOOT, 1),
-            round(room_length * MM_PER_FOOT, 1),
-            round(room_height * MM_PER_FOOT, 1),
-        ],
+        "room_mm": [None if value is None else round(value, 1) for value in room_mm],
         "tile_mm": [tile_width, tile_height],
         "grout_mm": grout_mm,
         "walls": list(requested_walls),

@@ -1,0 +1,40 @@
+{
+  "canvas": [
+    358,
+    447
+  ],
+  "principal_point": [
+    179.0,
+    223.5
+  ],
+  "focal_px": 258.55555555555554,
+  "source": "auto",
+  "confidence": 0.7087638465727144,
+  "threshold": 0.55,
+  "depth_vp": [
+    139.8491835538486,
+    304.0136426006754
+  ],
+  "horizon_y": 303.07777228561446,
+  "vp1": [
+    139.8491835538486,
+    304.0136426006754
+  ],
+  "vp2": [
+    -25.4336283186015,
+    307.9646017699171
+  ],
+  "stage": "ok",
+  "floor_lines": 13,
+  "boundary_lines": 6,
+  "total_lines": 128,
+  "confidence_terms": {
+    "support": 0.4375,
+    "lines": 0.4071,
+    "stability": 0.8261,
+    "balance": 0.9375,
+    "boundary": 0.7511,
+    "direction": 1.0,
+    "visibility": 1.0
+  }
+}

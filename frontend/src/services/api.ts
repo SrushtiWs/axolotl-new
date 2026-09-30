@@ -60,9 +60,11 @@ export function buildGenerateFormData(request: GenerateRequest): FormData {
 
   form.append('room_image', request.room_image)
   form.append('tile_image', request.tile_image)
-  form.append('room_width', String(request.room_width))
-  form.append('room_length', String(request.room_length))
-  form.append('room_height', String(request.room_height))
+  // Only the dimensions that were typed; an absent one is estimated (AUTO).
+  if (request.room_width !== undefined) form.append('room_width', String(request.room_width))
+  if (request.room_length !== undefined) form.append('room_length', String(request.room_length))
+  if (request.room_height !== undefined) form.append('room_height', String(request.room_height))
+  if (request.room_mode !== undefined) form.append('room_mode', request.room_mode)
   form.append('tile_width', String(request.tile_width))
   form.append('tile_height', String(request.tile_height))
   form.append('rotation', String(request.rotation))

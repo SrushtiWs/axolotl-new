@@ -73,14 +73,14 @@ of that render share its single metric scale (the camera height), so the per-sur
 
 - **1 scene unit = 1 metre.** A 600×1200 mm tile is 0.6 × 1.2 units, and 1200×2400 mm is 1.2 × 2.4. Tiles are never resized.
 - The engine's camera frame is x right, y down, z forward. Three.js uses (x, −y, −z).
-- The camera sits at the origin. Its projection matrix is built directly from the engine's `focal_px` and `(cx, cy)`, so a 3D point lands on the same image pixel the engine projected it to.
-- There is a half-pixel shift (`cx + 0.5`, `cy + 0.5`). The engine evaluates pixel *i* at coordinate *i*, but a WebGL fragment's centre is at *i + 0.5*.
+- The camera sits at the origin. Each pixel's ray uses the engine's own `focal_px` and `(cx, cy)`, evaluating pixel *i* at coordinate *i*, exactly as the engine does.
 - Each surface is drawn with its own render's camera, so floor and wall renders line up even if their intrinsics differ.
+- **One room object.** `roomConsistency()` checks every record against the render's `room`: the same focal length and principal point, the floor plane at the room's camera height, walls in room millimetres (1 mm/unit), and a tile size in mm. If any check fails, the 3D view refuses to draw and says why. It never corrects with a scale of its own, and nothing in this folder detects or estimates a room size.
 
 ## What the shader does per pixel (same steps as the 2D engine)
 
-1. **Clip.** The pixel must be white in `three/<surface>.png`, or it is discarded. No tile can land on black.
-2. **Grid.** `fract(grid_mm / tile_mm)`, with flips (`core/uv.py`). The grid in mm is an affine function of the 3D point, so perspective-correct interpolation is exact.
+1. **Clip.** The pixel must be white in `three/<surface>.png`, or it is discarded. No tile can land on black. The surface is rasterized as a quad covering the whole image, so every pixel is considered and the mask is the only clip.
+2. **Grid.** The pixel's ray meets the recorded plane at P; `u = P·e_u`, `v = P·e_v`, then rotate (cos/sin from the CPU, since GPU trigonometry is approximate), add the offset, multiply by `mm_per_unit`, and take `fract(grid_mm / tile_mm)` with flips (`core/uv.py`). This is computed per pixel, as the engine does it, and not interpolated across a quad: a wall reaching its vanishing line has a quad kilometres deep, and float32 interpolation across it had shifted the pattern.
 3. **Texture.** Bilinear with wrap, and the floor's texture-space v squash (`height_stretch`), as `cv2.remap` in `core/composite.sample_tile`.
 4. **Grout.** Constant on-screen width, faded below 1 px (`core/composite.apply_grout`). Local mm-per-pixel comes from screen derivatives.
 5. **Lighting.** From the render's base image brightness (`core/composite.composite`).
@@ -92,10 +92,11 @@ Then `objects.png` is laid on top, which is how the 2D composite puts furniture 
 
 | Check | Result |
 |---|---|
-| Surfaces | floor and 4 walls; rotations 0/45/90/135; tiles 1200×1800, 600×1200, 1200×2400 |
-| 3D pixels outside the white mask | **0** on every test |
-| White mask pixels not drawn | **0** on every test |
-| Colour vs 2D | 98–99.7% of pixels within 2 levels, **100% within 8** (8-bit rounding) |
+| Surfaces | 3 frozen rooms, floor + 12 walls, rotations 0/45/90/135: 60 renders, 10.7 M tile pixels (`tests/regression/three_parity.py`) |
+| 3D pixels outside the white mask | **0** |
+| White mask pixels not drawn | **0** |
+| Colour vs 2D | 27.3% identical, 99.87% within 1 level, **100% within 2** (worst pixel: 2 levels) |
+| Room object | every record matches its `room` (camera, scale, tile mm) |
 | 1 unit = 1 m | quad edge lengths in the scene equal tile-grid lengths exactly |
 | 2D output after the backend additions | byte-identical to before |
 | Real app | upload → Clean Room → select surface → 3D View on/off, no errors |

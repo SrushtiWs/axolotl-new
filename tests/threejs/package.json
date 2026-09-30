@@ -1,0 +1,6 @@
+{
+  "name": "threejs-parity",
+  "private": true,
+  "description": "Test-only: drives the real frontend/src/3js renderer in headless Chrome.",
+  "dependencies": { "playwright-core": "1.48.2" }
+}

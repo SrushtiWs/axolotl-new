@@ -53,7 +53,7 @@ export interface ThreeSurfaceRecord {
  * scale of its own.
  */
 export interface RoomGeometry {
-  status: 'OK' | 'ESTIMATED' | 'CONFLICT' | 'INSUFFICIENT'
+  status: 'OK' | 'ESTIMATED' | 'CONFLICT' | 'UNCHECKED' | 'INSUFFICIENT'
   width_mm: number | null
   length_mm: number | null
   height_mm: number | null
@@ -87,6 +87,42 @@ export interface ThreeLayer {
   jobBase: string
   surface: string
   data: ThreeJobData
+}
+
+/** Relative agreement required between a record and its room (float64 rounding only). */
+const SAME = 1e-6
+
+const agrees = (a: number, b: number) =>
+  Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) <= SAME * Math.max(1, Math.abs(a), Math.abs(b))
+
+/**
+ * Why a surface record may NOT be drawn: it must be the room object's own
+ * values -- the same camera (focal length, principal point), the same single
+ * millimetre scale (floor: its plane sits at the room's camera height; walls:
+ * the room frame, already in mm) -- and one tile size in mm. The 3D view never
+ * fixes a mismatch with a scale of its own; it refuses to draw instead.
+ * Empty list = consistent.
+ */
+export function roomConsistency(data: ThreeJobData, surface: string): string[] {
+  const record = data.surfaces[surface]
+  const room = data.room
+  if (!record) return [`no record for ${surface}`]
+  if (!room?.camera?.K) return ['this render carries no room geometry to check it against']
+
+  const problems: string[] = []
+  const K = room.camera.K
+  if (!agrees(record.camera.focal_px, K[0][0])) problems.push(`focal ${record.camera.focal_px} != room ${K[0][0]}`)
+  if (!agrees(record.camera.cx, K[0][2]) || !agrees(record.camera.cy, K[1][2]))
+    problems.push('principal point differs from the room camera')
+
+  const mmPerUnit = record.grid.mm_per_unit
+  if (!agrees(record.meters_per_unit * 1000, mmPerUnit)) problems.push('two scales inside one record')
+  if (record.kind === 'floor' && !agrees(record.plane.d_units * mmPerUnit, room.camera_height_mm))
+    problems.push(`floor at ${record.plane.d_units * mmPerUnit} mm, room camera height ${room.camera_height_mm} mm`)
+  if (record.kind === 'wall' && !agrees(mmPerUnit, 1)) problems.push(`wall on its own scale (${mmPerUnit} mm/unit)`)
+
+  if (!(record.tile.width_mm > 0) || !(record.tile.height_mm > 0)) problems.push('no tile size in mm')
+  return problems
 }
 
 const jobCache = new Map<string, Promise<ThreeJobData>>()
@@ -150,18 +186,35 @@ export function surfaceGeometry(record: ThreeSurfaceRecord): THREE.BufferGeometr
 // ------------------------------------------------------------------ shading
 //
 // Per pixel, the same steps as the 2D engine (core/uv.py, core/composite.py):
-//   grid fractions -> flip -> sample tile (bilinear, wrap, texture-space v
-//   squash) -> grout at a constant on-screen width, faded below it ->
-//   room lighting -> opacity. Then the strict clip: only white mask pixels.
+//   the pixel's camera ray -> the recorded plane -> (u, v) -> rotate + offset
+//   -> x mm_per_unit = grid mm -> grid fractions -> flip -> sample tile
+//   (bilinear, wrap, texture-space v squash) -> grout at a constant on-screen
+//   width, faded below it -> room lighting -> opacity. Then the strict clip:
+//   only white mask pixels.
+//
+// The grid is computed per fragment from the ray, as the engine computes it per
+// pixel, not interpolated across the quad: a wall reaching its vanishing line
+// has a quad kilometres deep, and float32 interpolation across it shifted the
+// tile pattern (measured: 23% of one wall's pixels > 8 levels off).
+//
+// For the same reason the surface is rasterized as a quad covering the whole
+// image, not as its kilometres-deep plane quad (whose far edge float32 missed
+// by a pixel): every pixel gets a fragment, the mask decides which keep a tile,
+// and the recorded camera + plane decide what each one shows.
 
 const vertexShader = /* glsl */ `
-in vec2 gridMm;
-out vec2 vGrid;
 void main() {
-  vGrid = gridMm;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  gl_Position = vec4(position.xy, 0.0, 1.0);
 }
 `
+
+/** Two triangles over the whole image, in clip space. */
+function coverageGeometry(): THREE.BufferGeometry {
+  const geometry = new THREE.BufferGeometry()
+  geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array([-1, -1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0]), 3))
+  geometry.setIndex([0, 1, 2, 0, 2, 3])
+  return geometry
+}
 
 const fragmentShader = /* glsl */ `
 precision highp float;
@@ -181,7 +234,15 @@ uniform vec3 groutColor;
 uniform float lightBlend;
 uniform float avgBright;
 uniform float opacity;
-in vec2 vGrid;
+uniform float focal;
+uniform vec2 principal;
+uniform vec3 planeN;
+uniform float planeD;
+uniform vec3 eU;
+uniform vec3 eV;
+uniform vec2 rotCosSin;
+uniform vec2 offsetUnits;
+uniform float mmPerUnit;
 out vec4 fragColor;
 
 void main() {
@@ -191,8 +252,20 @@ void main() {
   // Strict clip: tiles exist only on this surface's white mask pixels.
   if (texelFetch(maskTex, p, 0).r < 0.5) discard;
 
+  // The engine evaluates pixel i at image coordinate i: that pixel's ray meets
+  // the plane n.P + d = 0 at P; u = P.e_u, v = P.e_v (core.raycast / three_layer).
+  vec3 ray = vec3((vec2(p) - principal) / focal, 1.0);
+  vec3 P = ray * (-planeD / dot(planeN, ray));
+  float u = dot(P, eU);
+  float v = dot(P, eV);
+  // cos/sin come from JS (float64): GLSL's built-in trig precision is
+  // implementation-defined, and ~1e-4 of it shifts a far tile visibly.
+  float c = rotCosSin.x;
+  float s = rotCosSin.y;
+  vec2 grid = (vec2(u * c - v * s, u * s + v * c) + offsetUnits) * mmPerUnit;
+
   // Grid fractions (core.uv.to_grid_fractions).
-  vec2 fr = fract(vGrid / tileMm);
+  vec2 fr = fract(grid / tileMm);
   fr = mix(fr, 1.0 - fr, flip);
 
   // OpenCV remap, bilinear with wrap, v squashed by the engine's stretch.
@@ -202,8 +275,8 @@ void main() {
 
   // Grout (core.composite.apply_grout): local mm per pixel from derivatives.
   if (groutOn > 0.5) {
-    float mmU = max(length(vec2(dFdx(vGrid.x), dFdy(vGrid.x))), 1e-6);
-    float mmV = max(length(vec2(dFdx(vGrid.y), dFdy(vGrid.y))), 1e-6);
+    float mmU = max(length(vec2(dFdx(grid.x), dFdy(grid.x))), 1e-6);
+    float mmV = max(length(vec2(dFdx(grid.y), dFdy(grid.y))), 1e-6);
     float distU = min(fr.x, 1.0 - fr.x) * tileMm.x;
     float distV = min(fr.y, 1.0 - fr.y) * tileMm.y;
     float halfU = min(0.5 * groutWidthPx.x * mmU, groutMaxHalf * tileMm.x);
@@ -225,6 +298,9 @@ void main() {
   fragColor = vec4(outCol * alpha, alpha);   // premultiplied, for the transparent canvas
 }
 `
+
+const vecLength = (v: number[]) => Math.hypot(...v) || 1
+const unitNormal = (v: number[]) => v.map((x) => x / vecLength(v)) as [number, number, number]
 
 function exactTexture(texture: THREE.Texture, filter: THREE.MagnificationTextureFilter, wrap: THREE.Wrapping) {
   texture.flipY = false // row 0 = top, as in the engine's arrays
@@ -269,6 +345,15 @@ export function surfaceMaterial(
       lightBlend: { value: record.lighting.blend },
       avgBright: { value: record.lighting.average_brightness },
       opacity: { value: record.lighting.opacity },
+      focal: { value: record.camera.focal_px },
+      principal: { value: new THREE.Vector2(record.camera.cx, record.camera.cy) },
+      planeN: { value: new THREE.Vector3(...unitNormal(record.plane.normal)) },
+      planeD: { value: record.plane.d_units / vecLength(record.plane.normal) },
+      eU: { value: new THREE.Vector3(...record.plane.e_u) },
+      eV: { value: new THREE.Vector3(...record.plane.e_v) },
+      rotCosSin: { value: new THREE.Vector2(Math.cos(record.grid.rotation_rad), Math.sin(record.grid.rotation_rad)) },
+      offsetUnits: { value: new THREE.Vector2(...record.grid.offset_units) },
+      mmPerUnit: { value: record.grid.mm_per_unit },
     },
   })
 }
@@ -341,15 +426,15 @@ export class TileLayerRenderer {
       if (!item) continue
       const { record } = item
       const scene = new THREE.Scene()
-      const mesh = new THREE.Mesh(surfaceGeometry(record), surfaceMaterial(record, item))
+      const mesh = new THREE.Mesh(coverageGeometry(), surfaceMaterial(record, item))
       mesh.frustumCulled = false
       scene.add(mesh)
 
       const camera = new THREE.PerspectiveCamera()
       const c = record.camera
-      // The engine evaluates pixel i at image coordinate i; a WebGL fragment's
-      // centre is at i + 0.5. Shifting the principal point by half a pixel makes
-      // each fragment sample the exact point the engine sampled for that pixel.
+      // The shader casts each pixel's ray with the engine's own intrinsics (the
+      // `focal` / `principal` uniforms, pixel i at coordinate i). This camera is
+      // the same projection, kept for the scene; the coverage quad ignores it.
       camera.projectionMatrix.copy(
         projectionFromIntrinsics(c.focal_px, c.cx + 0.5, c.cy + 0.5, c.image_size[0], c.image_size[1]),
       )

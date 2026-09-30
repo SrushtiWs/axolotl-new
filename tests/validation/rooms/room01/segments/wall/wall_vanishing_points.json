@@ -1,0 +1,53 @@
+{
+  "canvas": [
+    626,
+    417
+  ],
+  "principal_point": [
+    313.0,
+    208.5
+  ],
+  "focal_px": 452.1111111111111,
+  "room_horizontal": {
+    "points": [
+      [
+        1153.2853019112997,
+        59.54503449527497
+      ],
+      [
+        455.0920294816529,
+        290.22270497858347
+      ]
+    ],
+    "info": {
+      "total_lines": 227,
+      "wall_lines": 39,
+      "horizontal_lines": 11,
+      "stage": "ok"
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "vanishing_point": {
+        "homogeneous": [
+          -0.9999991113738491,
+          -0.0013331315833445844,
+          3.419584168604289e-06
+        ],
+        "at_infinity": false,
+        "image": [
+          -292432.95736218157,
+          -389.8519579030292
+        ],
+        "image_direction_deg": null
+      },
+      "source": "wall-lines"
+    },
+    {
+      "id": "wall-1",
+      "vanishing_point": null,
+      "source": "room-vp (pipeline)"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "_about": [
+    "Real, tape-measured room sizes for validation. TEST DATA ONLY: never read by production code.",
+    "Fill measured_mm only with values measured in the actual room (inside wall to wall, floor to ceiling).",
+    "Leave a value null when it was not measured; the report then shows no error for it instead of a guess.",
+    "width = the wall facing the camera (left to right), length = away from the camera, height = floor to ceiling."
+  ],
+  "rooms": [
+    {"name": "empty",   "fixture": "tests/fixtures/rooms/empty",     "measured_mm": {"width": null, "length": null, "height": null}, "measured_by": null, "notes": "emptyroom.png"},
+    {"name": "living",  "fixture": "tests/fixtures/rooms/living",    "measured_mm": {"width": null, "length": null, "height": null}, "measured_by": null, "notes": "living.png"},
+    {"name": "bedroom", "fixture": "tests/fixtures/rooms/bedroom",   "measured_mm": {"width": null, "length": null, "height": null}, "measured_by": null, "notes": "bedroom.png"},
+    {"name": "room01",  "fixture": "tests/validation/rooms/room01",  "measured_mm": {"width": null, "length": null, "height": null}, "measured_by": null, "notes": "test07/inputs/Room 01.jpg (626x417)"},
+    {"name": "room03",  "fixture": "tests/validation/rooms/room03",  "measured_mm": {"width": null, "length": null, "height": null}, "measured_by": null, "notes": "test07/inputs/Room 03.jpg (358x447)"}
+  ]
+}

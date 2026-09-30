@@ -8,6 +8,7 @@ export { ThreeTileLayer } from './ThreeTileLayer'
 export {
   loadThreeJob,
   projectionFromIntrinsics,
+  roomConsistency,
   surfaceGeometry,
   surfaceMaterial,
   TileLayerRenderer,

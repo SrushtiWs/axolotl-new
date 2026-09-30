@@ -78,6 +78,7 @@ import numpy as np
 import cv2
 
 from .floor_boundary import extract_floor_boundary
+from ..core.memo import room_memo
 
 # How many texture lines one floor-to-wall junction segment is worth in the
 # vote. The junction is real room geometry that a rug pattern cannot imitate,
@@ -177,6 +178,7 @@ CONFIDENCE_WEIGHTS = {
 }
 
 
+@room_memo  # per room image: a tile change must not re-detect lines
 def detect_lines_lsd(image_gray: np.ndarray) -> np.ndarray:
     """
     Line segment detection, returned as an (N, 4) array of [x1, y1, x2, y2].
@@ -460,6 +462,7 @@ def _cluster_lines_by_orientation(lines, iterations=25, weights=None):
     return clusters
 
 
+@room_memo  # same lines -> same VPs (fixed seed); a caller's own rng bypasses it
 def compute_vanishing_points(lines, iterations=300, threshold=3.0, rng=None):
     """
     TWO orthogonal vanishing points, one per dominant floor-line direction.

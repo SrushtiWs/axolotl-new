@@ -29,8 +29,18 @@ import math
 import numpy as np
 
 from engine import MissingGeometryError
-from scene import Scene, WallPlane
+import sys
+
+from scene import PROJECT_ROOT, Scene, WallPlane
 from surfaces import Instance
+
+# tiles_backend/ lives at the project root, beside backend/ (as in
+# perspective_engine/render.py): uvicorn --app-dir backend does not put it on
+# the path, and this module is imported before anything else does.
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from tiles_backend.perspective_engine.core.memo import room_memo  # noqa: E402
 
 MM_PER_FOOT = 304.8
 
@@ -299,17 +309,19 @@ def _props_alpha(mask: np.ndarray, rgb: np.ndarray) -> np.ndarray | None:
     return matting.refine(mask, rgb)
 
 
+@room_memo  # per room + size: the estimated camera must not be re-estimated for a tile change
 def build(
     rgb: np.ndarray,
     objects: list[Instance],
     surfaces: list[Instance],
-    room_width_ft: float,
-    room_length_ft: float,
-    room_height_ft: float,
+    room_width_ft: float | None = None,
+    room_length_ft: float | None = None,
+    room_height_ft: float | None = None,
     wall_labels: tuple[str, ...] | None = None,
     clean: np.ndarray | None = None,
     props: np.ndarray | None = None,
     object_count: int | None = None,
+    room_mm: tuple[float, float, float] | None = None,
 ) -> tuple[Scene, dict]:
     """
     Assemble a `Scene` for an uploaded photo.
@@ -363,9 +375,13 @@ def build(
             "shows more of the ground."
         )
 
-    room_u_mm = max(room_width_ft, 0.1) * MM_PER_FOOT
-    room_v_mm = max(room_length_ft, 0.1) * MM_PER_FOOT
-    room_h_mm = max(room_height_ft, 0.1) * MM_PER_FOOT
+    if room_mm is not None:
+        # Already millimetres (converted once by the caller).
+        room_u_mm, room_v_mm, room_h_mm = (max(float(v), 0.1 * MM_PER_FOOT) for v in room_mm)
+    else:
+        room_u_mm = max(room_width_ft, 0.1) * MM_PER_FOOT
+        room_v_mm = max(room_length_ft, 0.1) * MM_PER_FOOT
+        room_h_mm = max(room_height_ft, 0.1) * MM_PER_FOOT
 
     camera_height = min(DEFAULT_CAMERA_HEIGHT_MM, room_h_mm * MAX_CAMERA_HEIGHT_FRACTION)
 
