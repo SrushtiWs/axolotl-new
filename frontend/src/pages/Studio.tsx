@@ -309,12 +309,20 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
   useEffect(() => {
     if (lastKey.current === settingsKey) return
 
+    // A different tile (artwork or size) waits for Apply; grout, layout and
+    // room-size tweaks follow on the surfaces already tiled.
+    const sameTile = JSON.stringify(JSON.parse(lastKey.current).slice(0, 3)) ===
+      JSON.stringify(JSON.parse(settingsKey).slice(0, 3))
+
     const timer = window.setTimeout(() => {
       lastKey.current = settingsKey
+      if (!sameTile) return
 
       setAssigned((current) => {
         const next = { ...current }
-        for (const id of selectedRef.current) next[id] = settingsKey
+        // Only surfaces already tiled (Apply) follow a change; a newly selected
+        // one waits for Apply.
+        for (const id of selectedRef.current) if (id in next) next[id] = settingsKey
         return next
       })
     }, SETTLE_MS)
@@ -483,9 +491,25 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
       return
     }
 
+    // Selecting only selects: tiles are laid when Apply is pressed.
     setSelected((current) => [...current, id])
     setFailures((current) => without(current, id))
-    setAssigned((current) => ({ ...current, [id]: settingsKey }))
+  }
+
+  /** Lay the current tile and settings on every selected surface. */
+  function applyTiles() {
+    if (!selected.length) return
+    setFailures((current) => {
+      const next = { ...current }
+      for (const id of selected) delete next[id]
+      return next
+    })
+    setAssigned((current) => {
+      const next = { ...current }
+      for (const id of selected) next[id] = settingsKey
+      return next
+    })
+    setStep('after')
   }
 
   function changeGrout(next: number) {
@@ -696,6 +720,28 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
         ? (maskUrl ?? room.previewUrl)
         : (composed?.result_image_url ?? room.previewUrl)
 
+  /** Save exactly what the image shows (Before, Mask or After) as a PNG file. */
+  const [downloading, setDownloading] = useState(false)
+  async function downloadShown() {
+    setDownloading(true)
+    try {
+      // Fetched as a blob: a plain link to another origin opens a tab instead of saving.
+      const blob = await (await fetch(shown)).blob()
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `room-${step}${jobId ? `-${jobId}` : ''}.png`
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000)
+    } catch (cause) {
+      setError(cause instanceof Error ? `Download failed: ${cause.message}` : 'Download failed.')
+    } finally {
+      setDownloading(false)
+    }
+  }
+
   return (
     <div className="studio">
       {/* ---------------------------------------------------------------- rail */}
@@ -727,9 +773,9 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
         {cleared && !blocked && found && selected.length === 0 && (
           <p className="rail-hint">
-            Tap Floor or a wall's dot to tile it with the chosen tile. Selected
-            surfaces follow every tile you pick; tap one again to keep its tiles
-            and pick a different tile for the others.
+            Tap Floor or a wall's dot to select it, then press Apply to lay the
+            chosen tile. Tiled surfaces follow grout and layout changes; tap one
+            again to keep its tiles and pick a different tile for the others.
           </p>
         )}
 
@@ -820,6 +866,16 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
               ))}
             </div>
 
+            <button
+              type="button"
+              className="stage-download"
+              onClick={downloadShown}
+              disabled={downloading || (step === 'mask' && !maskUrl)}
+              title={`Download the ${step === 'before' ? 'photo' : step === 'mask' ? 'white mask' : 'tiled result'} as PNG`}
+            >
+              {downloading ? 'Saving…' : '⤓ Download'}
+            </button>
+
             {step === 'after' && compare && composed ? (
               <CompareSlider before={room.previewUrl} after={composed.result_image_url} />
             ) : (
@@ -870,6 +926,16 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
           {/* ------------------------------------------ the controls, beside */}
           <div className="tools">
+            <button
+              type="button"
+              className="tool primary"
+              onClick={applyTiles}
+              disabled={!jobId || blocked || cleaning || selected.length === 0}
+              title={selected.length ? 'Lay the chosen tile on the selected surfaces' : "Select Floor or a wall's dot first"}
+            >
+              <span aria-hidden="true">✦</span> Apply
+            </button>
+
             <button
               type="button"
               className={compare ? 'tool active' : 'tool'}
@@ -1035,7 +1101,7 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
                 )}
 
                 {selected.length > 0 && panel !== 'size' && (
-                  <p className="popover-note">Re-renders automatically after you stop adjusting.</p>
+                  <p className="popover-note">Tiled surfaces re-render after you stop adjusting; press Apply for new ones.</p>
                 )}
               </div>
             )}

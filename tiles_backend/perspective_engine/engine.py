@@ -455,6 +455,14 @@ def detect_room_geometry(
         edged, edge_info = edge_layout.layout(floor, wall, horizon_y, f, cx, cy, depth_point, objects)
         if edged and not edge_info.get("corners"):
             edged, edge_info = None, {**edge_info, "stage": "no-corner-seen: pipeline split kept"}
+        # It may add corners the pipeline missed, never merge walls the
+        # pipeline told apart: with fewer walls, the pipeline's split is kept.
+        if edged and instances:
+            pipeline_walls = len(wall_refine.refine(instances, room_bgr, floor, wall, floor_geo,
+                                                    f, cx, cy, objects)[0])
+            if len(edged) < pipeline_walls:
+                edged, edge_info = None, {**edge_info, "stage": f"fewer walls ({len(edged)}) than the "
+                                                               f"pipeline split ({pipeline_walls}): pipeline split kept"}
 
     if laid:
         refined = [(i, m, d) for i, (m, d) in enumerate(laid)]
@@ -589,6 +597,16 @@ def _check_depth_vp(room_bgr, floor, wall, objects, floor_geo: dict, request, op
         report["pool_vp"]["structure_check"] = "failed (floor coverage or pitch)"
     if current is None:
         report["decision"] = "no confident depth VP"
+        return floor_geo, report
+    # The floor detector's own VP, above its own gate, is kept: the long-line
+    # pool is a dozen lines, and vetoing a detected floor on it would leave the
+    # room with no floor at all. It is flagged instead. Only a structural
+    # fallback VP the long lines do not support is rejected.
+    detector_ok = (vps.get("origin", "floor-lines") == "floor-lines"
+                   and float(vps.get("confidence") or 0.0) >= float(vps.get("threshold") or 1.0))
+    if detector_ok:
+        report["decision"] = "floor VP kept: passed the floor detector's gate; NOT confirmed by the long lines"
+        report["floor_vp"]["validated"] = False
         return floor_geo, report
     rejected = dict(floor_geo)
     rejected["status"] = "rejected"

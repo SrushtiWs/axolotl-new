@@ -61,9 +61,11 @@ def main() -> int:
 
         problems = []
         if used:
-            chosen = rep["floor_vp"] if rep.get("decision", "").startswith("floor VP kept") else rep.get("pool_vp")
-            if not chosen or not chosen.get("confident"):
-                problems.append("a depth VP is used that is not confident")
+            decision = rep.get("decision", "")
+            chosen = rep["floor_vp"] if decision.startswith("floor VP kept") else rep.get("pool_vp")
+            gate_kept = "passed the floor detector's gate" in decision and rep["floor_vp"].get("validated") is False
+            if not chosen or not (chosen.get("confident") or gate_kept):
+                problems.append("a depth VP is used that is neither confident nor above the detector's gate (flagged)")
         elif rep.get("floor_vp", {}).get("point") is not None and "rejected" not in rep.get("decision", ""):
             problems.append("floor has no VP but the decision does not say it was rejected")
 

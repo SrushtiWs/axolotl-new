@@ -1,0 +1,58 @@
+{
+  "canvas": [
+    1456,
+    1088
+  ],
+  "principal_point": [
+    728.0,
+    544.0
+  ],
+  "focal_px": 1051.5555555555554,
+  "source": "auto",
+  "confidence": 0.3952,
+  "threshold": 0.55,
+  "depth_vp": [
+    987.1122820898228,
+    353.84154947782383
+  ],
+  "horizon_y": 353.84154947782383,
+  "vp1": [
+    987.1122820898228,
+    353.84154947782383
+  ],
+  "vp2": null,
+  "stage": "ok",
+  "floor_lines": 129,
+  "boundary_lines": 6,
+  "total_lines": 713,
+  "confidence_terms": {
+    "support": 0.2097,
+    "lines": 1.0,
+    "stability": 0.8511,
+    "balance": 0.7294,
+    "boundary": 0.1211,
+    "direction": 1.0,
+    "visibility": 1.0
+  },
+  "origin": "long-structural-lines",
+  "floor_only_detection": {
+    "confidence": 0.778,
+    "threshold": 0.55,
+    "stage": "ok",
+    "confidence_terms": {
+      "support": 0.2097,
+      "lines": 1.0,
+      "stability": 0.8511,
+      "balance": 0.7294,
+      "boundary": 0.1211,
+      "direction": 1.0,
+      "visibility": 1.0
+    }
+  },
+  "structure_check": {
+    "coverage": 1.0,
+    "pitch_deg": 10.25,
+    "floor_line_support": 0.3952,
+    "floor_lines": 29
+  }
+}

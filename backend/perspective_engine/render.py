@@ -127,6 +127,18 @@ def _room_box_mm(room_mm: tuple, geometry: dict | None,
 
     missing = [name for value, name in zip(filled, ("width", "length", "height")) if not value]
 
+    # A room with no measurable ceiling: the box's height only sets the box's
+    # own camera and its own wall planes, and neither reaches the tiles (the
+    # horizon comes from the detected floor, the scale from RoomGeometry). So it
+    # gets the lowest height at which its camera sits at its own default --
+    # live_scene's constants, no new guess -- and says so. Floor tiles still
+    # render; a wall with no scale still asks for a measurement.
+    height_note = None
+    if missing == ["height"]:
+        filled = (filled[0], filled[1], live_scene.DEFAULT_CAMERA_HEIGHT_MM / live_scene.MAX_CAMERA_HEIGHT_FRACTION)
+        missing = []
+        height_note = "height not estimated (room box only; tiles do not use it)"
+
     if missing:
         raise ValueError(
             "Please enter one known measurement: the room " + " and ".join(missing)
@@ -134,6 +146,8 @@ def _room_box_mm(room_mm: tuple, geometry: dict | None,
         )
 
     source = "ESTIMATED" if all(value is None for value in room_mm) else "USER_INPUT+ESTIMATED"
+    if height_note:
+        source += f"; {height_note}"
 
     return tuple(float(v) for v in filled), source
 

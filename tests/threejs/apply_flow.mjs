@@ -1,0 +1,40 @@
+// Apply button: select -> nothing tiled; Mask; Apply -> tiles; grout -> re-render; new tile -> waits for Apply.
+import { chromium } from 'playwright-core'
+const [APP, OUT, PHOTO] = process.argv.slice(2)
+const b = await chromium.launch({ channel: 'chrome' })
+const p = await b.newPage({ viewport: { width: 1500, height: 950 } })
+const errors = []; p.on('pageerror', (e) => errors.push(e.message))
+let gen = 0; p.on('request', (r) => { if (r.url().endsWith('/generate') && r.method() === 'POST') gen++ })
+const idle = async () => { await p.waitForTimeout(1500); await p.waitForFunction(() => !document.querySelector('.marker[aria-busy="true"]'), null, { timeout: 300000 }); await p.waitForTimeout(1500) }
+const shown = () => p.locator('img.stage-image').getAttribute('src')
+const applyBtn = p.locator('button.tool.primary', { hasText: 'Apply' })
+const rows = []; const check = (name, ok, d) => { rows.push(ok); console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}  ${d}`) }
+await p.goto(APP)
+await p.locator('input[type=file]').first().setInputFiles(PHOTO)
+await p.waitForFunction(() => document.querySelectorAll('.marker').length >= 2, null, { timeout: 600000 })
+const labels = await p.evaluate(() => [...document.querySelectorAll('.marker')].map((m) => m.getAttribute('aria-label')))
+const walls = labels.filter((l) => l !== 'Floor')
+check('Apply disabled with nothing selected', await applyBtn.isDisabled(), '')
+await p.locator('.marker[aria-label="Floor"]').click(); await p.locator(`.marker[aria-label="${walls[0]}"]`).click(); await p.waitForTimeout(2500)
+check('selecting Floor + a wall tiles nothing', gen === 0 && !(await shown()).includes('composed_'), `/generate sent: ${gen}`)
+await p.locator('.step-switch button', { hasText: 'Mask' }).click(); await p.waitForTimeout(2000)
+check('Mask shows the selection before Apply', (await shown()).startsWith('data:image/png'), '')
+await applyBtn.click(); await idle()
+const g1 = gen
+check('Apply tiles both selected surfaces and shows After', g1 === 2 && (await shown()).includes('composed_') &&
+  await p.locator('.step-switch button.active').innerText() === 'After', `/generate sent: ${g1}`)
+await p.screenshot({ path: `${OUT}/apply_after.png`, clip: { x: 330, y: 60, width: 900, height: 700 } })
+await p.locator('button.tool', { hasText: 'Grout' }).click(); await p.locator('.popover button', { hasText: '8 mm' }).click().catch(async () => p.locator('button', { hasText: '8 mm' }).first().click())
+await p.locator('button.tool', { hasText: 'Grout' }).click(); await idle()
+check('grout change re-renders the applied surfaces', gen === g1 + 2, `/generate after grout: ${gen - g1}`)
+const g2 = gen
+await p.locator('.rail-list button.product:not(.active)').first().click(); await p.waitForTimeout(2500)
+check('a new tile waits for Apply', gen === g2, `/generate after tile pick: ${gen - g2}`)
+await p.locator(`.marker[aria-label="${walls[walls.length - 1]}"]`).click(); await p.waitForTimeout(2000)
+check('a newly selected surface waits for Apply', gen === g2, `/generate: ${gen - g2}`)
+await applyBtn.click(); await idle()
+check('Apply lays the new tile on all 3 selected surfaces', gen === g2 + 3, `/generate: ${gen - g2}`)
+await p.screenshot({ path: `${OUT}/apply_after2.png`, clip: { x: 330, y: 60, width: 900, height: 700 } })
+check('no page errors', errors.length === 0, errors.join(' | ') || 'none')
+console.log(`\n${rows.filter(Boolean).length}/${rows.length} passed`)
+await b.close()

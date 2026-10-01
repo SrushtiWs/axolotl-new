@@ -34,6 +34,7 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 from starlette.concurrency import run_in_threadpool
 
 import floor_wall
+import object_completion
 import live_scene
 import perspective_engine
 from tiles_backend.perspective_engine import depth as perspective_engine_depth
@@ -683,6 +684,22 @@ async def _segment_core(payload: bytes, rgb: np.ndarray, debug: bool, base: str)
         metadata["floor_wall"] = _detect_floor_wall(job_dir, rgb)
 
         metadata["timings"]["floor_wall_s"] = round(time.perf_counter() - clock, 2)
+
+        # ---- missed furniture, and floor behind objects -------------------
+        #
+        # Furniture the object detector missed is put back over the tiles
+        # instead of being tiled, and the floor between chair legs is tiled
+        # (object_completion.py). Rewrites the masks and ALL_OBJECTS.png just
+        # written, so every later reader -- geometry, render, Mask view, 3D --
+        # sees the same result; the renderer's object union is rebuilt from it.
+        clock = time.perf_counter()
+        try:
+            metadata["object_completion"] = object_completion.apply(job_dir, rgb)
+            if metadata["object_completion"].get("applied"):
+                props = _to_shape(_accepted_union(job_dir), render_rgb.shape[:2])
+        except Exception as error:  # a repair must never cost the room
+            metadata["object_completion"] = {"applied": False, "reason": str(error)}
+        metadata["timings"]["object_completion_s"] = round(time.perf_counter() - clock, 2)
 
         # ---- floor + wall geometry, from the masks just written ------------
         #
