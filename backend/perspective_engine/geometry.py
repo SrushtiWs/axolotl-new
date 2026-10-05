@@ -142,7 +142,9 @@ def load(segments: Path) -> dict | None:
 
     return {
         "canvas": floor["canvas"],
-        "camera": {k: floor[k] for k in camera_keys},
+        # The joint camera's report and confidence (geometry stored before it existed has neither).
+        "camera": {**{k: floor[k] for k in camera_keys},
+                   **{k: floor[k] for k in ("joint", "confidence") if k in floor}},
         "floor": floor_part,
         "walls": walls["walls"],
         "room_vps": wall_vps.get("room_horizontal", {}),

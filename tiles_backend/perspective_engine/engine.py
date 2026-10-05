@@ -99,6 +99,9 @@ class TileRequest:
     # A known focal length in pixels at the room's resolution. `None` lets the
     # engine decide: EXIF, then two-VP calibration, then its FOV prior.
     focal_px: Optional[float] = None
+    # The camera's principal point (cx, cy); None = the image centre. Set by the
+    # room geometry's joint camera (see _joint_camera) and read back from it.
+    principal_point: Optional[tuple] = None
     # The wall's metric anchor. The floor ignores them, as it did in the
     # reference project — its scale comes from the camera height.
     room_width_mm: Optional[float] = None
@@ -172,6 +175,7 @@ def _options(
         grout_color=request.grout_color,
         camera_height_mm=float(request.camera_height_mm),
         exif_focal_px=exif_focal_px,
+        principal_point=request.principal_point,
         surface=surface,
         # Attached only for a wall, exactly as the reference frontend did.
         room_width_mm=request.room_width_mm if wall else None,
@@ -257,13 +261,14 @@ def wall_instances(
         )
 
     height, width = room_bgr.shape[:2]
-    cx, cy = width / 2.0, height / 2.0
+    from .core.options import principal
+    cx, cy = principal(opts, width, height)
 
     if focal_px is not None:
         f = float(focal_px)
     else:
         f, _info = resolve_focal_length(
-            image_width=width,
+            image_width=width, image_height=height,
             exif_focal_px=opts.exif_focal_px,
             vp1=None,
             vp2=None,
@@ -324,7 +329,7 @@ def detect_surfaces(
     exif_focal_px = None
 
     if photo_bytes:
-        exif_focal_px, _exif = estimate_focal_from_exif(photo_bytes, clean_rgb.shape[1])
+        exif_focal_px, _exif = estimate_focal_from_exif(photo_bytes, clean_rgb.shape[1], clean_rgb.shape[0])
 
     walls = (
         wall_instances(clean_rgb, wall, request, exif_focal_px=exif_focal_px)
@@ -346,6 +351,7 @@ def detect_room_geometry(
     *,
     photo_bytes: Optional[bytes] = None,
     objects_mask: Optional[np.ndarray] = None,
+    _camera_pass2: bool = False,
 ) -> tuple[dict, dict]:
     """
     The floor's and every wall's perspective geometry, from the image itself.
@@ -375,11 +381,12 @@ def detect_room_geometry(
 
     room_bgr = cv2.cvtColor(np.ascontiguousarray(clean_rgb), cv2.COLOR_RGB2BGR)
     height, width = floor.shape
-    cx, cy = width / 2.0, height / 2.0
+    cx, cy = (width / 2.0, height / 2.0) if request.principal_point is None else (
+        float(request.principal_point[0]), float(request.principal_point[1]))
 
     exif_focal_px = None
     if photo_bytes:
-        exif_focal_px, _exif = estimate_focal_from_exif(photo_bytes, width)
+        exif_focal_px, _exif = estimate_focal_from_exif(photo_bytes, width, height)
 
     opts = _options(request, "floor", exif_focal_px)
 
@@ -496,6 +503,18 @@ def detect_room_geometry(
         split_report = {**split_report, "overlap_pixels_resolved": overlap_px}
     refined = disjoint
 
+    # One pixel = one plane: cut at the room's confirmed corners, spill moved to
+    # the wall of its own side, pieces of one plane merged (corner_cut.py).
+    # Only the pipeline's own split needs it: the junction / edge layouts above
+    # already cut exactly at the corners they saw.
+    from .surface.wall import corner_cut
+    if split_report.get("method") == "refined-split":
+        refined, cut_report = corner_cut.cut(refined, floor, wall, objects, room_bgr)
+    else:
+        cut_report = {"enabled": corner_cut.ENABLED, "walls_before": len(refined), "walls_after": len(refined),
+                      "skipped": f"{split_report.get('method')}: already split at seen corners"}
+    split_report = {**split_report, "corner_cut": cut_report}
+
     # Each wall's direction from its OWN junction and ceiling line, fitted
     # robustly (surface/wall/edge_direction.py). A wall with no usable line of
     # its own keeps the pipeline's direction only if every one of its pixels can
@@ -517,6 +536,11 @@ def detect_room_geometry(
                                            f"{direction.get('source') or 'wall lines'}, every pixel tileable"}
         directed.append((index, mask, direction))
     refined = directed
+
+    # One wall = one plane = one grid: pieces of one wall split by a pillar or a
+    # projection are merged (corner_cut.merge_planes).
+    refined, plane_report = corner_cut.merge_planes(refined, floor, wall, objects, room_bgr)
+    split_report = {**split_report, "plane_merge": plane_report}
     split_report = {**split_report, "direction_check": _direction_check(refined, horizon_y, depth_point, f, cx)}
 
     for index, mask, direction in refined:
@@ -527,7 +551,7 @@ def detect_room_geometry(
             "index": int(index),
             "pixels": int(mask.sum()),
             "bbox": [int(xs.min()), int(ys.min()), int(xs.max()), int(ys.max())],
-            "select_point": list(interior_point(mask)),
+            "select_point": list(corner_cut.dot(mask, objects) if corner_cut.ENABLED else interior_point(mask)),
             "direction": direction,
             "orientation_source": (
                 (direction.get("source") or "wall-lines") if direction else "room-vp (pipeline)"
@@ -563,7 +587,171 @@ def detect_room_geometry(
         }},
     }
 
+    # One camera for floor and walls: decided once from this pass's own
+    # vanishing points; if it differs, everything is detected again with it.
+    if not _camera_pass2 and JOINT_CAMERA:
+        joint = _joint_camera(geometry, width, height)
+        if joint["refit"]:
+            geometry, masks = detect_room_geometry(
+                clean_rgb, floor_mask, wall_mask,
+                replace(request, focal_px=joint["focal_px"], principal_point=joint["principal_point"]),
+                photo_bytes=photo_bytes, objects_mask=objects_mask, _camera_pass2=True)
+            if geometry["camera"].get("focal_source") == "caller":     # the override this pass passed in
+                geometry["camera"]["focal_source"] = joint["report"]["focal_source"]
+                geometry["floor"]["focal_source"] = joint["report"]["focal_source"]
+        geometry["camera"]["joint"] = joint["report"]
+        geometry["camera"]["confidence"] = joint["report"]["confidence"]
+
     return geometry, masks
+
+
+# ---------------------------------------------------------------------------
+# One camera for floor and walls (the joint camera).
+
+#: False restores the old camera (image-centre principal point, floor-only focal) -- before/after only.
+JOINT_CAMERA = True
+#: How the room's light reaches the tiles: "lowfreq" (smooth light, limited
+#: exposure match, capped gloss) or "per-pixel" (the original) -- see core/composite.py.
+LIGHTING_MODE = "lowfreq"
+#: The vertical lines say the camera is level when pitch and roll are both under this.
+LEVEL_DEG = 3.0
+#: The principal point is moved to the horizon only when that moves it at least
+#: this share of the height, and never further than MAX_SHIFT of the height.
+MIN_SHIFT = 0.005
+MAX_SHIFT = 0.35
+#: A joint focal length replaces the current one only when they differ by more.
+MIN_FOCAL_CHANGE = 0.03
+#: Two VPs are a perpendicular pair only when, under the current camera, their
+#: directions are this close to 90 degrees (pieces of one wall are not), and all
+#: pairs must agree on the focal length within PAIR_AGREEMENT.
+PERP_TOL_DEG = 25.0
+PAIR_AGREEMENT = 0.15
+#: A focal length from VPs needs at least this many agreeing pairs (two witnesses).
+MIN_PAIRS = 2
+
+
+def _joint_camera(geometry: dict, width: int, height: int) -> dict:
+    """
+    One camera for floor and walls, from the room's own validated vanishing points.
+
+      horizon   the floor's horizon and every validated wall VP's row (median)
+      level     the vertical lines are reliable and say |pitch|, |roll| < LEVEL_DEG:
+                both snapped to 0, and the principal point's row is put ON the
+                horizon (a level camera whose photo was shifted or cropped -- the
+                case where the walls' seams converged on the image's middle row
+                instead of the room's horizon)
+      focal     when the focal length came from the lens prior: two validated
+                horizontal VPs on opposite sides of the centre (two perpendicular
+                walls, or the floor's two) give it in closed form; EXIF is never
+                overridden (their ratio is reported)
+
+    Returns {"report": ..., "refit": bool, "focal_px", "principal_point"}.
+    A pitched camera (verticals converge) is reported, not modelled here.
+    """
+    from .camera.focal_estimate import focal_to_hfov_degrees, is_plausible_focal
+
+    cam = geometry["camera"]
+    f0 = float(cam["focal_px"])
+    cx0, cy0 = (float(v) for v in cam["principal_point"])
+    source0 = cam.get("focal_source")
+    vertical = (geometry.get("room_frame") or {}).get("vertical_vp") or {}
+    floor = geometry.get("floor") or {}
+    fvps = floor.get("vanishing_points") or {}
+
+    rows, finite = [], []
+    if floor.get("status") == "detected" and fvps.get("horizon_y") is not None:
+        rows.append(("floor", float(fvps["horizon_y"])))
+        for key in ("vp1", "vp2"):
+            p = fvps.get(key)
+            if p is not None and abs(p[0] - cx0) < 8 * width:
+                finite.append(("floor " + key, float(p[0]), float(p[1])))
+    for w in geometry.get("walls", []):
+        d = w.get("direction") or {}
+        img = (d.get("vanishing_point") or {}).get("image")
+        if d.get("validated") and img is not None and abs(img[0] - cx0) < 8 * width:
+            rows.append((w["id"], float(img[1])))
+            finite.append((w["id"], float(img[0]), float(img[1])))
+    horizon = float(np.median([r for _, r in rows])) if rows else None
+
+    reliable = bool(vertical.get("reliable"))
+    pitch, roll = vertical.get("pitch_deg"), vertical.get("roll_deg")
+    level = reliable and pitch is not None and abs(pitch) < LEVEL_DEG and abs(roll) < LEVEL_DEG
+
+    cy = cy0
+    decision = []
+    if horizon is None:
+        decision.append("no horizon seen: principal point kept at the image centre")
+    elif not reliable:
+        decision.append("vertical lines unreliable: level not verified, principal point kept")
+    elif not level:
+        decision.append(f"pitched camera (vertical lines {pitch:.1f} deg, roll {roll:.1f} deg): "
+                        "walls are still built level -- not handled in this step")
+    else:
+        shift = horizon - cy0
+        if MIN_SHIFT * height <= abs(shift) <= MAX_SHIFT * height:
+            cy = horizon
+            decision.append(f"level camera (vertical lines {pitch:.2f} / {roll:.2f} deg -> 0): "
+                            f"principal row moved {shift:+.1f} px onto the horizon")
+        elif abs(shift) > MAX_SHIFT * height:
+            decision.append(f"horizon {shift:+.0f} px from centre is beyond {MAX_SHIFT:.0%} of the height: kept")
+        else:
+            decision.append("level camera, horizon already at the centre row")
+
+    f = f0
+    focal_source = source0
+    pairs = []
+    for i in range(len(finite)):
+        for j in range(i + 1, len(finite)):
+            (na, xa, ya), (nb, xb, yb) = finite[i], finite[j]
+            if (xa - cx0) * (xb - cx0) >= 0:
+                continue                      # same side: not two perpendicular directions
+            da = np.array([xa - cx0, ya - cy0, f0])
+            db = np.array([xb - cx0, yb - cy0, f0])
+            angle = math.degrees(math.acos(min(1.0, abs(float(da @ db)) / (np.linalg.norm(da) * np.linalg.norm(db)))))
+            if abs(angle - 90.0) > PERP_TOL_DEG:
+                continue                      # not two perpendicular directions (e.g. two pieces of one wall)
+            f2 = -((xa - cx0) * (xb - cx0) + (ya - cy) * (yb - cy))
+            if f2 > 0 and is_plausible_focal(math.sqrt(f2), width):
+                pairs.append((math.sqrt(f2), na, nb))
+    f_joint = float(np.median([p[0] for p in pairs])) if pairs else None
+    if f_joint is not None and any(abs(p[0] - f_joint) > PAIR_AGREEMENT * f_joint for p in pairs):
+        decision.append(f"VP pairs disagree on the focal ({', '.join(f'{p[0]:.0f}' for p in pairs)} px): not used")
+        f_joint = None
+    elif f_joint is not None and len(pairs) < MIN_PAIRS:
+        decision.append(f"only {len(pairs)} perpendicular VP pair ({f_joint:.0f} px): not confirmed, not used")
+        f_joint = None
+    if f_joint is not None:
+        if source0 == "exif":
+            decision.append(f"focal kept from EXIF ({f0:.0f} px); VP pairs give {f_joint:.0f} px "
+                            f"(ratio {max(f0, f_joint) / min(f0, f_joint):.2f})")
+        elif source0 in ("prior", "caller", None) and abs(f_joint - f0) > MIN_FOCAL_CHANGE * f0:
+            f, focal_source = f_joint, "vp-pairs"
+            decision.append(f"focal {f0:.0f} -> {f_joint:.0f} px from {len(pairs)} perpendicular VP pair(s)")
+    elif source0 == "prior":
+        decision.append("focal from the lens prior: no two perpendicular validated VPs")
+
+    # High only when the focal length was measured (EXIF or vanishing points)
+    # and the vertical lines confirm a level camera; anything from the lens
+    # prior, or a pitched / unverified camera, is flagged low.
+    confident = focal_source in ("exif", "vp", "vp-pairs") and level
+    report = {
+        "focal_px": round(f, 1),
+        "focal_source": focal_source,
+        "hfov_deg": round(focal_to_hfov_degrees(f, width), 1),
+        "principal_point": [cx0, round(cy, 1)],
+        "horizon_y": None if horizon is None else round(horizon, 1),
+        "horizon_from": [n for n, _ in rows],
+        "vertical_lines": {"reliable": reliable, "pitch_deg": None if pitch is None else round(pitch, 2),
+                           "roll_deg": None if roll is None else round(roll, 2)},
+        "level": bool(level),
+        "pitch_deg": 0.0 if level else (None if pitch is None else round(pitch, 2)),
+        "roll_deg": 0.0 if level else (None if roll is None else round(roll, 2)),
+        "focal_pairs": [{"focal_px": round(p[0], 1), "from": [p[1], p[2]]} for p in pairs],
+        "confidence": "high" if confident else "low",
+        "decision": decision,
+    }
+    refit = abs(cy - cy0) > 1e-6 or abs(f - f0) > 1e-6
+    return {"report": report, "refit": refit, "focal_px": f, "principal_point": (cx0, cy)}
 
 
 def _check_depth_vp(room_bgr, floor, wall, objects, floor_geo: dict, request, opts):
@@ -776,13 +964,21 @@ def render_room(
     if (floor & wall).any():
         raise ValueError("floor and wall masks overlap; they must be mutually exclusive")
 
+    # The room geometry's own camera centre (its joint camera may have moved cy
+    # to the detected horizon), at this render's scale. Geometry stored before
+    # that existed carries the image centre, so its renders are unchanged.
+    stored_pp = ((geometry or {}).get("camera") or {}).get("principal_point")
+    if stored_pp is not None and request.principal_point is None and geometry.get("canvas"):
+        scale = shape[1] / float(geometry["canvas"][0])
+        request = replace(request, principal_point=(float(stored_pp[0]) * scale, float(stored_pp[1]) * scale))
+
     room_bgr = cv2.cvtColor(np.ascontiguousarray(clean_rgb), cv2.COLOR_RGB2BGR)
     tile_bgra = cv2.cvtColor(np.ascontiguousarray(tile_rgb), cv2.COLOR_RGB2BGRA)
 
     exif_focal_px = None
 
     if photo_bytes:
-        exif_focal_px, _exif = estimate_focal_from_exif(photo_bytes, shape[1])
+        exif_focal_px, _exif = estimate_focal_from_exif(photo_bytes, shape[1], shape[0])
 
     # One MiDaS pass for the whole frame, shared by both surfaces. The
     # reference frontend then asked `/depth` for a per-surface map — the same
@@ -795,6 +991,13 @@ def render_room(
     floor_tiled = np.zeros(shape, dtype=bool)
     wall_tiled = np.zeros(shape, dtype=bool)
     info: dict = {"surfaces": {}, "skipped": {}}
+
+    # The room's exposure reference: median luminance of its floor and walls in
+    # the clean room (core/composite.lowfreq_light matches each surface to it,
+    # within limits).
+    _surfaces = floor | wall
+    exposure_reference = (float(np.median(cv2.cvtColor(np.ascontiguousarray(clean_rgb), cv2.COLOR_RGB2GRAY)[_surfaces]))
+                          if _surfaces.any() else None)
 
     # ---- the canonical room: ONE metric scale for floor and walls ----
     #
@@ -824,6 +1027,7 @@ def render_room(
             info["skipped"]["floor"] = "FLOOR_MASK.png has no floor pixels"
         else:
             opts = _options(request, "floor", exif_focal_px, fallback_vp)
+            opts = replace(opts, lighting_mode=LIGHTING_MODE, exposure_reference=exposure_reference)
 
             # Depth matters to the floor too. When its vanishing point is
             # accepted the plane comes from the horizon and depth cancels out;
@@ -897,6 +1101,7 @@ def render_room(
                 wall_point = interior_point(owned[wall_index])
 
             opts = _options(request, "wall", exif_focal_px, wall_point=wall_point)
+            opts = replace(opts, lighting_mode=LIGHTING_MODE, exposure_reference=exposure_reference)
             if geometry and geometry.get("room_frame"):
                 from dataclasses import replace as _with
                 opts = _with(opts, vertical_vp=geometry["room_frame"].get("vertical_vp"))

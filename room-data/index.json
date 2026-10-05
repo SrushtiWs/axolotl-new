@@ -1,0 +1,166 @@
+{
+  "rooms": [
+    {
+      "id": "room_01",
+      "name": "Modern Wood Living",
+      "status": "auto",
+      "group": null,
+      "wall_count": 6,
+      "original": "original.jpg",
+      "sha256": "8ab30f4b5915a29d74d26c823ba99c7c94d3c488993416cb17da21180f1d8409",
+      "source_file": "living-1.jpg",
+      "needs_review": true,
+      "updated_at": "2026-10-01T09:33:56+00:00"
+    },
+    {
+      "id": "room_02",
+      "name": "Coastal Lounge",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "be6d82f5e2b8bcbaf84b54db3fefb49ba6f64b8c10e453b76e69e53e75563020",
+      "source_file": "living-2.jpg"
+    },
+    {
+      "id": "room_03",
+      "name": "Marble Sitting Room",
+      "status": "auto",
+      "group": "C",
+      "wall_count": 3,
+      "original": "original.jpg",
+      "sha256": "699ca04bb03387e8a952290b5bf9eb10945bec36b49d50cba1f7a8cc77f3cc6a",
+      "source_file": "living-3.jpg",
+      "needs_review": true,
+      "updated_at": "2026-10-01T11:35:08+00:00"
+    },
+    {
+      "id": "room_04",
+      "name": "Open Plan Sofa",
+      "status": "needs_fix",
+      "group": "C",
+      "wall_count": 3,
+      "original": "original.jpg",
+      "sha256": "7c7bfaa69cf9f90f81ee0a22faddde9aef4f9a9ed09840d08911d050b0cf672f",
+      "source_file": "living-4.jpg",
+      "needs_review": false,
+      "updated_at": "2026-10-01T12:29:46+00:00"
+    },
+    {
+      "id": "room_05",
+      "name": "Panorama Bedroom",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "dcea5e01a0f10118865b1f338e0b384aa261783a5472a8e233fd0b429a92048e",
+      "source_file": "bedroom-1.jpg"
+    },
+    {
+      "id": "room_06",
+      "name": "Warm Guest Room",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "d3f1b5c825f4a366beac23dc99d0d39d8406c549ed665ea86d45afdc9f4f3fdc",
+      "source_file": "bedroom-2.jpg"
+    },
+    {
+      "id": "room_07",
+      "name": "Suite With View",
+      "status": "auto",
+      "group": "C",
+      "wall_count": 3,
+      "original": "original.jpg",
+      "sha256": "3bc805439e8346b4161cee967a60f4f521f0b5b981154f44e2de6816abdf53d2",
+      "source_file": "bedroom-3.jpg",
+      "needs_review": true,
+      "updated_at": "2026-10-01T10:06:30+00:00"
+    },
+    {
+      "id": "room_08",
+      "name": "Bare Kitchen",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "a6fb32ff558c581981c63cb5c6be9d141e807ce1dc838b8841b310048cfc7b93",
+      "source_file": "kitchen-1.jpg"
+    },
+    {
+      "id": "room_09",
+      "name": "Counter Corner",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "48634eee15cdea3fd848434abc4291d7d25196dec251f976e8f9bacddd08aa62",
+      "source_file": "kitchen-2.jpg"
+    },
+    {
+      "id": "room_10",
+      "name": "Vanity Bathroom",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "a7ed9c113ba4716e63cdf8014ca6622f19e28bcb9f7f71a60731aa2808e37997",
+      "source_file": "bath-1.jpg"
+    },
+    {
+      "id": "room_11",
+      "name": "Compact Bath",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "1284666fcfdf658365506bcbae350d4fcec501b4ffe7a4a3644c7bbef88b2f61",
+      "source_file": "bath-2.jpg"
+    },
+    {
+      "id": "room_12",
+      "name": "Apartment Hall",
+      "status": "auto",
+      "group": null,
+      "wall_count": 11,
+      "original": "original.jpg",
+      "sha256": "6b667b2eeee5dd07c460ad5e3d49fe3895d407451cf634f54b80d53b869032ed",
+      "source_file": "hall-1.jpg",
+      "needs_review": true,
+      "updated_at": "2026-10-01T12:40:29+00:00"
+    },
+    {
+      "id": "room_13",
+      "name": "Facade Elevation",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "e9b242204097cb287e51311328c7957bcad8ae3decea9a4222dad7c1948e8715",
+      "source_file": "elev-1.jpg"
+    },
+    {
+      "id": "room_14",
+      "name": "Showroom Floor",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "a58213d2493da01823d8298f8daac99bffda44c5a5664bfd10929fcc69466a2c",
+      "source_file": "comm-1.jpg"
+    },
+    {
+      "id": "room_15",
+      "name": "Lobby Space",
+      "status": "new",
+      "group": null,
+      "wall_count": null,
+      "original": "original.jpg",
+      "sha256": "2e6328fa6df61793011eb20a8ca0cb9717ec4f05476819671cf544df5db5eeed",
+      "source_file": "comm-2.jpg"
+    }
+  ],
+  "schema_version": 1,
+  "updated_at": "2026-10-01T12:40:29+00:00"
+}

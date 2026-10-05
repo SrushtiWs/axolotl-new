@@ -140,7 +140,8 @@ def render_wall_with_info(room_bgr, depth_bgr, mask_bgra, tile_bgra, opts,
     profile = WallProfile(opts)
 
     h_img, w_img = room_bgr.shape[:2]
-    cx, cy = w_img / 2.0, h_img / 2.0
+    from ..core.options import principal
+    cx, cy = principal(opts, w_img, h_img)
 
     depth_bgr, mask_bgra, tile_bgra, depth_val, mask_had_alpha = _composite.normalise_inputs(
         room_bgr, depth_bgr, mask_bgra, tile_bgra, opts.invert_depth
@@ -169,7 +170,7 @@ def render_wall_with_info(room_bgr, depth_bgr, mask_bgra, tile_bgra, opts,
         f, focal_info = focal
     else:
         f, focal_info = resolve_focal_length(
-            image_width=w_img,
+            image_width=w_img, image_height=h_img,
             exif_focal_px=opts.exif_focal_px,
             vp1=None,
             vp2=None,
@@ -714,4 +715,7 @@ def _render_one(base_bgr, room_bgr, tile_bgra, mask_factor, instance, geom, opts
         room_bgr, tile_b, tile_g, tile_r, tile_a, inst_factor, valid_ray,
         average_brightness, opts.lighting_blend, opts.tile_opacity,
         base_bgr=base_bgr,
+        lighting_mode=getattr(opts, "lighting_mode", "per-pixel"),
+        exposure_reference=getattr(opts, "exposure_reference", None),
+        gloss_strength=getattr(opts, "gloss_strength", 0.2),
     )

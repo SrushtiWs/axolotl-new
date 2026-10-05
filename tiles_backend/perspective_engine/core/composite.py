@@ -320,9 +320,85 @@ def apply_grout(tile_b, tile_g, tile_r, frac_u, frac_v, u_mm, v_mm,
     return tile_b, tile_g, tile_r
 
 
+# ---- "lowfreq" lighting: the room's light only, never its old surface ----
+#: Shading blur, as a share of the image diagonal: removes joints, grout,
+#: veins and glare of the old surface, keeps the light gradient and shadows.
+SHADING_SIGMA_SHARE = 0.03
+#: Shading range and softness: tile * clamp(shading, MIN, MAX) ** GAMMA.
+SHADING_MIN, SHADING_MAX, SHADING_GAMMA = 0.55, 1.15, 0.8
+#: Limited exposure match: the tile's mean follows this surface's brightness
+#: relative to the room's, but only within these bounds (a light tile on a dark
+#: wall stays light; a bright room does not blow a light tile out).
+EXPOSURE_MIN, EXPOSURE_MAX = 0.6, 1.1
+#: A highlight in the photo is real above this level (moderately blurred
+#: luminance); no pixel above it = no gloss at all.
+HIGHLIGHT_LEVEL = 225.0
+HIGHLIGHT_SIGMA_SHARE = 0.01
+#: Highlight roll-off: values above KNEE x the tile's peak ease smoothly
+#: toward LIMIT x the peak (never past it), so a light tile in a bright room is
+#: not blown out and its veins keep their contrast.
+TONE_KNEE, TONE_LIMIT = 0.85, 0.97
+
+
+def _luminance(bgr):
+    bgr = bgr.astype(np.float32)
+    return 0.114 * bgr[:, :, 0] + 0.587 * bgr[:, :, 1] + 0.299 * bgr[:, :, 2]
+
+
+def _masked_blur(values, mask, sigma):
+    m = mask.astype(np.float32)
+    num = cv2.GaussianBlur(values * m, (0, 0), sigma)
+    den = cv2.GaussianBlur(m, (0, 0), sigma)
+    return num / np.maximum(den, 1e-3)
+
+
+def lowfreq_light(room_bgr, tile_b, tile_g, tile_r, region, average_brightness: float,
+                  exposure_reference=None, gloss_strength: float = 0.2):
+    """
+    (lit_r, lit_g, lit_b, info): the tile lit by the room's smooth light only.
+
+      shading   the clean room's luminance blurred inside `region`
+                (sigma SHADING_SIGMA_SHARE of the diagonal), / its median,
+                clamped to SHADING_MIN..MAX, ** SHADING_GAMMA
+      exposure  clamp(this surface's mean / the room's reference, EXPOSURE_MIN..MAX)
+      gloss     + gloss_strength x highlight, tinted by the tile's own colour,
+                only where the (blurred) photo exceeds HIGHLIGHT_LEVEL
+      tone      above TONE_KNEE x the tile's peak, values ease toward TONE_LIMIT x the
+                peak (smooth roll-off, never past it)
+    """
+    h, w = region.shape
+    diag = float(np.hypot(h, w))
+    if not region.any():
+        return tile_r, tile_g, tile_b, {}
+    lum = _luminance(room_bgr)
+    low = _masked_blur(lum, region, SHADING_SIGMA_SHARE * diag)
+    med = float(np.median(low[region]))
+    shading = np.clip(low / max(med, 1e-3), SHADING_MIN, SHADING_MAX) ** SHADING_GAMMA
+    reference = float(exposure_reference) if exposure_reference else float(np.median(lum))
+    exposure = float(np.clip(average_brightness / max(reference, 1e-3), EXPOSURE_MIN, EXPOSURE_MAX))
+    hl_src = cv2.GaussianBlur(lum, (0, 0), HIGHLIGHT_SIGMA_SHARE * diag)
+    highlight = np.clip((hl_src - HIGHLIGHT_LEVEL) / (255.0 - HIGHLIGHT_LEVEL), 0.0, 1.0)
+    highlight[~region] = 0.0
+    gain = shading * exposure * (1.0 + gloss_strength * highlight)
+    peak = float(np.percentile(np.maximum(np.maximum(tile_r, tile_g), tile_b)[region], 99.5))
+    knee, limit = TONE_KNEE * peak, TONE_LIMIT * peak
+    out = []
+    for c in (tile_r, tile_g, tile_b):
+        v = c * gain
+        over = np.maximum(v - knee, 0.0)
+        span = max(limit - knee, 1e-3)
+        out.append(np.where(v > knee, knee + span * (1.0 - np.exp(-over / span)), v))
+    info = {"lighting": "lowfreq", "exposure": round(exposure, 3), "reference_luminance": round(reference, 1),
+            "surface_luminance": round(float(average_brightness), 1),
+            "shading_range": [round(float(shading[region].min()), 3), round(float(shading[region].max()), 3)],
+            "gloss_pixels": int((highlight > 0).sum())}
+    return out[0], out[1], out[2], info
+
+
 def composite(room_bgr, tile_b, tile_g, tile_r, tile_a, mask_factor, valid_ray,
               average_brightness: float, lighting_blend: float,
-              tile_opacity: float, base_bgr=None):
+              tile_opacity: float, base_bgr=None, lighting_mode: str = "per-pixel",
+              exposure_reference=None, gloss_strength: float = 0.2):
     """
     Light the sampled tiles from the room's own pixels and composite them in.
 
@@ -340,16 +416,21 @@ def composite(room_bgr, tile_b, tile_g, tile_r, tile_a, mask_factor, valid_ray,
     base_g = base[:, :, 1].astype(np.float32)
     base_r = base[:, :, 2].astype(np.float32)
 
-    light_factor = np.clip(room_brightness / (average_brightness + 0.1), 0.15, 2.2)
-    blend = lighting_blend
+    if lighting_mode == "lowfreq":
+        region = (mask_factor >= 0.1) & valid_ray
+        final_tile_r, final_tile_g, final_tile_b, _info = lowfreq_light(
+            room_bgr, tile_b, tile_g, tile_r, region, average_brightness, exposure_reference, gloss_strength)
+    else:
+        light_factor = np.clip(room_brightness / (average_brightness + 0.1), 0.15, 2.2)
+        blend = lighting_blend
 
-    lit_r = tile_r * light_factor
-    lit_g = tile_g * light_factor
-    lit_b = tile_b * light_factor
+        lit_r = tile_r * light_factor
+        lit_g = tile_g * light_factor
+        lit_b = tile_b * light_factor
 
-    final_tile_r = tile_r * (1 - blend) + lit_r * blend
-    final_tile_g = tile_g * (1 - blend) + lit_g * blend
-    final_tile_b = tile_b * (1 - blend) + lit_b * blend
+        final_tile_r = tile_r * (1 - blend) + lit_r * blend
+        final_tile_g = tile_g * (1 - blend) + lit_g * blend
+        final_tile_b = tile_b * (1 - blend) + lit_b * blend
 
     tile_alpha = (tile_a / 255.0) * tile_opacity * mask_factor
 

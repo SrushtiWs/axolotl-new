@@ -45,9 +45,7 @@ from PIL import Image
 #: Structural and opening classes (curtain, window, door, cabinet, ceiling...)
 #: are deliberately not here.
 MOVABLE = frozenset({
-    "sofa", "chair", "armchair", "swivel chair", "bed", "table", "coffee table", "desk", "cushion",
-    "pillow", "stool", "bench", "ottoman", "box", "basket", "vase", "pot", "flowerpot", "plant",
-    "book", "bottle", "bag", "toy", "seat", "blanket", "towel", "apparel", "tray", "bowl", "glass",
+    "sofa", "chair", "armchair", "armchair leg", "swivel chair", "bed", "table", "window","coffee table", "desk", "cushion",  "pillow", "stool", "bench", "ottoman", "box", "basket", "vase", "pot", "flowerpot", "plant","book", "bottle", "bag", "toy", "seat", "blanket", "towel", "apparel", "tray", "bowl", "glass", "furniture", "other"
 })
 
 #: Specks below this (share of the image diagonal, as an opening radius) are

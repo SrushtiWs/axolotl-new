@@ -241,6 +241,165 @@ def _summary(info: dict) -> dict:
     return summary
 
 
+#: "tight": object alpha eroded 1 px + feathered 1 px inward (no rim of the
+#: new surface showing through the object's soft edge); "matte": the matte as
+#: extracted (kept for comparison).
+OBJECT_EDGE = "tight"
+
+
+#: Pixels this far (px) from an object's outline are never changed by _tight_alpha.
+EDGE_BAND_PX = 6
+
+
+def _tight_alpha(alpha: np.ndarray) -> np.ndarray:
+    """
+    Object alpha eroded 1 px, then feathered 1 px inward only (never outward),
+    applied only within EDGE_BAND_PX of the object's outline: a translucent
+    object (glass, a sheer curtain) keeps its own alpha everywhere else.
+    """
+    a = np.clip(alpha, 0.0, 1.0).astype(np.float32)
+    eroded = cv2.erode(a, np.ones((3, 3), np.uint8))
+    tight = np.minimum(cv2.blur(eroded, (3, 3)), eroded)
+    present = (a > 0).astype(np.uint8)
+    outline = cv2.dilate(present, np.ones((3, 3), np.uint8)) != cv2.erode(present, np.ones((3, 3), np.uint8))
+    k = 2 * EDGE_BAND_PX + 1
+    band = cv2.dilate(outline.astype(np.uint8), np.ones((k, k), np.uint8)).astype(bool)
+    return np.where(band, tight, a)
+
+
+#: Straight ceiling / floor edges (Step 2). Every length is a share of the image
+#: diagonal or of the wall's own junction, never a fixed pixel count.
+STRAIGHT_EDGES = True
+STRAIGHT_EDGE_LIMITS = {
+    "look_px": 3, "min_points": 20, "min_span": 0.3, "ransac": 0.003, "tol": 0.002,
+    "curved_residual": 0.015, "curved_sagitta": 0.005, "min_inlier_share": 0.6, "min_inlier_span": 0.25,
+    "edge_band_px": 3, "support": 0.4, "gap": 0.01, "blob_support": 0.9, "min_blob": 0.0001,
+}
+
+
+def _straight_edges(regions: dict, floor: np.ndarray, wall: np.ndarray, props: np.ndarray | None,
+                    room: np.ndarray) -> tuple[np.ndarray | None, dict]:
+    """
+    Wall-tile pixels past a wall's straight ceiling line (or floor line):
+    `(removed, report)`, `removed` None when nothing qualifies.
+
+    Per wall region and edge: junction points are the region's top (bottom)
+    pixel per column whose LOOK_PX above (below) are neither wall nor floor
+    (floor) and no object. A RANSAC line through them, residual and sagitta on
+    its inliers. A curved line ("curved edge, needs Step 1") or a weak one
+    (few inliers, short inlier span: "uncertain fit, needs_fix") removes
+    nothing. Else each connected area more than `tol` past the line is removed
+    whole only when >= blob_support of it has a photo edge along the line at
+    its foot (>= support x the edge strength at the wall's own junction; feet
+    off the image take the last in-image sample) and it is >= min_blob of the
+    image -- a pillar face or another plane past the line has no edge there
+    and stays.
+    """
+    L = STRAIGHT_EDGE_LIMITS
+    h, w = wall.shape
+    diag = float(np.hypot(h, w))
+    props = np.zeros((h, w), bool) if props is None else np.asarray(props, bool)
+    gray = cv2.GaussianBlur(cv2.cvtColor(room, cv2.COLOR_RGB2GRAY).astype(np.float32), (0, 0), 1.0)
+    gx, gy = cv2.Sobel(gray, cv2.CV_32F, 1, 0, ksize=3), cv2.Sobel(gray, cv2.CV_32F, 0, 1, ksize=3)
+    others = {"ceiling": ~wall & ~floor, "floor": floor}
+    removed = np.zeros((h, w), bool)
+    report = {"needs_fix": [], "curved": [], "removed": {}}
+
+    def strength(c, nrm, tang, u):
+        best = np.zeros(len(u))
+        for k in range(-L["edge_band_px"], L["edge_band_px"] + 1):
+            p = c[None] + u[:, None] * tang[None] + k * nrm[None]
+            x = np.clip(np.round(p[:, 0]).astype(int), 0, w - 1)
+            y = np.clip(np.round(p[:, 1]).astype(int), 0, h - 1)
+            inside = (p[:, 0] >= 0) & (p[:, 0] < w) & (p[:, 1] >= 0) & (p[:, 1] < h)
+            best = np.maximum(best, np.abs(gx[y, x] * nrm[0] + gy[y, x] * nrm[1]) * inside)
+        return best
+
+    for key in sorted(k for k in regions if k.startswith("wall-")):
+        region = regions[key]
+        cols = np.nonzero(region.any(axis=0))[0]
+        if not cols.size:
+            continue
+        span = int(cols.max() - cols.min() + 1)
+        for edge, top in (("ceiling", True), ("floor", False)):
+            other = others[edge]
+            pts = []
+            for x in cols:
+                ys_col = np.nonzero(region[:, x])[0]
+                y = ys_col.min() if top else ys_col.max()
+                lo, hi = (y - L["look_px"], y) if top else (y + 1, y + 1 + L["look_px"])
+                if lo >= 0 and hi <= h and other[lo:hi, x].all() and not props[lo:hi, x].any():
+                    pts.append((float(x), float(y)))
+            pts = np.array(pts)
+            if len(pts) < L["min_points"] or np.ptp(pts[:, 0]) < L["min_span"] * span:
+                continue
+            rng = np.random.default_rng(0)
+            thr = max(2.0, L["ransac"] * diag)
+            best = None
+            for _ in range(400):
+                i, j = rng.choice(len(pts), 2, replace=False)
+                d = pts[j] - pts[i]
+                if np.hypot(*d) < 1e-6:
+                    continue
+                n = np.array([-d[1], d[0]]) / np.hypot(*d)
+                inl = np.abs((pts - pts[i]) @ n) < thr
+                if best is None or inl.sum() > best.sum():
+                    best = inl
+            inl = best
+            c = pts[inl].mean(axis=0)
+            nrm = np.linalg.svd(pts[inl] - c)[2][1]
+            nrm = -nrm if nrm[1] < 0 else nrm
+            tang = np.array([nrm[1], -nrm[0]])
+            dist = (pts - c) @ nrm
+            rms = float(np.sqrt((dist[inl] ** 2).mean()))
+            u_in = (pts[inl] - c) @ tang
+            coef = np.polyfit(u_in, dist[inl], 2)
+            sag = float(np.abs(np.polyval(coef, np.linspace(u_in.min(), u_in.max(), 50))).max())
+            name = f"{key} {edge}"
+            if rms > L["curved_residual"] * diag or sag > L["curved_sagitta"] * diag:
+                report["curved"].append(name)
+                continue
+            if inl.mean() < L["min_inlier_share"] or np.ptp(pts[inl][:, 0]) < L["min_inlier_span"] * span:
+                report["needs_fix"].append(name)
+                continue
+            tol = max(2.0, L["tol"] * diag)
+            ys, xs = np.nonzero(region)
+            d_px = (np.stack([xs, ys], 1) - c) @ nrm
+            past = d_px < -tol if top else d_px > tol
+            if not past.any():
+                continue
+            # photo edge along the line, per foot position
+            u_px = (np.stack([xs, ys], 1) - c) @ tang
+            u0 = int(np.floor(u_px.min()))
+            us = np.arange(u0, int(np.ceil(u_px.max())) + 1).astype(float)
+            ref = float(np.median(strength(c, nrm, tang, u_in)))
+            sup = strength(c, nrm, tang, us) >= L["support"] * max(ref, 1e-6)
+            on = c[None] + us[:, None] * tang[None]
+            inside = (on[:, 0] >= 0) & (on[:, 0] <= w - 1) & (on[:, 1] >= 0) & (on[:, 1] <= h - 1)
+            gap = int(L["gap"] * diag)
+            idx = np.nonzero(sup)[0]
+            for a, b in zip(idx[:-1], idx[1:]):
+                if 1 < b - a <= gap + 1:
+                    sup[a:b] = True
+            if inside.any():
+                first, last = np.nonzero(inside)[0][[0, -1]]
+                sup[:first], sup[last + 1:] = sup[first], sup[last]
+            supported = sup[np.clip(np.round(u_px).astype(int) - u0, 0, len(us) - 1)]
+            blob = np.zeros((h, w), np.uint8)
+            blob[ys[past], xs[past]] = 1
+            count, lab = cv2.connectedComponents(blob, connectivity=8)
+            lab_px = lab[ys, xs]
+            gone = 0
+            for i in range(1, count):
+                m = past & (lab_px == i)
+                if m.sum() >= L["min_blob"] * h * w and supported[m].mean() >= L["blob_support"]:
+                    removed[ys[m], xs[m]] = True
+                    gone += int(m.sum())
+            if gone:
+                report["removed"][name] = gone
+    return (removed if removed.any() else None), report
+
+
 def render_tiled_room(
     room: np.ndarray,
     floor_mask: np.ndarray,
@@ -294,6 +453,12 @@ def render_tiled_room(
         props=props,
         object_count=object_count,
     )
+
+    # Objects meet the tiles along their own edge, without a light rim: their
+    # alpha is eroded 1 px and feathered 1 px INWARD only (_tight_alpha), so the
+    # soft band never lets the new surface show through outside the object.
+    if OBJECT_EDGE == "tight" and scene.props_alpha is not None:
+        scene = replace(scene, props_alpha=_tight_alpha(scene.props_alpha))
 
     # The fallback horizon for the floor (used only when the floor's own VP is
     # rejected). AUTO: from the detected floor plane -- never from a room length
@@ -406,6 +571,9 @@ def render_tiled_room(
         "room_box_source": box_source,
         "object_count": estimate["object_count"],
         "walls_selected": list(wall_labels) if wall_labels else "all",
+        # The room geometry's one camera (focal source, horizon, confidence).
+        "room_camera": {k: v for k, v in ((geometry_in or {}).get("camera") or {}).items()
+                        if k in ("focal_px", "focal_source", "principal_point", "confidence", "joint")},
         **_summary(tiled.info),
     }
 
@@ -456,6 +624,19 @@ def render_tiled_room(
             geometry_in["room_frame"], tiled.info["room"],
             layout=geometry.get("tile_layout"),
         )
+
+    # Step 2: wall tiles past a wall's straight ceiling / floor line show the
+    # photo again -- only for areas that qualify (_straight_edges); every other
+    # pixel and region is left exactly as rendered.
+    if STRAIGHT_EDGES:
+        removed, straight = _straight_edges(regions, floor, wall, scene.props, room)
+        if removed is not None:
+            result.composite[removed] = room[removed]
+            result.target[removed] = False
+            for key in [k for k in regions if k.startswith("wall-")]:
+                regions[key] = regions[key] & ~removed
+        if removed is not None or straight["needs_fix"] or straight["curved"]:
+            geometry["straight_edges"] = straight
 
     return Rendered(result=result, scene=scene, geometry=geometry, clip=clip, regions=regions,
                     three=three, room_debug=room_debug)

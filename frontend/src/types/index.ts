@@ -241,6 +241,8 @@ export interface Detection {
 
 export interface SegmentsResponse {
   room_url: string
+  /** Present when the photo is a room-data room: where the result came from. */
+  room_data?: { room_id: string; source: string; message: string | null; status?: string }
   /** Exactly two entries: the all-objects layer and the mirrors layer. */
   objects: Segment[]
   surfaces: Segment[]

@@ -722,15 +722,18 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
   /** Save exactly what the image shows (Before, Mask or After) as a PNG file. */
   const [downloading, setDownloading] = useState(false)
-  async function downloadShown() {
+  function downloadShown() {
+    return downloadImage(shown, `room-${step}${jobId ? `-${jobId}` : ''}.png`)
+  }
+  async function downloadImage(source: string, name: string) {
     setDownloading(true)
     try {
       // Fetched as a blob: a plain link to another origin opens a tab instead of saving.
-      const blob = await (await fetch(shown)).blob()
+      const blob = await (await fetch(source)).blob()
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = `room-${step}${jobId ? `-${jobId}` : ''}.png`
+      link.download = name
       document.body.appendChild(link)
       link.click()
       link.remove()
@@ -877,7 +880,7 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
             </button>
 
             {step === 'after' && compare && composed ? (
-              <CompareSlider before={room.previewUrl} after={composed.result_image_url} />
+              <CompareSlider before={room.previewUrl} after={composed.result_image_url} onClose={() => setCompare(false)} />
             ) : (
               <img
                 ref={imageRef}
@@ -1106,6 +1109,20 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
               </div>
             )}
           </div>
+
+          {/* The tiled result alone (photo + tiles + objects), as the backend composed it. */}
+          {composed && (
+            <div className="stage-result-actions">
+              <button
+                type="button"
+                className="tool"
+                onClick={() => downloadImage(composed.result_image_url, 'room_result.png')}
+                disabled={downloading}
+              >
+                {downloading ? 'Saving…' : 'Download Image'}
+              </button>
+            </div>
+          )}
         </div>
 
         <RoomAnalysis

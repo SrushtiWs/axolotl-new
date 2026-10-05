@@ -57,7 +57,7 @@ export function RoomAnalysis({ room, onCleared, onBusy, blocked, autoStart }: Pr
 
     // Start cleaning as soon as the room opens, so its floor and walls are
     // ready to select without anyone having to press the button first.
-    if (autoStart) void clearRoom()
+    if (autoStart) void clearRoom(true)
     // `onCleared` is intentionally not a dependency: it is a notification, and
     // re-running this on every parent render would clear the panel constantly.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,7 +70,8 @@ export function RoomAnalysis({ room, onCleared, onBusy, blocked, autoStart }: Pr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [busy])
 
-  async function clearRoom() {
+  /** `useSaved`: opening the room may use its saved room-data result; Re-run never does. */
+  async function clearRoom(useSaved = false) {
     abort.current?.abort()
 
     const controller = new AbortController()
@@ -81,7 +82,7 @@ export function RoomAnalysis({ room, onCleared, onBusy, blocked, autoStart }: Pr
     setElapsed(0)
 
     try {
-      const response = await segmentRoomAsync(room.file, controller.signal, setElapsed)
+      const response = await segmentRoomAsync(room.file, controller.signal, setElapsed, useSaved)
 
       setData(response)
 
@@ -91,6 +92,7 @@ export function RoomAnalysis({ room, onCleared, onBusy, blocked, autoStart }: Pr
       const verdict = floorVerdict(floor?.coverage)
 
       if (!verdict.ok) setError(verdict.reason ?? null)
+      else if (response.room_data?.message) setError(response.room_data.message)
 
       onCleared?.(response, verdict.ok ? null : (verdict.reason ?? 'Not a room.'))
     } catch (cause) {
@@ -128,7 +130,7 @@ export function RoomAnalysis({ room, onCleared, onBusy, blocked, autoStart }: Pr
         <button
           type="button"
           className="btn tiny"
-          onClick={clearRoom}
+          onClick={() => void clearRoom()}
           disabled={busy || blocked}
           title={blocked ? 'Wait for the tile render to finish' : undefined}
         >

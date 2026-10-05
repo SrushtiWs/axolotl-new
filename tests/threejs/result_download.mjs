@@ -1,0 +1,30 @@
+// "Download Image" under the result: hidden before Apply, saves exactly the composed result as room_result.png.
+import { chromium } from 'playwright-core'
+import { writeFileSync } from 'node:fs'
+const [APP, OUT, PHOTO] = process.argv.slice(2)
+const b = await chromium.launch({ channel: 'chrome' })
+const ctx = await b.newContext({ acceptDownloads: true, viewport: { width: 1500, height: 950 } })
+const p = await ctx.newPage()
+const errors = []; p.on('pageerror', (e) => errors.push(e.message))
+const button = p.locator('.stage-result-actions button', { hasText: 'Download Image' })
+await p.goto(APP)
+await p.locator('input[type=file]').first().setInputFiles(PHOTO)
+await p.waitForFunction(() => document.querySelectorAll('.marker').length >= 2, null, { timeout: 900000 })
+const canvasBefore = await p.locator('.stage-canvas').boundingBox()
+const out = { errors, visible_before_apply: await button.count() }
+await p.locator('.marker[aria-label="Floor"]').click()
+out.visible_after_select_only = await button.count()
+await p.locator('button.tool.primary', { hasText: 'Apply' }).click()
+await button.waitFor({ timeout: 600000 }); await p.waitForTimeout(1500)
+out.visible_after_apply = await button.count()
+const src = await p.locator('img.stage-image').getAttribute('src')
+const [dl] = await Promise.all([p.waitForEvent('download'), button.click()])
+await dl.saveAs(`${OUT}/room_result.png`)
+out.filename = dl.suggestedFilename(); out.result_url = src
+const b64 = await p.evaluate(async (u) => { const r = await fetch(u); const a = new Uint8Array(await r.arrayBuffer()); let s = ''; for (const x of a) s += String.fromCharCode(x); return btoa(s) }, src)
+writeFileSync(`${OUT}/shown_result.png`, Buffer.from(b64, 'base64'))
+out.canvas_before = canvasBefore; out.canvas_after = await p.locator('.stage-canvas').boundingBox()
+out.button_box = await button.boundingBox()
+await p.screenshot({ path: `${OUT}/stage_with_button.png` })
+writeFileSync(`${OUT}/result_download.json`, JSON.stringify(out, null, 2)); console.log(JSON.stringify(out))
+await b.close()

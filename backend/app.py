@@ -27,7 +27,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi import Body, FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from PIL import Image, ImageOps, UnidentifiedImageError
@@ -42,6 +42,7 @@ from tiles_backend.perspective_engine.room.geometry import feet_to_mm
 from tiles_backend.perspective_engine.camera.metric_scale import MetricScaleError
 import pipeline_assets
 import reuse
+import room_data
 import scene as scene_module
 import surfaces
 from engine import GROUT_MM, MissingGeometryError, TileSpec, render
@@ -105,6 +106,11 @@ app.mount("/assets", StaticFiles(directory=scene_module.PROD), name="assets")
 
 # Object and surface cut-outs produced by pipeline_assets.
 app.mount("/generated", StaticFiles(directory=pipeline_assets.GENERATED), name="generated")
+
+# room-data/: originals, masks and previews of the saved rooms (room_data.py).
+room_data.ensure_layout()
+
+app.mount("/room-data/files", StaticFiles(directory=room_data.ROOT), name="room-data")
 
 
 def _decode(upload: UploadFile, data: bytes, field: str) -> np.ndarray:
@@ -201,6 +207,17 @@ def _wall_note(geometry: dict) -> str:
 def _tile_engine_notes(geometry: dict, clip: dict, job_id: str) -> list[str]:
     """What the response says when tiles_backend.perspective_engine placed them."""
     notes = []
+
+    # A camera that rests on the lens prior (or is not verified level) is said so first.
+    camera = geometry.get("room_camera") or {}
+    if camera.get("confidence") == "low":
+        joint = camera.get("joint") or {}
+        notes.append(
+            f"Camera LOW confidence: focal length {camera.get('focal_px', 0):.0f} px from "
+            f"{camera.get('focal_source')}"
+            + (f"; {'; '.join(joint.get('decision') or [])}" if joint.get("decision") else "")
+            + ". Tile direction and scale are estimates; entering one room measurement helps."
+        )
 
     floor = geometry.get("floor")
 
@@ -383,14 +400,22 @@ def _detect_geometry(job_dir: Path, render_rgb: np.ndarray, render_clean: np.nda
         if surface_masks is None:
             return {"available": False, "reason": "no FLOOR_MASK.png / WALL_MASK.png"}
 
-        perspective_engine.ensure_geometry(
+        geometry = perspective_engine.ensure_geometry(
             job_dir, render_rgb, surface_masks[0], surface_masks[1],
             clean=render_clean, photo_bytes=payload,
         )
     except Exception as error:  # additive stage: never fail the clean room
         return {"available": False, "reason": f"{type(error).__name__}: {error}"}
 
-    return {"available": True}
+    # One line per room: where its camera came from (EXIF / vanishing points / prior).
+    camera = geometry.get("camera") or {}
+    joint = camera.get("joint") or {}
+    print(f"[camera {job_dir.parent.name}] focal_source={camera.get('focal_source')} "
+          f"focal_px={camera.get('focal_px', 0):.0f} hfov={joint.get('hfov_deg')} "
+          f"horizon_y={joint.get('horizon_y')} principal={camera.get('principal_point')} "
+          f"confidence={camera.get('confidence')}", flush=True)
+
+    return {"available": True, "camera": {k: camera.get(k) for k in ("focal_px", "focal_source", "confidence")}}
 
 
 def _geometry_urls(info: dict, prefix: str) -> dict:
@@ -610,7 +635,9 @@ def _forget_old_segment_jobs() -> None:
         SEGMENT_JOBS.pop(token, None)
 
 
-async def _segment_core(payload: bytes, rgb: np.ndarray, debug: bool, base: str) -> dict:
+async def _segment_core(
+    payload: bytes, rgb: np.ndarray, debug: bool, base: str, use_saved: bool = False
+) -> dict:
     """
     Extract an uploaded room photo into two full-canvas union layers.
 
@@ -635,6 +662,14 @@ async def _segment_core(payload: bytes, rgb: np.ndarray, debug: bool, base: str)
     segmenter or the cleanup.
     """
     started = time.perf_counter()
+
+    # A room-data room opened again: its saved Clean Room result, with no
+    # detection at all (room_data.saved_response). Only when the caller asks.
+    if use_saved and not debug:
+        saved = await run_in_threadpool(room_data.saved_response, reuse.digest(payload), JOBS_DIR, base)
+
+        if saved is not None:
+            return saved
 
     config = extraction_config.load(debug=debug or None)
 
@@ -876,7 +911,7 @@ async def _segment_core(payload: bytes, rgb: np.ndarray, debug: bool, base: str)
 
     print(f"[segment {job_id}] {metadata['timings']}", flush=True)
 
-    return {
+    response = {
         "success": True,
         "job_id": job_id,
         "room_url": f"{base}/jobs/{job_id}/original.png",
@@ -905,19 +940,37 @@ async def _segment_core(payload: bytes, rgb: np.ndarray, debug: bool, base: str)
         "source": "live",
     }
 
+    # A photo that is a room-data room: keep this result there (job, masks,
+    # preview, profile), backing up the previous profile. Saving must never
+    # cost the user the Clean Room result, so a failure is only reported.
+    room = room_data.find_room(reuse.digest(payload))
+
+    if room is not None:
+        try:
+            profile = await run_in_threadpool(room_data.save_from_job, room, JOBS_DIR / job_id, response, base)
+            response["room_data"] = {"room_id": room["id"], "source": "saved now", "message": None,
+                                     "status": profile["status"]}
+        except Exception as error:  # noqa: BLE001 (reported, never fatal)
+            response["room_data"] = {"room_id": room["id"], "source": "not saved",
+                                     "message": f"Could not save to room-data: {error}"}
+
+    return response
+
 
 @app.post("/segment")
 async def segment_room(
     request: Request,
     room_image: UploadFile = File(...),
     debug: bool = Form(False),
+    # As on /segment/start: optional, off unless asked for.
+    use_saved: bool = Form(False),
 ) -> dict:
     """The original synchronous call, unchanged in behaviour and response."""
     payload = await room_image.read()
 
     rgb = _decode(room_image, payload, "room_image")
 
-    return await _segment_core(payload, rgb, debug, str(request.base_url).rstrip("/"))
+    return await _segment_core(payload, rgb, debug, str(request.base_url).rstrip("/"), use_saved)
 
 
 @app.post("/segment/start")
@@ -925,6 +978,9 @@ async def segment_start(
     request: Request,
     room_image: UploadFile = File(...),
     debug: bool = Form(False),
+    # Optional, so existing callers are unchanged: true lets a room-data room
+    # that was processed before return its saved result instead of running.
+    use_saved: bool = Form(False),
 ) -> dict:
     """
     Begin a segmentation and return a token at once.
@@ -947,7 +1003,7 @@ async def segment_start(
 
     async def run() -> None:
         try:
-            result = await _segment_core(payload, rgb, debug, base)
+            result = await _segment_core(payload, rgb, debug, base, use_saved)
 
             SEGMENT_JOBS[token].update(status="done", result=result)
         except HTTPException as error:
@@ -983,6 +1039,61 @@ def segment_status(token: str) -> dict:
         raise HTTPException(job.get("code", 500), job.get("detail", "Segmentation failed."))
 
     return {"status": "done", **job["result"]}
+
+
+@app.get("/room-data/index")
+def room_data_index() -> dict:
+    """room-data/index.json: every room with its id, name, status, group and wall count."""
+    return room_data.load_index()
+
+
+def _room_entry(room_id: str) -> dict:
+    entry = next((r for r in room_data.load_index()["rooms"] if r["id"] == room_id), None)
+
+    if entry is None:
+        raise HTTPException(404, f"No room {room_id!r} in room-data/index.json.")
+
+    return entry
+
+
+@app.get("/room-data/rooms/{room_id}")
+def room_data_room(request: Request, room_id: str) -> dict:
+    """
+    One room: its profile (from profile.json, or from a backup when the file is
+    broken -- `message` then says so) and the URLs of its files.
+    """
+    entry = _room_entry(room_id)
+
+    loaded = room_data.load_profile(room_id)
+
+    files = f"{str(request.base_url).rstrip('/')}/room-data/files/rooms/{room_id}"
+
+    folder = room_data.room_dir(room_id)
+
+    return {
+        "room": entry,
+        **loaded,
+        "files": {
+            "original": f"{files}/{entry['original']}",
+            **{name: f"{files}/masks/{name}.png" for name in ("floor", "walls", "objects")
+               if (folder / "masks" / f"{name}.png").exists()},
+            **({"preview": f"{files}/result/preview.jpg"} if (folder / "result" / "preview.jpg").exists() else {}),
+        },
+    }
+
+
+@app.put("/room-data/rooms/{room_id}/profile")
+def room_data_edit(room_id: str, changes: dict = Body(...)) -> dict:
+    """
+    A manual edit -- status, group, room_size_ft, floor_corners and wall sides
+    only. The previous profile.json goes to room-data/_backup/ first.
+    """
+    _room_entry(room_id)
+
+    try:
+        return room_data.update_profile(room_id, changes)
+    except room_data.ProfileError as error:
+        raise HTTPException(422, str(error)) from error
 
 
 @app.post("/floor-wall")

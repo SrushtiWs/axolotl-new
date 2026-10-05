@@ -15,6 +15,14 @@ from typing import Optional
 from ..camera.metric_scale import DEFAULT_CAMERA_HEIGHT_MM
 
 
+def principal(opts, width: int, height: int) -> tuple:
+    """The principal point to use: the options' own, else the image centre."""
+    pp = getattr(opts, "principal_point", None) if opts is not None else None
+    if pp is None:
+        return width / 2.0, height / 2.0
+    return float(pp[0]), float(pp[1])
+
+
 @dataclass
 class SurfaceRenderOptions:
     # ---------------- shared: tile grid ----------------
@@ -52,6 +60,21 @@ class SurfaceRenderOptions:
     auto_focal_length: bool = True
     # Focal length in pixels read from the photo's EXIF by the caller, if any.
     exif_focal_px: Optional[float] = None
+    # The camera's principal point (cx, cy) in pixels. None = the image centre,
+    # which is what every render used before. The room geometry may move cy to
+    # the detected horizon (a level camera whose photo was shifted or cropped).
+    principal_point: Optional[tuple] = None
+    # How the room's light reaches the tiles (core/composite.py):
+    #   "lowfreq"   only the clean room's smooth light (blur ~3% of the diagonal),
+    #               a limited exposure match and capped gloss on real highlights
+    #   "per-pixel" the original per-pixel brightness ratio (carries the old
+    #               surface's joints, veins and glare; kept for comparison)
+    lighting_mode: str = "lowfreq"
+    # Median luminance of the room's floor and walls (set by the engine); None =
+    # the whole clean room's median.
+    exposure_reference: Optional[float] = None
+    # Gloss added on the photo's real highlights only, at most this strength.
+    gloss_strength: float = 0.2
     # The single physical anchor that fixes millimetre scale for the FLOOR.
     # Absolute scale is not observable from one photograph, so a conversion
     # from plane units to millimetres must be set by something real; this is

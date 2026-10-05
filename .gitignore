@@ -26,3 +26,8 @@ backend/jobs/
 # Regression harness: scratch renders, and baseline images (large; hashes are in manifest.json)
 tests/.work/
 tests/baseline/images/
+
+# room-data: backups, the batch error log and the Clean Room job copies (large) stay local
+room-data/_backup/
+room-data/errors.log
+room-data/rooms/*/job/

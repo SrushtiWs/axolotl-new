@@ -11,9 +11,10 @@ import { useRef, useState } from 'react'
 interface Props {
   before: string
   after: string
+  onClose?: () => void
 }
 
-export function CompareSlider({ before, after }: Props) {
+export function CompareSlider({ before, after, onClose }: Props) {
   const [at, setAt] = useState(50)
   const frame = useRef<HTMLDivElement | null>(null)
 
@@ -45,8 +46,20 @@ export function CompareSlider({ before, after }: Props) {
         <span>◂▸</span>
       </div>
 
-      <span className="compare-tag left">Before</span>
-      <span className="compare-tag right">After</span>
+      <span className="compare-tag left">After</span>
+      <span className="compare-tag right">Before</span>
+
+      <div className="compare-bar" onPointerDown={(event) => event.stopPropagation()}>
+        <button type="button" onClick={() => setAt(100)} title="Show the tiled room">
+          Left
+        </button>
+        <button type="button" onClick={() => onClose?.()} title="Close compare">
+          ✕
+        </button>
+        <button type="button" onClick={() => setAt(0)} title="Show the original photo">
+          Right
+        </button>
+      </div>
     </div>
   )
 }

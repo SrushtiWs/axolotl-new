@@ -54,7 +54,9 @@ MIN_FOCAL_WIDTH_RATIO = 0.30
 MAX_FOCAL_WIDTH_RATIO = 4.00
 
 # Default prior: 26mm-equivalent, the standard main camera on essentially
-# every phone of the last decade. f = W * 26 / 36.
+# every phone of the last decade. f = LONG side * 26 / 36: a "35mm
+# equivalent" focal length is defined against the frame's long side (36 mm),
+# so a portrait photo (width = its short side) must not use its width.
 DEFAULT_FOCAL_WIDTH_RATIO = 26.0 / 36.0
 
 # A vanishing point this far from the principal point (in image widths) makes
@@ -81,8 +83,19 @@ def focal_to_hfov_degrees(f: float, image_width: int) -> float:
     return math.degrees(2.0 * math.atan(image_width / (2.0 * max(f, 1e-6))))
 
 
+#: False restores the old behaviour (width, even for portrait photos) -- for before/after only.
+USE_LONG_SIDE = True
+
+
+def _long_side(image_width: int, image_height: Optional[int]) -> int:
+    """The frame's long side: what a 35mm-equivalent focal length is measured against."""
+    if not USE_LONG_SIDE:
+        return int(image_width)
+    return max(int(image_width), int(image_height or 0))
+
+
 @room_memo  # per photo: a tile change must not re-read the camera
-def estimate_focal_from_exif(image_bytes: bytes, image_width: int):
+def estimate_focal_from_exif(image_bytes: bytes, image_width: int, image_height: Optional[int] = None):
     """
     Focal length in pixels from the photo's own EXIF, or (None, info).
 
@@ -134,7 +147,7 @@ def estimate_focal_from_exif(image_bytes: bytes, image_width: int):
         info["stage"] = f"exif-read-failed: {type(exc).__name__}"
         return None, info
 
-    f_px = image_width * f35 / FULL_FRAME_WIDTH_MM
+    f_px = _long_side(image_width, image_height) * f35 / FULL_FRAME_WIDTH_MM
     info["focal_35mm"] = f35
 
     if not is_plausible_focal(f_px, image_width):
@@ -218,9 +231,10 @@ def estimate_focal_from_vps(vp1, vp2, principal_point, image_width: int):
 
 
 def focal_from_fov_prior(image_width: int,
-                         ratio: float = DEFAULT_FOCAL_WIDTH_RATIO):
-    """Phone-camera prior. Scales with image width, unlike a fixed constant."""
-    f_px = ratio * image_width
+                         ratio: float = DEFAULT_FOCAL_WIDTH_RATIO,
+                         image_height: Optional[int] = None):
+    """Phone-camera prior. Scales with the image's long side, unlike a fixed constant."""
+    f_px = ratio * _long_side(image_width, image_height)
     return f_px, {
         "stage": "ok",
         "source": "prior",
@@ -237,6 +251,7 @@ def resolve_focal_length(
     principal_point=None,
     fallback_focal: Optional[float] = None,
     auto: bool = True,
+    image_height: Optional[int] = None,
 ):
     """
     Pick the focal length, EXIF > two-VP > prior > caller's value.
@@ -250,7 +265,7 @@ def resolve_focal_length(
     info = {"source": "none", "candidates": {}}
 
     if not auto:
-        f = fallback_focal if fallback_focal else DEFAULT_FOCAL_WIDTH_RATIO * image_width
+        f = fallback_focal if fallback_focal else DEFAULT_FOCAL_WIDTH_RATIO * _long_side(image_width, image_height)
         info["source"] = "manual"
         info["focal_px"] = float(f)
         info["hfov_deg"] = focal_to_hfov_degrees(f, image_width)
@@ -278,7 +293,7 @@ def resolve_focal_length(
     elif is_plausible_focal(fallback_focal, image_width):
         chosen, source = float(fallback_focal), "caller"
     else:
-        chosen, prior_info = focal_from_fov_prior(image_width)
+        chosen, prior_info = focal_from_fov_prior(image_width, image_height=image_height)
         source = "prior"
         info["candidates"]["prior"] = prior_info
 

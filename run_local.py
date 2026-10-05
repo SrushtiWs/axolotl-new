@@ -28,6 +28,7 @@ source = stage.read_text().replace(REMOTE_ROOT, LOCAL_ROOT)
 
 sys.argv = sys.argv[1:]
 
+
 exec(
     compile(source, str(stage), "exec"),
     {"__name__": "__main__", "__file__": str(stage)},

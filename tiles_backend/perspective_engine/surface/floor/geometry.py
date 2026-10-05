@@ -50,13 +50,14 @@ def _plane_normal(horizon_y: float, cy: float, f: float, gain: float = 1.0):
 def detect(room_bgr, floor_bool: np.ndarray, opts, camera_height_mm: float) -> dict:
     """The floor's geometry, as a JSON-ready dict. See the module docstring."""
     h, w = floor_bool.shape
-    cx, cy = w / 2.0, h / 2.0
+    from ...core.options import principal
+    cx, cy = principal(opts, w, h)
 
     boundary = floor_vp.extract_boundary(floor_bool, room_bgr.shape, enabled=opts.use_floor_boundary)
     ev = floor_vp.resolve(room_bgr, floor_bool, opts, cx, cy, boundary=boundary)
 
     f, focal_info = resolve_focal_length(
-        image_width=w,
+        image_width=w, image_height=h,
         exif_focal_px=opts.exif_focal_px,
         vp1=ev.vp1_raw,
         vp2=ev.vp2_raw,
@@ -222,7 +223,7 @@ def from_room_structure(room_bgr, floor_bool: np.ndarray, room_vps, rejected: di
     if not points:
         return None
     h, w = floor_bool.shape
-    cx, cy = w / 2.0, h / 2.0
+    cx, cy = (float(v) for v in rejected.get("principal_point") or (w / 2.0, h / 2.0))
     f = float(rejected["focal_px"])
     floor_px = max(float(floor_bool.sum()), 1.0)
     min_len = 0.03 * float(np.hypot(h, w))

@@ -117,7 +117,8 @@ def render_floor_with_info(room_bgr, depth_bgr, mask_bgra, tile_bgra, opts,
     profile = FloorProfile(opts)
 
     h_img, w_img = room_bgr.shape[:2]
-    cx, cy = w_img / 2.0, h_img / 2.0
+    from ..core.options import principal
+    cx, cy = principal(opts, w_img, h_img)
     # f is NOT taken from opts here. It is resolved further down, after
     # vanishing-point detection, because two orthogonal VPs calibrate it.
 
@@ -150,7 +151,7 @@ def render_floor_with_info(room_bgr, depth_bgr, mask_bgra, tile_bgra, opts,
         f, focal_info = focal
     else:
         f, focal_info = resolve_focal_length(
-            image_width=w_img,
+            image_width=w_img, image_height=h_img,
             exif_focal_px=opts.exif_focal_px,
             vp1=evidence.vp1_raw,
             vp2=evidence.vp2_raw,
@@ -262,7 +263,10 @@ def render_floor_with_info(room_bgr, depth_bgr, mask_bgra, tile_bgra, opts,
 
     out = _composite.composite(
         room_bgr, tile_b, tile_g, tile_r, tile_a, mask_factor, valid_ray,
-        average_brightness, opts.lighting_blend, opts.tile_opacity
+        average_brightness, opts.lighting_blend, opts.tile_opacity,
+        lighting_mode=getattr(opts, "lighting_mode", "per-pixel"),
+        exposure_reference=getattr(opts, "exposure_reference", None),
+        gloss_strength=getattr(opts, "gloss_strength", 0.2),
     )
 
     info = {

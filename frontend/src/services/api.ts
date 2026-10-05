@@ -202,6 +202,8 @@ export async function segmentRoomAsync(
   file: File,
   signal?: AbortSignal,
   onProgress?: (elapsedSeconds: number) => void,
+  /** A room-data room processed before returns its saved result (no Clean Room run). */
+  useSaved = false,
 ): Promise<SegmentsResponse> {
   if (!isBackendConfigured()) {
     throw new ApiError('No backend configured.', 0)
@@ -209,6 +211,7 @@ export async function segmentRoomAsync(
 
   const form = new FormData()
   form.append('room_image', file)
+  if (useSaved) form.append('use_saved', 'true')
 
   const started = await fetch(`${API_BASE_URL}${SEGMENT_START_ENDPOINT}`, {
     method: 'POST',

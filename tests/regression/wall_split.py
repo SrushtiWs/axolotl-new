@@ -9,7 +9,8 @@ perspective_engine.ensure_geometry on a scratch copy of the room's segments
 with its stored geometry removed (the fixtures are not touched) -- and checked:
 
   partition     every WALL_MASK pixel is in exactly one wall, none outside it
-  corners       for the junction / edge layouts: walls = seen corners + 1, and
+  corners       for the junction / edge layouts: walls = seen corners + 1
+                (minus walls merged on purpose by corner_cut.merge_planes), and
                 every boundary between two walls is a corner an edge was seen
                 to bend at (none guessed)
   compared      against the split the room was frozen with
@@ -74,9 +75,13 @@ def main() -> int:
         corners = [c["x"] for c in split.get("corners", [])] if method == "floor-junction+ceiling-line" else \
             (split.get("corners") or []) if method == "floor-junction" else None
         bounds = _boundaries(wall_masks)
+        # Walls merged across a seen corner on purpose (corner_cut.merge_planes:
+        # a pillar's faces, or one plane split in two) remove that many boundaries.
+        plane_merge = split.get("plane_merge") or {}
+        merged_away = int(plane_merge.get("walls_before", len(wall_masks))) - int(plane_merge.get("walls_after", len(wall_masks)))
         if corners is not None:
-            if len(wall_masks) != len(corners) + 1:
-                problems.append(f"{len(wall_masks)} walls for {len(corners)} seen corners")
+            if len(wall_masks) != len(corners) + 1 - merged_away:
+                problems.append(f"{len(wall_masks)} walls for {len(corners)} seen corners ({merged_away} merged)")
             tol = 0.5 + 1.0
             unseen = [round(b) for b in bounds if not any(abs(b - c) <= tol for c in corners)]
             if unseen:
