@@ -1,0 +1,63 @@
+{
+  "canvas": [
+    673,
+    1200
+  ],
+  "focal_px": 866.6666666666666,
+  "focal_source": "prior",
+  "principal_point": [
+    336.5,
+    628.6917046393006
+  ],
+  "joint": {
+    "focal_px": 866.7,
+    "focal_source": "prior",
+    "hfov_deg": 42.4,
+    "principal_point": [
+      336.5,
+      628.7
+    ],
+    "horizon_y": 628.7,
+    "horizon_from": [
+      "floor"
+    ],
+    "vertical_lines": {
+      "reliable": true,
+      "pitch_deg": -1.25,
+      "roll_deg": 0.45
+    },
+    "level": true,
+    "pitch_deg": 0.0,
+    "roll_deg": 0.0,
+    "focal_pairs": [],
+    "confidence": "low",
+    "decision": [
+      "level camera (vertical lines -1.25 / 0.45 deg -> 0): principal row moved +28.7 px onto the horizon",
+      "focal from the lens prior: no two perpendicular validated VPs"
+    ]
+  },
+  "confidence": "low",
+  "hfov_deg": 42.4393185915047,
+  "status": "detected",
+  "boundary": {
+    "corners": [],
+    "visible_fraction": 0.0,
+    "floor_coverage": 0.3059676820208024
+  },
+  "coverage": 1.0,
+  "camera": {
+    "pitch_deg": 0.0,
+    "height_mm": 1500.0,
+    "floor_direction_deg": -1.244326124214589
+  },
+  "plane": [
+    0.0,
+    -1.0,
+    0.0,
+    1500.0
+  ],
+  "visible_floor_mm": [
+    4934.001953125,
+    4555.732421875
+  ]
+}

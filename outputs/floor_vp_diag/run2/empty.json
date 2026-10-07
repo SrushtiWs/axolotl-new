@@ -1,0 +1,91 @@
+{
+ "room": "empty",
+ "size": [
+  1200,
+  912
+ ],
+ "stored_camera_reproduced": true,
+ "floor_status": "detected",
+ "vanishing_points": {
+  "depth_vp": [
+   706.2404889609579,
+   435.79705625545716
+  ],
+  "horizon_y": 435.79705625545716,
+  "origin": "room-structure",
+  "confidence": 0.751,
+  "threshold": 0.55,
+  "source": "auto"
+ },
+ "vp_report_decision": "floor VP kept: confident on the room's long lines",
+ "floor_vp_score": {
+  "inliers": 4,
+  "support": 0.597,
+  "spread_deg": 0.074,
+  "confident": true
+ },
+ "pool_lines": 8,
+ "pool_vp": {
+  "point": [
+   712.7903267014017,
+   442.0369819594979
+  ],
+  "inliers": 5,
+  "support": 0.684,
+  "confident": true
+ },
+ "focal_px": 866.6666666666666,
+ "focal_source": "prior",
+ "joint_decision": [
+  "level camera (vertical lines -0.00 / -0.01 deg -> 0): principal row moved -20.2 px onto the horizon",
+  "focal from the lens prior: no two perpendicular validated VPs"
+ ],
+ "joint_confidence": "low",
+ "vertical_lines": {
+  "reliable": true,
+  "pitch_deg": -0.0,
+  "roll_deg": -0.01
+ },
+ "floor_detector_lines": {
+  "floor_lines": 7,
+  "boundary_lines": 4,
+  "total_lines": 205
+ },
+ "floor_boundary_wall_lines": 4,
+ "floor_boundary_lines_on_objects": 0,
+ "deeplsd_kept_lines": 34,
+ "deeplsd_from_cache": true,
+ "deviation_stored_vp": {
+  "deeplsd_depth_lines": 8,
+  "deeplsd_mean_deg": 1.63,
+  "junction_runs_all": 3,
+  "junction_runs": 3,
+  "junction_mean_deg": 3.72,
+  "deeplsd_vp": [
+   715.9,
+   444.9
+  ],
+  "deeplsd_vp_dist_px": 13.3,
+  "mean_deviation_deg": 2.67,
+  "exceeds_3deg": false
+ },
+ "current_code_depth_vp": [
+  706.2404889609579,
+  435.79705625545716
+ ],
+ "current_code_origin": "room-structure",
+ "deviation_current_code_vp": {
+  "deeplsd_depth_lines": 8,
+  "deeplsd_mean_deg": 1.63,
+  "junction_runs_all": 3,
+  "junction_runs": 3,
+  "junction_mean_deg": 3.72,
+  "deeplsd_vp": [
+   715.9,
+   444.9
+  ],
+  "deeplsd_vp_dist_px": 13.3,
+  "mean_deviation_deg": 2.67,
+  "exceeds_3deg": false
+ }
+}

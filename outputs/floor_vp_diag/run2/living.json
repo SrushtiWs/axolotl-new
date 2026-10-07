@@ -1,0 +1,91 @@
+{
+ "room": "living",
+ "size": [
+  1280,
+  864
+ ],
+ "stored_camera_reproduced": false,
+ "floor_status": "detected",
+ "vanishing_points": {
+  "depth_vp": [
+   655.1805496839386,
+   326.6050166829297
+  ],
+  "horizon_y": 326.6050166829297,
+  "origin": null,
+  "confidence": 0.579012888285175,
+  "threshold": 0.55,
+  "source": "auto"
+ },
+ "vp_report_decision": "floor VP replaced by the long lines' VP",
+ "floor_vp_score": {
+  "inliers": 3,
+  "support": 0.186,
+  "spread_deg": 0.141,
+  "confident": false
+ },
+ "pool_lines": 11,
+ "pool_vp": {
+  "point": [
+   644.0645846363509,
+   357.57588249817945
+  ],
+  "inliers": 5,
+  "support": 0.583,
+  "confident": true
+ },
+ "focal_px": 924.4444444444445,
+ "focal_source": "prior",
+ "joint_decision": [
+  "level camera (vertical lines -0.10 / 0.14 deg -> 0): principal row moved -74.4 px onto the horizon",
+  "focal from the lens prior: no two perpendicular validated VPs"
+ ],
+ "joint_confidence": "low",
+ "vertical_lines": {
+  "reliable": true,
+  "pitch_deg": -0.1,
+  "roll_deg": 0.14
+ },
+ "floor_detector_lines": {
+  "floor_lines": 158,
+  "boundary_lines": 7,
+  "total_lines": 849
+ },
+ "floor_boundary_wall_lines": 7,
+ "floor_boundary_lines_on_objects": 5,
+ "deeplsd_kept_lines": 107,
+ "deeplsd_from_cache": true,
+ "deviation_stored_vp": {
+  "deeplsd_depth_lines": 23,
+  "deeplsd_mean_deg": 2.32,
+  "junction_runs_all": 1,
+  "junction_runs": 1,
+  "junction_mean_deg": 5.82,
+  "deeplsd_vp": [
+   655.2,
+   338.8
+  ],
+  "deeplsd_vp_dist_px": 12.2,
+  "mean_deviation_deg": 4.07,
+  "exceeds_3deg": true
+ },
+ "current_code_depth_vp": [
+  644.0645846363509,
+  357.57588249817945
+ ],
+ "current_code_origin": "long-structural-lines",
+ "deviation_current_code_vp": {
+  "deeplsd_depth_lines": 24,
+  "deeplsd_mean_deg": 2.52,
+  "junction_runs_all": 1,
+  "junction_runs": 1,
+  "junction_mean_deg": 0.0,
+  "deeplsd_vp": [
+   655.2,
+   338.8
+  ],
+  "deeplsd_vp_dist_px": 21.8,
+  "mean_deviation_deg": 1.26,
+  "exceeds_3deg": false
+ }
+}

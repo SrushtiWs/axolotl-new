@@ -1,0 +1,437 @@
+{
+  "source": {
+    "width": 1200,
+    "height": 912
+  },
+  "working_resolution": [
+    1200,
+    912
+  ],
+  "counts": {
+    "raw_detections": 34,
+    "accepted": 0,
+    "mirrors": 0,
+    "objects": 0,
+    "rejected": 34
+  },
+  "timings": {
+    "surfaces_s": 4.76,
+    "detection_s": 71.94,
+    "png_s": 0.01,
+    "inpaint_s": 0.21
+  },
+  "objects": [],
+  "rejected": [
+    {
+      "label": "window",
+      "confidence": 0.19,
+      "box": [
+        6,
+        3,
+        1195,
+        906
+      ],
+      "reason": "box covers 98% of the frame \u2014 this is the room"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.171,
+      "box": [
+        7,
+        7,
+        1194,
+        905
+      ],
+      "reason": "box covers 97% of the frame \u2014 this is the room"
+    },
+    {
+      "label": "artwork",
+      "confidence": 0.157,
+      "box": [
+        7,
+        5,
+        1194,
+        907
+      ],
+      "reason": "box covers 98% of the frame \u2014 this is the room"
+    },
+    {
+      "label": "artwork",
+      "confidence": 0.784,
+      "box": [
+        299,
+        103,
+        1009,
+        691
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "decorative mirror",
+      "confidence": 0.769,
+      "box": [
+        298,
+        102,
+        1010,
+        691
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.69,
+      "box": [
+        297,
+        100,
+        1011,
+        693
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "pendant light",
+      "confidence": 0.596,
+      "box": [
+        299,
+        103,
+        1009,
+        690
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "window",
+      "confidence": 0.588,
+      "box": [
+        300,
+        103,
+        1009,
+        690
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.434,
+      "box": [
+        297,
+        101,
+        1011,
+        692
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bottle",
+      "confidence": 0.356,
+      "box": [
+        300,
+        104,
+        1008,
+        688
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "throw pillow",
+      "confidence": 0.33,
+      "box": [
+        300,
+        104,
+        1009,
+        690
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "shower",
+      "confidence": 0.318,
+      "box": [
+        300,
+        104,
+        1009,
+        690
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "table",
+      "confidence": 0.304,
+      "box": [
+        2,
+        683,
+        1198,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.279,
+      "box": [
+        3,
+        682,
+        1196,
+        909
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "lamp",
+      "confidence": 0.243,
+      "box": [
+        299,
+        104,
+        1009,
+        689
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.221,
+      "box": [
+        2,
+        685,
+        1198,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "fan",
+      "confidence": 0.207,
+      "box": [
+        300,
+        104,
+        1009,
+        689
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.202,
+      "box": [
+        300,
+        103,
+        1009,
+        689
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "table",
+      "confidence": 0.191,
+      "box": [
+        2,
+        683,
+        1198,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "rug",
+      "confidence": 0.188,
+      "box": [
+        2,
+        685,
+        1198,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "fan",
+      "confidence": 0.182,
+      "box": [
+        299,
+        104,
+        1009,
+        689
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "table",
+      "confidence": 0.18,
+      "box": [
+        299,
+        103,
+        1010,
+        690
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "coffee table",
+      "confidence": 0.179,
+      "box": [
+        2,
+        683,
+        1198,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "lamp",
+      "confidence": 0.177,
+      "box": [
+        300,
+        104,
+        1009,
+        689
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "dining table",
+      "confidence": 0.173,
+      "box": [
+        2,
+        683,
+        1198,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "table lamp",
+      "confidence": 0.172,
+      "box": [
+        2,
+        683,
+        1198,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.169,
+      "box": [
+        297,
+        102,
+        1010,
+        691
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "side table",
+      "confidence": 0.168,
+      "box": [
+        3,
+        682,
+        1197,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.167,
+      "box": [
+        300,
+        104,
+        1009,
+        690
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bed",
+      "confidence": 0.164,
+      "box": [
+        2,
+        683,
+        1198,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "sink",
+      "confidence": 0.163,
+      "box": [
+        3,
+        682,
+        1197,
+        910
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "pendant light",
+      "confidence": 0.159,
+      "box": [
+        299,
+        103,
+        1009,
+        689
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "wall mirror",
+      "confidence": 0.156,
+      "box": [
+        300,
+        103,
+        1009,
+        689
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "window",
+      "confidence": 0.153,
+      "box": [
+        300,
+        103,
+        1009,
+        689
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    }
+  ],
+  "models": {
+    "detection": "Grounding DINO tiny (ONNX, CPU)",
+    "segmentation": "SAM 2.1 Hiera-large (ONNX, CPU)",
+    "surfaces": "SegFormer-B4 ADE20K (ONNX, CPU)",
+    "matting": "colour guided filter + foreground decontamination",
+    "inpainting": "LaMa (big-lama, ONNX, CPU)"
+  },
+  "thresholds": {
+    "box_threshold": 0.15,
+    "text_threshold": 0.1,
+    "duplicate_iou": 0.65
+  },
+  "clean_room": {
+    "model": "LaMa (big-lama, ONNX, CPU)",
+    "grid": 512,
+    "hole_px": 0,
+    "grow_px": 0,
+    "windows": 0,
+    "whole_frame": false,
+    "reason": "nothing to fill \u2014 no object pixels in this photo",
+    "available": true,
+    "filename": "CLEAN_ROOM.png",
+    "checks": {
+      "outside_changed": 0,
+      "hole_px": 0
+    }
+  },
+  "fragments_removed": {
+    "all_objects": {
+      "removed": 0,
+      "components": 0
+    },
+    "mirrors": {
+      "removed": 0,
+      "components": 0
+    }
+  }
+}

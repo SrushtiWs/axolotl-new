@@ -1,0 +1,88 @@
+{
+  "units": "camera heights (h = 1)",
+  "status": "ok",
+  "walls": {
+    "wall-0": {
+      "id": "wall-0",
+      "class": "back",
+      "junction_share": 0.053
+    }
+  },
+  "canvas": [
+    673,
+    1200
+  ],
+  "K": [
+    [
+      866.6666666666666,
+      0.0,
+      336.5
+    ],
+    [
+      0.0,
+      866.6666666666666,
+      628.6917046393006
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "vertical_vp": {
+    "reliable": true,
+    "confidence": 1.0,
+    "lines": 12,
+    "inliers": 12,
+    "homogeneous": [
+      -0.01659023550414919,
+      0.9998623722469109,
+      -2.5508762232856318e-05
+    ],
+    "image": [
+      650.3739912076288,
+      -39196.82041487092
+    ],
+    "at_infinity": false,
+    "up_camera": [
+      0.007879119191033856,
+      -0.9997322671632617,
+      0.02175576873792499
+    ],
+    "roll_deg": 0.4515518246395333,
+    "pitch_deg": -1.2466120816525845,
+    "support": 1.0
+  },
+  "axes_camera": {
+    "X": [
+      0.9997641824581919,
+      0.0,
+      0.02171588067989244
+    ],
+    "Y": [
+      0.0,
+      -1.0,
+      0.0
+    ],
+    "Z": [
+      -0.021715880679892437,
+      0.0,
+      0.9997641824581918
+    ]
+  },
+  "axes_source": "floor depth vanishing point",
+  "floor_vp_vs_axes_deg": 8.537736462515939e-07,
+  "floor_vp_confidence": 0.3037,
+  "floor_vp_origin": "long-structural-lines",
+  "box_units": {
+    "left_x": null,
+    "left_wall": null,
+    "right_x": null,
+    "right_wall": null,
+    "back_z": null,
+    "back_wall": null,
+    "ceiling_y": null,
+    "ceiling_walls": 0
+  },
+  "detected_corners_2d": {}
+}

@@ -1,0 +1,354 @@
+{
+  "canvas": [
+    1200,
+    912
+  ],
+  "focal_px": 866.6666666666666,
+  "focal_source": "prior",
+  "principal_point": [
+    600.0,
+    456.0
+  ],
+  "version": 5,
+  "wall_split": {
+    "method": "floor-junction",
+    "stage": "ok",
+    "junction_share": 1.0,
+    "runs": [
+      [
+        0.0,
+        836.0,
+        90.0,
+        785.0
+      ],
+      [
+        90.0,
+        785.0,
+        172.0,
+        786.0
+      ],
+      [
+        172.0,
+        786.0,
+        263.0,
+        693.0
+      ],
+      [
+        263.0,
+        693.0,
+        299.0,
+        674.0
+      ],
+      [
+        299.0,
+        674.0,
+        1008.0,
+        687.0
+      ],
+      [
+        1008.0,
+        687.0,
+        1199.0,
+        846.0
+      ]
+    ],
+    "corners": [
+      90.0,
+      172.0,
+      263.0,
+      299.0,
+      1008.0
+    ],
+    "walls": 6
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "index": 0,
+      "pixels": 73858,
+      "bbox": [
+        0,
+        0,
+        90,
+        836
+      ],
+      "select_point": [
+        45,
+        45
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            706.2404889609579,
+            435.79705625545716,
+            1.0
+          ],
+          "at_infinity": false,
+          "image": [
+            706.2404889609579,
+            435.79705625545716
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          0.9925700706584781,
+          0.0,
+          -0.1216743803478107
+        ],
+        "yaw_deg": 83.01125431366181,
+        "faces": "left-side",
+        "source": "floor-junction",
+        "evidence": {
+          "junction_run": [
+            0.0,
+            836.0,
+            90.0,
+            785.0
+          ],
+          "horizon_y": 435.8,
+          "snapped_to_depth_vp": true
+        }
+      },
+      "orientation_source": "floor-junction"
+    },
+    {
+      "id": "wall-1",
+      "index": 1,
+      "pixels": 64526,
+      "bbox": [
+        91,
+        0,
+        172,
+        786
+      ],
+      "select_point": [
+        131,
+        40
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            82.0,
+            1.0,
+            0.0
+          ],
+          "at_infinity": true,
+          "image": null,
+          "image_direction_deg": 0.6986943829834713
+        },
+        "normal": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "yaw_deg": 0.0,
+        "faces": "front",
+        "source": "floor-junction",
+        "evidence": {
+          "junction_run": [
+            90.0,
+            785.0,
+            172.0,
+            786.0
+          ],
+          "horizon_y": 435.8,
+          "snapped_to_depth_vp": false
+        }
+      },
+      "orientation_source": "floor-junction"
+    },
+    {
+      "id": "wall-2",
+      "index": 2,
+      "pixels": 68395,
+      "bbox": [
+        173,
+        0,
+        263,
+        785
+      ],
+      "select_point": [
+        218,
+        99
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            706.2404889609579,
+            435.79705625545716,
+            1.0
+          ],
+          "at_infinity": false,
+          "image": [
+            706.2404889609579,
+            435.79705625545716
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          0.9925700706584781,
+          0.0,
+          -0.1216743803478107
+        ],
+        "yaw_deg": 83.01125431366181,
+        "faces": "left-side",
+        "source": "floor-junction",
+        "evidence": {
+          "junction_run": [
+            172.0,
+            786.0,
+            263.0,
+            693.0
+          ],
+          "horizon_y": 435.8,
+          "snapped_to_depth_vp": true
+        }
+      },
+      "orientation_source": "floor-junction"
+    },
+    {
+      "id": "wall-3",
+      "index": 3,
+      "pixels": 21086,
+      "bbox": [
+        264,
+        84,
+        299,
+        692
+      ],
+      "select_point": [
+        281,
+        121
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            706.2404889609579,
+            435.79705625545716,
+            1.0
+          ],
+          "at_infinity": false,
+          "image": [
+            706.2404889609579,
+            435.79705625545716
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          0.9925700706584781,
+          0.0,
+          -0.1216743803478107
+        ],
+        "yaw_deg": 83.01125431366181,
+        "faces": "left-side",
+        "source": "floor-junction",
+        "evidence": {
+          "junction_run": [
+            263.0,
+            693.0,
+            299.0,
+            674.0
+          ],
+          "horizon_y": 435.8,
+          "snapped_to_depth_vp": true
+        }
+      },
+      "orientation_source": "floor-junction"
+    },
+    {
+      "id": "wall-4",
+      "index": 4,
+      "pixels": 413628,
+      "bbox": [
+        300,
+        102,
+        1008,
+        688
+      ],
+      "select_point": [
+        660,
+        395
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            709.0,
+            13.0,
+            0.0
+          ],
+          "at_infinity": true,
+          "image": null,
+          "image_direction_deg": 1.0504396034701715
+        },
+        "normal": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "yaw_deg": 0.0,
+        "faces": "front",
+        "source": "floor-junction",
+        "evidence": {
+          "junction_run": [
+            299.0,
+            674.0,
+            1008.0,
+            687.0
+          ],
+          "horizon_y": 435.8,
+          "snapped_to_depth_vp": false
+        }
+      },
+      "orientation_source": "floor-junction"
+    },
+    {
+      "id": "wall-5",
+      "index": 5,
+      "pixels": 141431,
+      "bbox": [
+        1009,
+        0,
+        1199,
+        846
+      ],
+      "select_point": [
+        1104,
+        142
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            706.2404889609579,
+            435.79705625545716,
+            1.0
+          ],
+          "at_infinity": false,
+          "image": [
+            706.2404889609579,
+            435.79705625545716
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          0.9925700706584781,
+          0.0,
+          -0.1216743803478107
+        ],
+        "yaw_deg": 83.01125431366181,
+        "faces": "right-side",
+        "source": "floor-junction",
+        "evidence": {
+          "junction_run": [
+            1008.0,
+            687.0,
+            1199.0,
+            846.0
+          ],
+          "horizon_y": 435.8,
+          "snapped_to_depth_vp": true
+        }
+      },
+      "orientation_source": "floor-junction"
+    }
+  ]
+}

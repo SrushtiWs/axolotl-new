@@ -1,0 +1,28 @@
+{
+ "room": "empty",
+ "floor_identical": true,
+ "wall_pct_before": 71.54,
+ "wall_pct_after": 71.54,
+ "wall_only_on_clean_outside_hole_before": 0,
+ "wall_only_on_clean_outside_hole_after": 0,
+ "wall_pixels_added": 0,
+ "wall_added_on_floor": 0,
+ "reopened": 0,
+ "excluded": 0,
+ "glass_mirror_px": 0,
+ "status": "confirmed",
+ "leftover_share": 0.0,
+ "class_ids": {
+  "blind": 63,
+  "bulletin board": 144,
+  "door": 14,
+  "glass": 147,
+  "mirror": 27,
+  "painting": 22,
+  "poster": 100,
+  "screen door": 58,
+  "windowpane": 8
+ },
+ "missing_classes": [],
+ "override": null
+}

@@ -1,0 +1,24 @@
+{
+ "floor_depth_vp": [
+  644.1,
+  357.6
+ ],
+ "floor_vp_origin": "long-structural-lines",
+ "floor_status": "detected",
+ "focal_px": 924.4,
+ "focal_source": "prior",
+ "walls": 3,
+ "junction_runs": 1,
+ "junction_mean_dev_deg": 0.0,
+ "refused": {},
+ "provenance": {
+  "geometry_version": 5,
+  "code_sha256": "a7ea18189c809df0ad35ea3607606e294475757f130f529fe1da90a43a50b14f",
+  "inputs_sha256": "99887268fabba99f0f27b3f463bac5799f4bcf41a6604ceb45f61f9a234fefdf",
+  "reason": "no provenance stored (geometry from before this check); superseded -> 20261007T051736739808Z",
+  "written_at": "2026-10-07T05:17:36+00:00"
+ },
+ "superseded": [
+  "20261007T051736739808Z"
+ ]
+}

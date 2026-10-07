@@ -1,0 +1,25 @@
+{
+ "room": "pink_frontal",
+ "variant": "before",
+ "split_method": "refined-split",
+ "walls": [
+  {
+   "id": "wall-0",
+   "index": 0,
+   "faces": "front",
+   "yaw_deg": 0.0,
+   "share": 0.4545,
+   "validated": true,
+   "validation": null
+  }
+ ],
+ "same_faces_normal_pairs": [],
+ "plane_merge": {
+  "merged": [],
+  "touching_merged": null,
+  "merged_over_unwitnessed_bend": null,
+  "walls_before": null,
+  "walls_after": null,
+  "uncertain": null
+ }
+}

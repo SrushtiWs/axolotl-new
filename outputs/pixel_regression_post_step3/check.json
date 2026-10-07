@@ -1,0 +1,44 @@
+{
+ "wide_angle": {
+  "changed_px": 0,
+  "identical": true,
+  "refused": {}
+ },
+ "pillar": {
+  "changed_px": 0,
+  "identical": true,
+  "refused": {}
+ },
+ "sunset_living": {
+  "changed_px": 0,
+  "identical": true,
+  "refused": {}
+ },
+ "bedroom": {
+  "changed_px": 559341,
+  "identical": false,
+  "refused": {}
+ },
+ "living": {
+  "changed_px": 525934,
+  "identical": false,
+  "refused": {}
+ },
+ "empty": {
+  "changed_px": 777178,
+  "identical": false,
+  "refused": {}
+ },
+ "kitchen": {
+  "changed_px": 0,
+  "identical": true,
+  "refused": {}
+ },
+ "pink_frontal": {
+  "changed_px": 0,
+  "identical": true,
+  "refused": {
+   "wall-0": "wall scale: no physical anchor available. Supply the room height (Room Size panel), render with the floor visible so its"
+  }
+ }
+}

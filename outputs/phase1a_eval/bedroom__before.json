@@ -1,0 +1,1 @@
+{"backend": "segformer_b4_ade20k_onnx", "classes": ["floor", "wall"], "source_shape": [768, 1376], "floor_pixels": 322143, "wall_pixels": 535532, "floor_coverage": 0.30484, "wall_coverage": 0.50676, "cleanup_delta": {"floor": 3425, "wall": -13149}, "overlap_pixels": 0, "tidied": true, "boundary_refined": true}

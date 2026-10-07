@@ -1,0 +1,31 @@
+{
+ "room": "pink_frontal",
+ "size": [
+  673,
+  1200
+ ],
+ "grow_px": 4,
+ "wall_on_clean_pct_frame": 48.14,
+ "wall_on_photo_pct_frame": 38.49,
+ "differ_pct_frame": 9.78,
+ "differ_pct_of_union": 20.28,
+ "differ": {
+  "px": 78960,
+  "in_ALL_OBJECTS": 76387,
+  "in_inpaint_rim": 1744,
+  "outside_hole": 829
+ },
+ "clean_only": {
+  "px": 78434,
+  "in_ALL_OBJECTS": 76312,
+  "in_inpaint_rim": 1624,
+  "outside_hole": 498
+ },
+ "photo_only": {
+  "px": 526,
+  "in_ALL_OBJECTS": 75,
+  "in_inpaint_rim": 120,
+  "outside_hole": 331
+ },
+ "stored_WALL_MASK_vs_on_clean_differ_pct_frame": 0.33
+}

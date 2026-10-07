@@ -1,0 +1,31 @@
+{
+ "room": "pillar",
+ "size": [
+  1438,
+  1093
+ ],
+ "grow_px": 4,
+ "wall_on_clean_pct_frame": 59.82,
+ "wall_on_photo_pct_frame": 59.82,
+ "differ_pct_frame": 0.0,
+ "differ_pct_of_union": 0.0,
+ "differ": {
+  "px": 0,
+  "in_ALL_OBJECTS": 0,
+  "in_inpaint_rim": 0,
+  "outside_hole": 0
+ },
+ "clean_only": {
+  "px": 0,
+  "in_ALL_OBJECTS": 0,
+  "in_inpaint_rim": 0,
+  "outside_hole": 0
+ },
+ "photo_only": {
+  "px": 0,
+  "in_ALL_OBJECTS": 0,
+  "in_inpaint_rim": 0,
+  "outside_hole": 0
+ },
+ "stored_WALL_MASK_vs_on_clean_differ_pct_frame": 0.0
+}

@@ -1,0 +1,31 @@
+{
+ "room": "wide_angle",
+ "size": [
+  1920,
+  2560
+ ],
+ "grow_px": 8,
+ "wall_on_clean_pct_frame": 40.41,
+ "wall_on_photo_pct_frame": 30.34,
+ "differ_pct_frame": 10.18,
+ "differ_pct_of_union": 25.16,
+ "differ": {
+  "px": 500485,
+  "in_ALL_OBJECTS": 357943,
+  "in_inpaint_rim": 9797,
+  "outside_hole": 132745
+ },
+ "clean_only": {
+  "px": 497805,
+  "in_ALL_OBJECTS": 357757,
+  "in_inpaint_rim": 9689,
+  "outside_hole": 130359
+ },
+ "photo_only": {
+  "px": 2680,
+  "in_ALL_OBJECTS": 186,
+  "in_inpaint_rim": 108,
+  "outside_hole": 2386
+ },
+ "stored_WALL_MASK_vs_on_clean_differ_pct_frame": 0.02
+}

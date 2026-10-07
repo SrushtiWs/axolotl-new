@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "shape": [
+    1308,
+    736
+  ],
+  "surfaces": [
+    {
+      "label": "wall",
+      "bbox": [
+        0,
+        0,
+        736,
+        763
+      ],
+      "pixels": 350403
+    },
+    {
+      "label": "floor",
+      "bbox": [
+        0,
+        728,
+        736,
+        1308
+      ],
+      "pixels": 384688
+    },
+    {
+      "label": "ceiling",
+      "bbox": [
+        161,
+        0,
+        736,
+        481
+      ],
+      "pixels": 33324
+    },
+    {
+      "label": "railing",
+      "bbox": [
+        228,
+        273,
+        730,
+        684
+      ],
+      "pixels": 44393
+    },
+    {
+      "label": "stairs",
+      "bbox": [
+        78,
+        715,
+        212,
+        818
+      ],
+      "pixels": 8607
+    },
+    {
+      "label": "stairway",
+      "bbox": [
+        0,
+        534,
+        458,
+        819
+      ],
+      "pixels": 50783
+    }
+  ],
+  "source": "4eb8172de6b71ae7897ed8ac03d1abbdfce6993e9688fc157cd403ce9d6dd13b",
+  "object_count": 12,
+  "clean_room": {
+    "model": "LaMa (big-lama, ONNX, CPU)",
+    "grid": 512,
+    "hole_px": 216151,
+    "grow_px": 4,
+    "windows": 4,
+    "whole_frame": false,
+    "filled_px": 241821,
+    "available": true,
+    "filename": "CLEAN_ROOM.png"
+  },
+  "timings": {
+    "surfaces_s": 7.93,
+    "detection_s": 83.5,
+    "segmentation_s": 47.49,
+    "selection_s": 1.69,
+    "overlap_adjustments": 7,
+    "png_s": 0.72,
+    "inpaint_s": 41.27,
+    "handoff_s": 19.28,
+    "floor_wall_s": 4.79,
+    "object_completion_s": 5.2,
+    "geometry_s": 19.06
+  }
+}

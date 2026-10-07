@@ -1,0 +1,369 @@
+{
+  "canvas": [
+    1280,
+    864
+  ],
+  "focal_px": 924.4444444444445,
+  "focal_source": "prior",
+  "principal_point": [
+    640.0,
+    357.57588249817945
+  ],
+  "joint": {
+    "focal_px": 924.4,
+    "focal_source": "prior",
+    "hfov_deg": 69.4,
+    "principal_point": [
+      640.0,
+      357.6
+    ],
+    "horizon_y": 357.6,
+    "horizon_from": [
+      "floor",
+      "wall-0"
+    ],
+    "vertical_lines": {
+      "reliable": true,
+      "pitch_deg": -0.1,
+      "roll_deg": 0.14
+    },
+    "level": true,
+    "pitch_deg": 0.0,
+    "roll_deg": 0.0,
+    "focal_pairs": [],
+    "confidence": "low",
+    "decision": [
+      "level camera (vertical lines -0.10 / 0.14 deg -> 0): principal row moved -74.4 px onto the horizon",
+      "focal from the lens prior: no two perpendicular validated VPs"
+    ]
+  },
+  "confidence": "low",
+  "version": 5,
+  "wall_split": {
+    "method": "refined-split",
+    "junction_layout": {
+      "stage": "junction-hidden"
+    },
+    "edge_layout": {
+      "stage": "no-corner-seen: pipeline split kept",
+      "junction_share": 0.093,
+      "ceiling_share": 0.309,
+      "edge_share": 0.31,
+      "corners": [],
+      "junction_runs": [
+        [
+          853.0,
+          502.0,
+          934.0,
+          558.0
+        ]
+      ],
+      "ceiling_runs": [
+        [
+          180.0,
+          19.0,
+          339.0,
+          135.0
+        ],
+        [
+          853.0,
+          140.0,
+          932.0,
+          82.0
+        ],
+        [
+          1136.0,
+          182.0,
+          1279.0,
+          314.0
+        ]
+      ]
+    },
+    "pieces": 5,
+    "merges": [
+      "sliver",
+      "ghost of a removed object"
+    ],
+    "walls": 3,
+    "corner_cut": {
+      "enabled": true,
+      "walls_before": 3,
+      "walls_after": 3,
+      "corners": [
+        {
+          "x": 339.0,
+          "witness": "ceiling line turns across a hidden gap + photo edge",
+          "turn_deg": [
+            82.5
+          ],
+          "gap": [
+            339.0,
+            853.0
+          ],
+          "edge_miss_px": 1.7
+        },
+        {
+          "x": 853.0,
+          "witness": "ceiling line turns across a hidden gap + photo edge",
+          "turn_deg": [
+            82.5
+          ],
+          "gap": [
+            339.0,
+            853.0
+          ],
+          "edge_miss_px": 0.2
+        }
+      ],
+      "uncertain_corners": [],
+      "spill_pixels_reassigned": 2822,
+      "spill_pixels_dropped": 0,
+      "orphan_walls_created": 0,
+      "merged": [],
+      "one_straight_edge_slots": [],
+      "slanted_seams_merged": [],
+      "slots_with_two_directions": [],
+      "uncertain": false
+    },
+    "plane_merge": {
+      "enabled": true,
+      "merged": []
+    },
+    "direction_check": {
+      "horizon_y": 357.6,
+      "one_horizon": true,
+      "depth_vp": [
+        644.1,
+        357.6
+      ],
+      "walls": [
+        {
+          "wall": "wall-0",
+          "faces": "left-side",
+          "source": "ceiling-line",
+          "snapped_to_depth_vp": true,
+          "deg_from_depth_direction": 0.0,
+          "horizon_y": 357.6,
+          "validated": true,
+          "validation": null
+        },
+        {
+          "wall": "wall-1",
+          "faces": "left-side",
+          "source": "ceiling-line+floor-junction",
+          "snapped_to_depth_vp": false,
+          "deg_from_depth_direction": 82.2,
+          "horizon_y": 357.6,
+          "validated": false,
+          "validation": "junction and ceiling line disagree by 88.7 deg"
+        },
+        {
+          "wall": "wall-2",
+          "faces": "front",
+          "source": "floor-manhattan",
+          "snapped_to_depth_vp": null,
+          "deg_from_depth_direction": 90.0,
+          "horizon_y": null,
+          "validated": false,
+          "validation": "no usable junction or ceiling line; direction from floor-manhattan, every pixel tileable"
+        }
+      ]
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "index": 0,
+      "pixels": 221922,
+      "bbox": [
+        0,
+        0,
+        339,
+        726
+      ],
+      "select_point": [
+        151,
+        248
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            644.0583592854575,
+            357.57242626817913,
+            0.9999903342754098
+          ],
+          "at_infinity": false,
+          "image": [
+            644.0645846363509,
+            357.57588249817945
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          0.9999903342754098,
+          0.0,
+          -0.004396743767158285
+        ],
+        "yaw_deg": 89.7480843268917,
+        "faces": "left-side",
+        "source": "ceiling-line",
+        "evidence": {
+          "horizon_y": 357.6,
+          "snapped_to_depth_vp": true,
+          "edges_disagree_deg": null
+        },
+        "fit": {
+          "ceiling-line": {
+            "line": [
+              -0.590337520555517,
+              0.8071564977278969,
+              91.15251781430004
+            ],
+            "inliers": 160,
+            "points": 160,
+            "inlier_share": 1.0,
+            "span_px": 159.0,
+            "image_angle_deg": 36.18,
+            "residual_px": 0.2,
+            "usable": true
+          }
+        },
+        "confidence": 0.64,
+        "validated": true,
+        "validation": null
+      },
+      "orientation_source": "ceiling-line"
+    },
+    {
+      "id": "wall-1",
+      "index": 1,
+      "pixels": 147364,
+      "bbox": [
+        853,
+        82,
+        1279,
+        598
+      ],
+      "select_point": [
+        925,
+        263
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            1000.5228952634347,
+            46.98402710504971,
+            0.13139596210124413
+          ],
+          "at_infinity": false,
+          "image": [
+            7614.563486300324,
+            357.57588249817945
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          0.13139596210124416,
+          0.0,
+          -0.9913299658254503
+        ],
+        "yaw_deg": 7.550267069623709,
+        "faces": "left-side",
+        "source": "ceiling-line+floor-junction",
+        "evidence": {
+          "horizon_y": 357.6,
+          "snapped_to_depth_vp": false,
+          "edges_disagree_deg": 88.66
+        },
+        "fit": {
+          "floor-junction": {
+            "line": [
+              -0.5707514892999255,
+              0.8211228516256974,
+              74.63388738110879
+            ],
+            "inliers": 80,
+            "points": 80,
+            "inlier_share": 1.0,
+            "span_px": 79.0,
+            "image_angle_deg": 34.8,
+            "residual_px": 0.3,
+            "usable": true
+          },
+          "ceiling-line": {
+            "line": [
+              -0.003402690262080375,
+              0.999994210832733,
+              -177.96343528501967
+            ],
+            "inliers": 96,
+            "points": 184,
+            "inlier_share": 0.522,
+            "span_px": 139.0,
+            "image_angle_deg": 0.19,
+            "residual_px": 0.1,
+            "usable": true
+          }
+        },
+        "confidence": 0.0,
+        "validated": false,
+        "validation": "junction and ceiling line disagree by 88.7 deg"
+      },
+      "orientation_source": "ceiling-line+floor-junction"
+    },
+    {
+      "id": "wall-2",
+      "index": 2,
+      "pixels": 108006,
+      "bbox": [
+        334,
+        139,
+        854,
+        634
+      ],
+      "select_point": [
+        573,
+        330
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            -921.6215930080642,
+            1.5721695326600005,
+            0.004396743767158304
+          ],
+          "at_infinity": false,
+          "image": [
+            -209614.578837221,
+            357.57588249817945
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          -0.004396743767158304,
+          -0.0,
+          -0.9999903342754098
+        ],
+        "yaw_deg": -0.2519156731083162,
+        "faces": "front",
+        "source": "floor-manhattan",
+        "evidence": {
+          "axis": "back",
+          "share": {
+            "side": 0.0,
+            "back": 0.76
+          },
+          "mask_reach": 1.0,
+          "segments": {
+            "top-edge": 1,
+            "floor-junction": 1,
+            "line": 4
+          }
+        },
+        "validated": false,
+        "validation": "no usable junction or ceiling line; direction from floor-manhattan, every pixel tileable"
+      },
+      "orientation_source": "floor-manhattan"
+    }
+  ]
+}

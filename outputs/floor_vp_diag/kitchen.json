@@ -1,0 +1,89 @@
+{
+ "room": "kitchen",
+ "size": [
+  1456,
+  1088
+ ],
+ "stored_camera_reproduced": true,
+ "floor_status": "detected",
+ "vanishing_points": {
+  "depth_vp": [
+   994.1917632187777,
+   349.9705488923046
+  ],
+  "horizon_y": 349.9705488923046,
+  "origin": "long-structural-lines",
+  "confidence": 0.37,
+  "threshold": 0.55,
+  "source": "auto"
+ },
+ "vp_report_decision": "floor VP replaced by the long lines' VP",
+ "floor_vp_score": {
+  "inliers": 12,
+  "support": 0.304,
+  "spread_deg": 0.352,
+  "confident": false
+ },
+ "pool_lines": 42,
+ "pool_vp": {
+  "point": [
+   994.1917632187777,
+   349.9705488923046
+  ],
+  "inliers": 18,
+  "support": 0.479,
+  "confident": true
+ },
+ "focal_px": 977.0901528039592,
+ "focal_source": "vp-pairs",
+ "joint_decision": [
+  "pitched camera (vertical lines 8.4 deg, roll 0.2 deg): walls are still built level -- not handled in this step",
+  "focal 1052 -> 977 px from 4 perpendicular VP pair(s)"
+ ],
+ "joint_confidence": "low",
+ "vertical_lines": {
+  "reliable": true,
+  "pitch_deg": 8.38,
+  "roll_deg": 0.19
+ },
+ "floor_detector_lines": {
+  "floor_lines": 74,
+  "boundary_lines": 8,
+  "total_lines": 541
+ },
+ "floor_boundary_wall_lines": 8,
+ "floor_boundary_lines_on_objects": 1,
+ "deeplsd_kept_lines": 104,
+ "deeplsd_from_cache": true,
+ "deviation_stored_vp": {
+  "deeplsd_depth_lines": 28,
+  "deeplsd_mean_deg": 2.54,
+  "junction_runs": 3,
+  "junction_mean_deg": 14.17,
+  "deeplsd_vp": [
+   1003.4,
+   348.5
+  ],
+  "deeplsd_vp_dist_px": 9.3,
+  "mean_deviation_deg": 8.36,
+  "exceeds_3deg": true
+ },
+ "current_code_depth_vp": [
+  994.1917632187777,
+  349.9705488923046
+ ],
+ "current_code_origin": "long-structural-lines",
+ "deviation_current_code_vp": {
+  "deeplsd_depth_lines": 28,
+  "deeplsd_mean_deg": 2.54,
+  "junction_runs": 3,
+  "junction_mean_deg": 14.17,
+  "deeplsd_vp": [
+   1003.4,
+   348.5
+  ],
+  "deeplsd_vp_dist_px": 9.3,
+  "mean_deviation_deg": 8.36,
+  "exceeds_3deg": true
+ }
+}

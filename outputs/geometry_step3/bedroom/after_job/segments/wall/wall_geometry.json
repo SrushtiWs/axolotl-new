@@ -1,0 +1,594 @@
+{
+  "canvas": [
+    1376,
+    768
+  ],
+  "focal_px": 993.7777777777777,
+  "focal_source": "prior",
+  "principal_point": [
+    688.0,
+    315.59471161787116
+  ],
+  "joint": {
+    "focal_px": 993.8,
+    "focal_source": "prior",
+    "hfov_deg": 69.4,
+    "principal_point": [
+      688.0,
+      315.6
+    ],
+    "horizon_y": 315.6,
+    "horizon_from": [
+      "floor",
+      "wall-0",
+      "wall-2",
+      "wall-4"
+    ],
+    "vertical_lines": {
+      "reliable": true,
+      "pitch_deg": 0.66,
+      "roll_deg": -0.23
+    },
+    "level": true,
+    "pitch_deg": 0.0,
+    "roll_deg": 0.0,
+    "focal_pairs": [],
+    "confidence": "low",
+    "decision": [
+      "level camera (vertical lines 0.66 / -0.23 deg -> 0): principal row moved -68.4 px onto the horizon",
+      "focal from the lens prior: no two perpendicular validated VPs"
+    ]
+  },
+  "confidence": "low",
+  "version": 5,
+  "wall_split": {
+    "method": "floor-junction+ceiling-line",
+    "junction_layout": {
+      "stage": "junction-hidden"
+    },
+    "stage": "ok",
+    "junction_share": 0.381,
+    "ceiling_share": 0.479,
+    "edge_share": 0.677,
+    "corners": [
+      {
+        "x": 384.0,
+        "seen_on": [
+          "floor-junction"
+        ]
+      },
+      {
+        "x": 486.0,
+        "seen_on": [
+          "ceiling-line",
+          "floor-junction"
+        ]
+      },
+      {
+        "x": 559.0,
+        "seen_on": [
+          "floor-junction"
+        ]
+      },
+      {
+        "x": 947.0,
+        "seen_on": [
+          "ceiling-line"
+        ]
+      }
+    ],
+    "junction_runs": [
+      [
+        71.0,
+        691.0,
+        384.0,
+        491.0
+      ],
+      [
+        384.0,
+        491.0,
+        486.0,
+        467.0
+      ],
+      [
+        486.0,
+        467.0,
+        559.0,
+        404.0
+      ],
+      [
+        559.0,
+        404.0,
+        601.0,
+        401.0
+      ]
+    ],
+    "ceiling_runs": [
+      [
+        22.0,
+        32.0,
+        67.0,
+        615.0
+      ],
+      [
+        341.0,
+        3.0,
+        486.0,
+        110.0
+      ],
+      [
+        486.0,
+        110.0,
+        583.0,
+        204.0
+      ],
+      [
+        822.0,
+        206.0,
+        947.0,
+        148.0
+      ],
+      [
+        947.0,
+        148.0,
+        1159.0,
+        3.0
+      ]
+    ],
+    "walls": 5,
+    "corner_cut": {
+      "enabled": true,
+      "walls_before": 5,
+      "walls_after": 5,
+      "skipped": "floor-junction+ceiling-line: already split at seen corners"
+    },
+    "plane_merge": {
+      "enabled": true,
+      "merged": []
+    },
+    "direction_check": {
+      "horizon_y": 315.6,
+      "one_horizon": true,
+      "depth_vp": [
+        684.2,
+        315.6
+      ],
+      "walls": [
+        {
+          "wall": "wall-0",
+          "faces": "left-side",
+          "source": "floor-junction",
+          "snapped_to_depth_vp": true,
+          "deg_from_depth_direction": 0.0,
+          "horizon_y": 315.6,
+          "validated": true,
+          "validation": null
+        },
+        {
+          "wall": "wall-1",
+          "faces": "left-side",
+          "source": "ceiling-line+floor-junction",
+          "snapped_to_depth_vp": true,
+          "deg_from_depth_direction": 0.0,
+          "horizon_y": 315.6,
+          "validated": false,
+          "validation": "junction and ceiling line disagree by 20.6 deg"
+        },
+        {
+          "wall": "wall-2",
+          "faces": "left-side",
+          "source": "ceiling-line+floor-junction",
+          "snapped_to_depth_vp": true,
+          "deg_from_depth_direction": 0.0,
+          "horizon_y": 315.6,
+          "validated": true,
+          "validation": null
+        },
+        {
+          "wall": "wall-3",
+          "faces": "front",
+          "source": "ceiling-line",
+          "snapped_to_depth_vp": false,
+          "deg_from_depth_direction": 89.78,
+          "horizon_y": 315.6,
+          "validated": true,
+          "validation": null
+        },
+        {
+          "wall": "wall-4",
+          "faces": "right-side",
+          "source": "ceiling-line",
+          "snapped_to_depth_vp": true,
+          "deg_from_depth_direction": 0.0,
+          "horizon_y": 315.6,
+          "validated": true,
+          "validation": null
+        }
+      ]
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "index": 0,
+      "pixels": 179627,
+      "bbox": [
+        0,
+        0,
+        384,
+        692
+      ],
+      "select_point": [
+        95,
+        240
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            -684.161707135239,
+            -315.5923639316984,
+            -0.9999925610725201
+          ],
+          "at_infinity": false,
+          "image": [
+            684.1667966024231,
+            315.59471161787116
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          -0.9999925610725201,
+          0.0,
+          -0.0038571750831723336
+        ],
+        "yaw_deg": -89.77899959888896,
+        "faces": "left-side",
+        "source": "floor-junction",
+        "evidence": {
+          "horizon_y": 315.6,
+          "snapped_to_depth_vp": true,
+          "edges_disagree_deg": null
+        },
+        "fit": {
+          "floor-junction": {
+            "line": [
+              0.4912671681188844,
+              0.8710089376857459,
+              -618.1255760042009
+            ],
+            "inliers": 237,
+            "points": 270,
+            "inlier_share": 0.878,
+            "span_px": 280.0,
+            "image_angle_deg": -29.42,
+            "residual_px": 0.53,
+            "usable": true
+          },
+          "ceiling-line": {
+            "line": [
+              -0.6880102330985614,
+              0.7257009846704516,
+              232.6466134048541
+            ],
+            "inliers": 44,
+            "points": 90,
+            "inlier_share": 0.489,
+            "span_px": 43.0,
+            "image_angle_deg": 43.47,
+            "residual_px": 0.21,
+            "usable": false
+          }
+        },
+        "confidence": 0.8,
+        "validated": true,
+        "validation": null
+      },
+      "orientation_source": "floor-junction"
+    },
+    {
+      "id": "wall-1",
+      "index": 1,
+      "pixels": 39893,
+      "bbox": [
+        385,
+        44,
+        486,
+        491
+      ],
+      "select_point": [
+        445,
+        284
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            -684.161707135239,
+            -315.5923639316984,
+            -0.9999925610725201
+          ],
+          "at_infinity": false,
+          "image": [
+            684.1667966024231,
+            315.59471161787116
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          -0.9999925610725201,
+          0.0,
+          -0.0038571750831723336
+        ],
+        "yaw_deg": -89.77899959888896,
+        "faces": "left-side",
+        "source": "ceiling-line+floor-junction",
+        "evidence": {
+          "horizon_y": 315.6,
+          "snapped_to_depth_vp": true,
+          "edges_disagree_deg": 20.56
+        },
+        "fit": {
+          "floor-junction": {
+            "line": [
+              0.25711366590349916,
+              0.9663811684866711,
+              -574.7169122387521
+            ],
+            "inliers": 68,
+            "points": 96,
+            "inlier_share": 0.708,
+            "span_px": 101.0,
+            "image_angle_deg": -14.9,
+            "residual_px": 1.66,
+            "usable": true
+          },
+          "ceiling-line": {
+            "line": [
+              -0.678940832222958,
+              0.7341929898469456,
+              228.47597012968515
+            ],
+            "inliers": 75,
+            "points": 102,
+            "inlier_share": 0.735,
+            "span_px": 74.0,
+            "image_angle_deg": 42.76,
+            "residual_px": 0.45,
+            "usable": true
+          }
+        },
+        "confidence": 0.0,
+        "validated": false,
+        "validation": "junction and ceiling line disagree by 20.6 deg"
+      },
+      "orientation_source": "ceiling-line+floor-junction"
+    },
+    {
+      "id": "wall-2",
+      "index": 2,
+      "pixels": 20551,
+      "bbox": [
+        487,
+        111,
+        559,
+        466
+      ],
+      "select_point": [
+        519,
+        297
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            -684.161707135239,
+            -315.5923639316984,
+            -0.9999925610725201
+          ],
+          "at_infinity": false,
+          "image": [
+            684.1667966024231,
+            315.59471161787116
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          -0.9999925610725201,
+          0.0,
+          -0.0038571750831723336
+        ],
+        "yaw_deg": -89.77899959888896,
+        "faces": "left-side",
+        "source": "ceiling-line+floor-junction",
+        "evidence": {
+          "horizon_y": 315.6,
+          "snapped_to_depth_vp": true,
+          "edges_disagree_deg": 2.01
+        },
+        "fit": {
+          "floor-junction": {
+            "line": [
+              0.6465439722451486,
+              0.7628767213340991,
+              -672.2302585280759
+            ],
+            "inliers": 71,
+            "points": 73,
+            "inlier_share": 0.973,
+            "span_px": 72.0,
+            "image_angle_deg": -40.28,
+            "residual_px": 0.93,
+            "usable": true
+          },
+          "ceiling-line": {
+            "line": [
+              -0.8215627348714739,
+              0.5701181216822567,
+              339.6707308437216
+            ],
+            "inliers": 49,
+            "points": 73,
+            "inlier_share": 0.671,
+            "span_px": 71.0,
+            "image_angle_deg": 55.24,
+            "residual_px": 1.54,
+            "usable": true
+          }
+        },
+        "confidence": 0.525,
+        "validated": true,
+        "validation": null
+      },
+      "orientation_source": "ceiling-line+floor-junction"
+    },
+    {
+      "id": "wall-3",
+      "index": 3,
+      "pixels": 58869,
+      "bbox": [
+        560,
+        148,
+        947,
+        482
+      ],
+      "select_point": [
+        833,
+        234
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "at_infinity": true,
+          "image": null,
+          "image_direction_deg": 0.0
+        },
+        "normal": [
+          0.0,
+          0.0,
+          -1.0
+        ],
+        "yaw_deg": 0.0,
+        "faces": "front",
+        "source": "ceiling-line",
+        "evidence": {
+          "horizon_y": 315.6,
+          "snapped_to_depth_vp": false,
+          "edges_disagree_deg": null
+        },
+        "fit": {
+          "floor-junction": {
+            "line": [
+              0.08160577414772278,
+              0.9966646866553218,
+              -448.29238425890765
+            ],
+            "inliers": 42,
+            "points": 42,
+            "inlier_share": 1.0,
+            "span_px": 41.0,
+            "image_angle_deg": -4.68,
+            "residual_px": 0.33,
+            "usable": false
+          },
+          "ceiling-line": {
+            "line": [
+              0.0004119872697234728,
+              0.9999999151332412,
+              -148.37395743972036
+            ],
+            "inliers": 120,
+            "points": 171,
+            "inlier_share": 0.702,
+            "span_px": 119.0,
+            "image_angle_deg": -0.02,
+            "residual_px": 0.01,
+            "usable": true
+          }
+        },
+        "confidence": 0.48,
+        "validated": true,
+        "validation": null
+      },
+      "orientation_source": "ceiling-line"
+    },
+    {
+      "id": "wall-4",
+      "index": 4,
+      "pixels": 236592,
+      "bbox": [
+        948,
+        0,
+        1375,
+        652
+      ],
+      "select_point": [
+        1192,
+        224
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            -684.161707135239,
+            -315.5923639316984,
+            -0.9999925610725201
+          ],
+          "at_infinity": false,
+          "image": [
+            684.1667966024231,
+            315.59471161787116
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          -0.9999925610725201,
+          0.0,
+          -0.0038571750831723336
+        ],
+        "yaw_deg": -89.77899959888896,
+        "faces": "right-side",
+        "source": "ceiling-line",
+        "evidence": {
+          "horizon_y": 315.6,
+          "snapped_to_depth_vp": true,
+          "edges_disagree_deg": null
+        },
+        "fit": {
+          "floor-junction": {
+            "line": [
+              -0.22356219454385168,
+              0.9746896660838961,
+              -325.7180530858976
+            ],
+            "inliers": 28,
+            "points": 34,
+            "inlier_share": 0.824,
+            "span_px": 304.0,
+            "image_angle_deg": 12.92,
+            "residual_px": 0.79,
+            "usable": false
+          },
+          "ceiling-line": {
+            "line": [
+              0.5677197629210249,
+              0.8232218842990603,
+              -660.4168822441615
+            ],
+            "inliers": 211,
+            "points": 212,
+            "inlier_share": 0.995,
+            "span_px": 211.0,
+            "image_angle_deg": -34.59,
+            "residual_px": 0.55,
+            "usable": true
+          }
+        },
+        "confidence": 0.8,
+        "validated": true,
+        "validation": null
+      },
+      "orientation_source": "ceiling-line"
+    }
+  ]
+}

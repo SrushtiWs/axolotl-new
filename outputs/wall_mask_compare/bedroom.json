@@ -1,0 +1,31 @@
+{
+ "room": "bedroom",
+ "size": [
+  1376,
+  768
+ ],
+ "grow_px": 4,
+ "wall_on_clean_pct_frame": 50.68,
+ "wall_on_photo_pct_frame": 22.33,
+ "differ_pct_frame": 30.8,
+ "differ_pct_of_union": 59.34,
+ "differ": {
+  "px": 325470,
+  "in_ALL_OBJECTS": 283083,
+  "in_inpaint_rim": 10449,
+  "outside_hole": 31938
+ },
+ "clean_only": {
+  "px": 312493,
+  "in_ALL_OBJECTS": 270245,
+  "in_inpaint_rim": 10323,
+  "outside_hole": 31925
+ },
+ "photo_only": {
+  "px": 12977,
+  "in_ALL_OBJECTS": 12838,
+  "in_inpaint_rim": 126,
+  "outside_hole": 13
+ },
+ "stored_WALL_MASK_vs_on_clean_differ_pct_frame": 0.0
+}

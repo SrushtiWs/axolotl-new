@@ -1,0 +1,87 @@
+{
+ "room": "sunset_living",
+ "variant": "after",
+ "split_method": "floor-junction+ceiling-line",
+ "walls": [
+  {
+   "id": "wall-0",
+   "index": 0,
+   "faces": "left-side",
+   "yaw_deg": -89.97,
+   "share": 0.2031,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-1",
+   "index": 1,
+   "faces": "front",
+   "yaw_deg": 0.0,
+   "share": 0.1037,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-2",
+   "index": 2,
+   "faces": "front",
+   "yaw_deg": 0.0,
+   "share": 0.0097,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-3",
+   "index": 3,
+   "faces": "right-side",
+   "yaw_deg": -48.27,
+   "share": 0.0082,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-4",
+   "index": 4,
+   "faces": "right-side",
+   "yaw_deg": -89.97,
+   "share": 0.0081,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-5",
+   "index": 5,
+   "faces": "right-side",
+   "yaw_deg": -89.97,
+   "share": 0.1244,
+   "validated": true,
+   "validation": null
+  }
+ ],
+ "same_faces_normal_pairs": [
+  {
+   "pair": [
+    "wall-1",
+    "wall-2"
+   ],
+   "touch": true,
+   "coplanar": null
+  },
+  {
+   "pair": [
+    "wall-4",
+    "wall-5"
+   ],
+   "touch": true,
+   "coplanar": null
+  }
+ ],
+ "plane_merge": {
+  "merged": [],
+  "touching_merged": null,
+  "merged_over_unwitnessed_bend": null,
+  "walls_before": null,
+  "walls_after": null,
+  "uncertain": null
+ }
+}

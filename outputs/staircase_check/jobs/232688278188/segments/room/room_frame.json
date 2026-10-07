@@ -1,0 +1,93 @@
+{
+  "units": "camera heights (h = 1)",
+  "status": "ok",
+  "walls": {
+    "wall-0": {
+      "id": "wall-0",
+      "class": "side",
+      "junction_share": 0.0
+    },
+    "wall-1": {
+      "id": "wall-1",
+      "class": "oblique",
+      "junction_share": 0.05
+    }
+  },
+  "canvas": [
+    736,
+    1308
+  ],
+  "K": [
+    [
+      414.9872345499835,
+      0.0,
+      368.0
+    ],
+    [
+      0.0,
+      414.9872345499835,
+      609.3306765153907
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "vertical_vp": {
+    "reliable": true,
+    "confidence": 0.945,
+    "lines": 23,
+    "inliers": 21,
+    "homogeneous": [
+      -1.0748140678791154e-05,
+      0.9999999999393118,
+      2.419493606235893e-06
+    ],
+    "image": [
+      -4.442310015240125,
+      413309.6270070552
+    ],
+    "at_infinity": false,
+    "up_camera": [
+      0.0009024514238885825,
+      -0.9999990872344646,
+      -0.001005540484108514
+    ],
+    "roll_deg": 0.05170669096349997,
+    "pitch_deg": 0.05761323557786469,
+    "support": 0.945
+  },
+  "axes_camera": {
+    "X": [
+      0.27039308756482744,
+      0.0,
+      -0.9627500081522512
+    ],
+    "Y": [
+      0.0,
+      -1.0,
+      0.0
+    ],
+    "Z": [
+      0.9627500081522511,
+      0.0,
+      0.2703930875648274
+    ]
+  },
+  "axes_source": "floor depth vanishing point",
+  "floor_vp_vs_axes_deg": 8.537736462515939e-07,
+  "floor_vp_confidence": 0.1157,
+  "floor_vp_origin": "long-structural-lines",
+  "box_units": {
+    "left_x": null,
+    "left_wall": null,
+    "right_x": null,
+    "right_wall": null,
+    "back_z": null,
+    "back_wall": null,
+    "ceiling_y": null,
+    "ceiling_walls": 0
+  },
+  "detected_corners_2d": {}
+}

@@ -1,0 +1,36 @@
+{
+  "canvas": [
+    673,
+    1200
+  ],
+  "principal_point": [
+    336.5,
+    628.6917046393006
+  ],
+  "focal_px": 866.6666666666666,
+  "room_horizontal": {
+    "points": [],
+    "info": {
+      "total_lines": 194,
+      "wall_lines": 20,
+      "horizontal_lines": 7,
+      "stage": "no-vp"
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "vanishing_point": {
+        "homogeneous": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "at_infinity": true,
+        "image": null,
+        "image_direction_deg": 0.0
+      },
+      "source": "ceiling-line+floor-junction"
+    }
+  ]
+}

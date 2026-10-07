@@ -1,0 +1,113 @@
+{
+  "canvas": [
+    1456,
+    1088
+  ],
+  "principal_point": [
+    728.0,
+    544.0
+  ],
+  "focal_px": 977.0901528039592,
+  "room_horizontal": {
+    "points": [
+      [
+        -2405.9962090639665,
+        363.7560825729051
+      ],
+      [
+        5726.83830448754,
+        2187.9199537061218
+      ]
+    ],
+    "info": {
+      "total_lines": 541,
+      "wall_lines": 79,
+      "horizontal_lines": 30,
+      "stage": "ok"
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "vanishing_point": {
+        "homogeneous": [
+          759.7805596019913,
+          -89.01802321846408,
+          -0.2543586124610084
+        ],
+        "at_infinity": false,
+        "image": [
+          -2987.0447564202727,
+          349.9705488923046
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-1",
+      "vanishing_point": {
+        "homogeneous": [
+          749.6184740347281,
+          -92.60841845961221,
+          -0.26461774784400593
+        ],
+        "at_infinity": false,
+        "image": [
+          -2832.83521283929,
+          349.9705488923046
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-2",
+      "vanishing_point": {
+        "homogeneous": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "at_infinity": true,
+        "image": null,
+        "image_direction_deg": 0.0
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-3",
+      "vanishing_point": {
+        "homogeneous": [
+          770.8221409712417,
+          -85.07054183285918,
+          -0.24307914509411388
+        ],
+        "at_infinity": false,
+        "image": [
+          -3171.074757041784,
+          349.9705488923046
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-junction"
+    },
+    {
+      "id": "wall-6",
+      "vanishing_point": {
+        "homogeneous": [
+          959.2318229228348,
+          337.6641207491044,
+          0.9648358178076659
+        ],
+        "at_infinity": false,
+        "image": [
+          994.1917632187777,
+          349.9705488923046
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-junction"
+    }
+  ]
+}

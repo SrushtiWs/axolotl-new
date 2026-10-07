@@ -699,19 +699,38 @@ def ensure_geometry(
     been detected before, otherwise detected now — on the render-resolution
     clean room, the image the tiles go on — and stored for next time.
     """
+    floor, wall, _ = masks.prepare(floor_mask, wall_mask, room.shape[:2])
+
+    objects = _objects_mask(segments, room.shape[:2])
+
+    # Stored geometry is used only when it was detected from these exact masks,
+    # this image and this code (geometry.provenance); otherwise it is detected again.
+    expected = geometry_store.provenance(floor, wall, objects, room if clean is None else clean)
+
     stored = geometry_store.load(segments)
 
-    if stored is not None:
-        return stored
+    current, reason = geometry_store.is_current(segments, expected)
 
-    floor, wall, _ = masks.prepare(floor_mask, wall_mask, room.shape[:2])
+    if stored is not None and current:
+        return stored
 
     geometry, wall_masks = detect_room_geometry(
         room if clean is None else clean, floor, wall, photo_bytes=photo_bytes,
-        objects_mask=_objects_mask(segments, room.shape[:2]),
+        objects_mask=objects,
     )
 
+    # Detected again and unchanged: the stored files stay byte-identical.
+    if stored is not None and geometry_store.same_as_stored(segments, geometry, wall_masks):
+        geometry_store.write_provenance(segments, expected, f"{reason}; re-detected, identical")
+        return stored
+
+    # Changed (or unreadable): the old geometry is kept in a dated folder, never overwritten.
+    if geometry_store.exists(segments):
+        reason = f"{reason}; superseded -> {geometry_store.supersede(segments, reason).name}"
+
     geometry_store.write(segments, geometry, wall_masks)
+
+    geometry_store.write_provenance(segments, expected, reason)
 
     # In memory only: the stored wall split, which the tile engine renders.
     return {**geometry, "_wall_masks": wall_masks}

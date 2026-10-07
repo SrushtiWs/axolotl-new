@@ -1,0 +1,441 @@
+diff --color -ru -x models -x __pycache__* orig/backend/app.py proposed/backend/app.py
+--- orig/backend/app.py	2026-10-05 17:10:29
++++ proposed/backend/app.py	2026-10-06 17:14:35
+@@ -378,7 +378,7 @@
+     source = np.array(Image.open(source_path).convert("RGB")) if cleaned else rgb
+ 
+     try:
+-        result = floor_wall.detect_floor_wall(source)
++        result = floor_wall.detect_floor_wall(source, photo=rgb)
+     except (floor_wall.FloorWallUnavailable, ValueError) as error:
+         return {"available": False, "reason": str(error)}
+ 
+diff --color -ru -x models -x __pycache__* orig/backend/extraction/config.py proposed/backend/extraction/config.py
+--- orig/backend/extraction/config.py	2026-10-06 12:47:35
++++ proposed/backend/extraction/config.py	2026-10-06 17:19:36
+@@ -111,7 +111,7 @@
+     "plant",
+     "potted plant",
+     "kitchen plateform",
+-    "mirror stand"
++    "mirror stand",
+     "wall panel",
+     "chair legs",
+     "table legs",
+@@ -152,6 +152,19 @@
+     "sculpture",
+     "ornament",
+     "bottle",
++    # --- built-ins and wall fixtures --------------------------------------
++    #
++    # Things fixed to or set into a wall. None had a phrase, so nothing ever
++    # proposed them and they reached the clean room, and then the wall mask,
++    # untouched. ("wall panel" is above.)
++    "fireplace",
++    "mantel",
++    "niche",
++    "built-in shelf",
++    "headboard",
++    "nightstand",
++    "sconce",
++    "drape",
+ )
+ 
+ # Which of the above name a mirror. A detection carrying any of these labels
+@@ -215,6 +228,40 @@
+ )
+ 
+ 
++# ADE20K classes the residual sweep never lifts as a missed object: the room
++# surfaces (and what floor_wall counts as floor), architecture, glazing and sky,
++# mirrors, and doors. Everything else the class map names, and no accepted mask
++# claims, is a prop the detector missed.
++RESIDUAL_EXCLUDED_CLASSES: frozenset[str] = frozenset(
++    {
++        "wall",
++        "floor",
++        "ceiling",
++        "rug",
++        "earth",
++        "stairway",
++        "stairs",
++        "step",
++        "railing",
++        "bannister",
++        "column",
++        "windowpane",
++        "glass",
++        "sky",
++        "mirror",
++        "door",
++        "screen door",
++    }
++)
++
++
++# ADE20K classes lifted straight from the class map into ALL_OBJECTS (removed
++# and inpainted, then composited back), whatever the detector and the residual
++# sweep's size gates decided. Large soft furnishings and built-ins: a curtain
++# can be taller than the sweep's region cap and was being tiled over.
++SEGFORMER_REMOVE_CLASSES: frozenset[str] = frozenset({"curtain", "fireplace"})
++
++
+ @dataclass(frozen=True)
+ class DetectionConfig:
+     """Grounding DINO thresholds and duplicate handling."""
+@@ -697,6 +744,8 @@
+     mirror_prompts: frozenset[str] = MIRROR_PROMPTS
+     structural_labels: frozenset[str] = STRUCTURAL_LABELS
+     glazing_labels: frozenset[str] = GLAZING_LABELS
++    residual_excluded: frozenset[str] = RESIDUAL_EXCLUDED_CLASSES
++    segformer_remove: frozenset[str] = SEGFORMER_REMOVE_CLASSES
+ 
+     detection: DetectionConfig = field(default_factory=DetectionConfig)
+     segmentation: SegmentationConfig = field(default_factory=SegmentationConfig)
+diff --color -ru -x models -x __pycache__* orig/backend/extraction/extractor.py proposed/backend/extraction/extractor.py
+--- orig/backend/extraction/extractor.py	2026-09-23 13:08:44
++++ proposed/backend/extraction/extractor.py	2026-10-06 17:19:41
+@@ -30,7 +30,7 @@
+ import cv2
+ import numpy as np
+ 
+-from extraction import cleanup, dino, filtering, mirrors, overlap, sam2, selection
++from extraction import cleanup, dino, filtering, mirrors, overlap, residual, sam2, selection
+ from extraction.config import ExtractionConfig
+ import matting
+ import surfaces
+@@ -450,6 +450,79 @@
+         )
+ 
+     timings["selection_s"] = round(time.perf_counter() - clock, 2)
++
++    # ---- residual sweep: objects no detection covered -------------------
++    clock = time.perf_counter()
++
++    claimed = np.zeros(working_shape, dtype=bool)
++
++    for item in objects:
++        claimed |= item.mask
++
++    found, swept_out = residual.sweep(
++        embedding, class_map, class_labels, claimed, structural, config.residual_excluded, config
++    )
++
++    rejected.extend(swept_out)
++
++    for mask, label, metrics in found:
++        cleaned, steps = cleanup.clean(mask, config, hole_guard)
++
++        if not cleaned.any():
++            continue
++
++        objects.append(
++            ExtractedObject(
++                identifier=f"object_{len(objects) + 1:03d}",
++                label=label,
++                confidence=0.0,
++                box=_bounds(cleaned),
++                mask=cleaned,
++                is_mirror=False,
++                metrics=metrics,
++                cleanup_steps=steps,
++            )
++        )
++
++        claimed |= cleaned
++
++    # Class-map union: every unclaimed pixel SegFormer gives to a remove class
++    # joins the layer, with no size gate.
++    unioned = 0
++
++    for class_id, name in class_labels.items():
++        if name.strip() not in config.segformer_remove:
++            continue
++
++        region = (class_map == class_id) & ~claimed
++
++        if int(region.sum()) < config.residual.min_region_px:
++            continue
++
++        cleaned, steps = cleanup.clean(region, config, hole_guard)
++
++        if int(cleaned.sum()) < config.residual.min_region_px:
++            continue
++
++        claimed |= cleaned
++        unioned += 1
++
++        objects.append(
++            ExtractedObject(
++                identifier=f"object_{len(objects) + 1:03d}",
++                label=name.strip(),
++                confidence=0.0,
++                box=_bounds(cleaned),
++                mask=cleaned,
++                is_mirror=False,
++                metrics={"source_stage": "segformer class union", "detector_saw_it": False},
++                cleanup_steps=steps,
++            )
++        )
++
++    timings["residual_s"] = round(time.perf_counter() - clock, 2)
++    timings["residual_objects"] = len(found)
++    timings["segformer_union_objects"] = unioned
+ 
+     # ---- overlap and reflections ----------------------------------------
+     objects, reflections = overlap.suppress_reflections(objects, config)
+diff --color -ru -x models -x __pycache__* orig/backend/extraction/output.py proposed/backend/extraction/output.py
+--- orig/backend/extraction/output.py	2026-09-23 12:14:21
++++ proposed/backend/extraction/output.py	2026-10-06 17:20:01
+@@ -268,6 +268,7 @@
+     mirrors: np.ndarray,
+     result: ExtractionResult,
+     destination: Path,
++    keep: np.ndarray | None = None,
+ ) -> dict:
+     """
+     Write `CLEAN_ROOM.png`: the photo with its objects removed and the floor and
+@@ -283,6 +284,9 @@
+ 
+     hole = inpaint.hole_from_layers(all_objects, mirrors)
+ 
++    if keep is not None:
++        hole &= ~keep
++
+     try:
+         clean, info = inpaint.clean_room(rgb, hole)
+     except inpaint.InpaintUnavailable as error:
+@@ -357,6 +361,10 @@
+     # Full masks already accepted into a union layer, for the duplicate check.
+     written: list[np.ndarray] = []
+ 
++    # Mirrors and glazing (windows, glass doors) are excluded, not inpainted:
++    # they stay as photographed in CLEAN_ROOM.png and are never tiled.
++    not_inpainted = np.zeros((height, width), dtype=bool)
++
+     for item in result.objects:
+         # The original photo doubles as the guide for edge refinement: the
+         # boundary is snapped onto its real edges before it becomes alpha.
+@@ -399,6 +407,9 @@
+ 
+         written.append(full_mask)
+ 
++        if item.is_mirror or config.is_glazing(item.label):
++            not_inpainted |= full_mask
++
+         colour, alpha, box = cut
+ 
+         x0, y0, x1, y1 = box
+@@ -491,7 +502,7 @@
+     # Both layers stay exactly as they were written above — they are what puts
+     # the objects back at the end, and nothing here touches them. This only
+     # reads their alpha to know which pixels have no room behind them yet.
+-    clean_room = _clean_room(rgb, all_objects, mirrors, result, destination)
++    clean_room = _clean_room(rgb, all_objects, mirrors, result, destination, not_inpainted)
+ 
+     result.timings["inpaint_s"] = round(time.perf_counter() - started, 2)
+ 
+diff --color -ru -x models -x __pycache__* orig/backend/floor_wall.py proposed/backend/floor_wall.py
+--- orig/backend/floor_wall.py	2026-10-05 18:25:11
++++ proposed/backend/floor_wall.py	2026-10-06 17:20:31
+@@ -95,6 +95,33 @@
+ 
+ WALL_CLASSES: frozenset[str] = frozenset({"wall"})
+ 
++# Never tiled, even where the clean room reads as wall. Read from the original
++# photograph, not the clean room — once the objects around them are inpainted,
++# SegFormer reads what is left of a painting, a window frame or a door as wall.
++#
++# Flat wall decor: removed from the wall only. ADE20K has no "panel" class (a
++# panelled wall is "wall"), so panels are handled by detection, not here.
++FLAT_DECOR_CLASSES: frozenset[str] = frozenset({"painting", "poster", "bulletin board"})
++
++# Glass and mirrors: written as their own class, polygon-fitted, and removed
++# from both wall and floor.
++GLASS_MIRROR_CLASSES: frozenset[str] = frozenset({"windowpane", "glass", "mirror", "screen door"})
++
++# Openings: removed from the wall only.
++OPENING_CLASSES: frozenset[str] = frozenset({"door", "blind"})
++
++GLASS_MIRROR_FILENAME = "GLASS_MIRROR.png"
++
++# approxPolyDP tolerance, as a fraction of each region's own perimeter, and the
++# smallest region (fraction of the frame) that is fitted at all.
++POLYGON_EPSILON = 0.01
++POLYGON_MIN_FRACTION = 0.001
++
++# Classes that are a room surface. Anything else that wins a pixel of the
++# original photograph is an object there, and `_tidy` must not seal a hole in a
++# surface mask that is made of it.
++SURFACE_GROUP: frozenset[str] = FLOOR_CLASSES | WALL_CLASSES | frozenset({"ceiling"})
++
+ # Below this a winning surface is not trusted and the pixel goes to neither
+ # mask. Deliberately low: the job is to find the *complete* visible surface, and
+ # a pixel that is 26% floor against a field of 150 classes is still floor. It
+@@ -144,6 +171,7 @@
+     wall: np.ndarray  # (H, W) bool, True where wall
+     shape: tuple[int, int]  # (height, width) of the source image
+     stats: dict = field(default_factory=dict)
++    glass_mirror: np.ndarray | None = None  # (H, W) bool, only when a photo was given
+ 
+     @property
+     def floor_png(self) -> np.ndarray:
+@@ -220,8 +248,58 @@
+     return resized[0], resized[1], resized[2]
+ 
+ 
+-def _tidy(mask: np.ndarray, rgb: np.ndarray) -> np.ndarray:
++def _polygon_fit(mask: np.ndarray) -> np.ndarray:
++    """Each region redrawn as its approxPolyDP polygon: glass and mirrors are straight-edged."""
++    out = np.zeros(mask.shape, np.uint8)
++    smallest = POLYGON_MIN_FRACTION * mask.size
++    contours, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
++    for contour in contours:
++        if cv2.contourArea(contour) < smallest:
++            continue
++        polygon = cv2.approxPolyDP(contour, POLYGON_EPSILON * cv2.arcLength(contour, True), True)
++        cv2.fillPoly(out, [polygon], 1)
++    return out > 0
++
++
++def _photo_keep_out(
++    photo: np.ndarray, shape: tuple[int, int]
++) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+     """
++    Three maps from the original photograph, at `shape`: where an object wins
++    (no surface class is the argmax); where flat decor or an opening beats both
++    surface groups (off the wall); and glass/mirror beating both surface groups,
++    polygon-fitted (off wall and floor).
++    """
++    session, labels = surfaces._load()
++
++    probs = session.run(None, {session.get_inputs()[0].name: surfaces._preprocess(photo)})[0][0]
++
++    probs = probs.astype(np.float32)
++    probs -= probs.max(axis=0, keepdims=True)
++    np.exp(probs, out=probs)
++    probs /= probs.sum(axis=0, keepdims=True)
++
++    def group(names):
++        ids = [i for i, label in labels.items() if label.strip() in names]
++        return probs[ids].sum(axis=0) if ids else np.zeros(probs.shape[1:], np.float32)
++
++    surface_ids = [i for i, label in labels.items() if label.strip() in SURFACE_GROUP]
++    surface_best = np.maximum(group(WALL_CLASSES), group(FLOOR_CLASSES))
++
++    is_object = ~np.isin(probs.argmax(axis=0), surface_ids)
++    off_wall = group(FLAT_DECOR_CLASSES | OPENING_CLASSES) > surface_best
++    glass = group(GLASS_MIRROR_CLASSES) > surface_best
++
++    height, width = shape
++
++    def full(plane):
++        return cv2.resize(plane.astype(np.uint8), (width, height), interpolation=cv2.INTER_NEAREST) > 0
++
++    return full(is_object), full(off_wall), _polygon_fit(full(glass))
++
++
++def _tidy(mask: np.ndarray, rgb: np.ndarray, keep_open: np.ndarray | None = None) -> np.ndarray:
++    """
+     The minimum that removes obvious noise, and nothing beyond it.
+ 
+     Sealing runs after the snap for the reason `live_scene._clean_surface`
+@@ -234,6 +312,9 @@
+     feature: a gap bigger than `HOLE_FRACTION` of the surface is a doorway or
+     an alcove and is left open, and a component bigger than `SPECK_FRACTION` is
+     a second stretch of wall seen past a corner, not noise.
++
++    `keep_open`, when given, marks pixels that are an object in the original
++    photograph: a hole mostly made of them stays open whatever its size.
+     """
+     if not mask.any():
+         return mask
+@@ -242,7 +323,7 @@
+ 
+     snapped = surfaces.snap(mask, rgb)
+ 
+-    sealed = cleanup.fill_small_holes(snapped, max(16, int(area * HOLE_FRACTION)))
++    sealed = cleanup.fill_small_holes(snapped, max(16, int(area * HOLE_FRACTION)), surface=keep_open)
+ 
+     return cleanup.drop_small_components(sealed, max(16, int(area * SPECK_FRACTION)))
+ 
+@@ -460,6 +541,7 @@
+     backend: str = "auto",
+     tidy: bool = True,
+     refine: bool = True,
++    photo: np.ndarray | None = None,
+ ) -> FloorWall:
+     """
+     Detect the floor and the wall in a cleaned room image.
+@@ -478,6 +560,11 @@
+     cannot run on this machine. `tidy=False` returns the raw comparison, which
+     is what the cleanup is measured against. `refine=False` skips the boundary
+     refinement and returns the masks exactly as they were before it existed.
++
++    `photo` is the original photograph the clean room was made from. When
++    given, a hole made of an object in it is never sealed, and pixels of
++    `WALL_EXCLUDED_CLASSES` in it are removed from the wall. Without it the
++    result is exactly what it was before this argument existed.
+     """
+     if backend == "mask2former":
+         raise FloorWallUnavailable(_MASK2FORMER_NOTE)
+@@ -510,9 +597,14 @@
+     raw_floor = int(floor.sum())
+     raw_wall = int(wall.sum())
+ 
++    keep_open = off_wall = glass = None
++
++    if photo is not None:
++        keep_open, off_wall, glass = _photo_keep_out(np.ascontiguousarray(photo, dtype=np.uint8), (height, width))
++
+     if tidy:
+-        floor = _tidy(floor, rgb)
+-        wall = _tidy(wall, rgb)
++        floor = _tidy(floor, rgb, keep_open)
++        wall = _tidy(wall, rgb, keep_open)
+ 
+         # Snapping moves two boundaries independently and can walk them into
+         # each other. The same comparison that separated them settles it, so a
+@@ -530,6 +622,14 @@
+         # what is floor and wall, and this only decides where the line runs.
+         floor, wall = _refine_boundaries(floor, wall, rgb)
+ 
++    excluded_px = glass_px = 0
++
++    if off_wall is not None:
++        excluded_px = int((wall & (off_wall | glass)).sum())
++        glass_px = int(glass.sum())
++        wall &= ~(off_wall | glass)
++        floor &= ~glass
++
+     stats = {
+         "backend": "segformer_b4_ade20k_onnx",
+         "classes": ["floor", "wall"],
+@@ -545,9 +645,11 @@
+         "overlap_pixels": int((floor & wall).sum()),
+         "tidied": tidy,
+         "boundary_refined": refined,
++        "wall_excluded_pixels": excluded_px,
++        "glass_mirror_pixels": glass_px,
+     }
+ 
+-    return FloorWall(floor=floor, wall=wall, shape=(height, width), stats=stats)
++    return FloorWall(floor=floor, wall=wall, shape=(height, width), stats=stats, glass_mirror=glass)
+ 
+ 
+ def _overlay(rgb: np.ndarray, mask: np.ndarray, colour: tuple[int, int, int]) -> np.ndarray:
+@@ -585,6 +687,12 @@
+         "floor_mask": FLOOR_MASK_FILENAME,
+         "wall_mask": WALL_MASK_FILENAME,
+     }
++
++    if result.glass_mirror is not None:
++        Image.fromarray(result.glass_mirror.astype(np.uint8) * 255, mode="L").save(
++            directory / GLASS_MIRROR_FILENAME
++        )
++        written["glass_mirror"] = GLASS_MIRROR_FILENAME
+ 
+     if overlays:
+         Image.fromarray(_overlay(image, result.floor, FLOOR_OVERLAY_RGB)).save(
+Only in proposed/backend: generated
+Only in proposed/backend: jobs

@@ -1,0 +1,289 @@
+--- a/backend/extraction/config.py	2026-10-07 11:39:52
++++ b/backend/extraction/config.py	2026-10-07 11:41:21
+@@ -213,6 +213,44 @@
+         "ground",
+     }
+ )
++
++
++# ---------------------------------------------------------------------------
++# Wall mask (floor_wall.py), read from the ORIGINAL photograph: once the
++# objects around them are inpainted, SegFormer reads what is left of a window
++# frame, a painting or a door as wall. These only ever take pixels OFF the
++# wall, after the floor is final; the floor is never touched.
++# ---------------------------------------------------------------------------
++
++# ADE20K classes taken off the wall and never tiled. Names, not ids: each is
++# looked up in the loaded model's own label map, and a missing one is reported.
++WALL_FLAT_DECOR_CLASSES: frozenset[str] = frozenset({"painting", "poster", "bulletin board"})
++WALL_OPENING_CLASSES: frozenset[str] = frozenset({"door", "blind"})
++
++# Glass and mirrors: also written as their own mask, each region polygon-fitted.
++WALL_GLASS_MIRROR_CLASSES: frozenset[str] = frozenset({"windowpane", "glass", "mirror", "screen door"})
++
++# approxPolyDP tolerance as a share of each glass region's own perimeter, and
++# the smallest glass region fitted, as a share of the frame.
++GLASS_POLYGON_EPSILON = 0.01
++GLASS_POLYGON_MIN_FRACTION = 0.001
++
++# A pixel is an object in the photo when the classes that are not floor, wall
++# or ceiling hold at least this probability together. Also the share of a
++# sealed hole that must be object for the hole to be reopened.
++WALL_OBJECT_SHARE = 0.5
++
++# Wall status from the leftover share: final wall pixels the photo calls an
++# object and no object layer covers (they would be tiled over).
++WALL_STATUS_CONFIRMED_LEFTOVER = 0.01
++WALL_STATUS_APPROXIMATE_LEFTOVER = 0.03
++
++# Manual override: one data file per job beside the masks, read the same way
++# for every room, never code:
++#   {"wall_exclude": [[[x, y], ...], ...], "wall_include": [[[x, y], ...], ...]}
++# x and y are fractions of the image width and height (0..1). An include never
++# takes floor pixels.
++WALL_OVERRIDE_FILENAME = "wall_override.json"
+ 
+ 
+ @dataclass(frozen=True)
+--- a/backend/floor_wall.py	2026-10-07 11:39:52
++++ b/backend/floor_wall.py	2026-10-07 11:41:03
+@@ -69,6 +69,7 @@
+ 
+ from __future__ import annotations
+ 
++import json
+ from dataclasses import dataclass, field
+ from pathlib import Path
+ 
+@@ -78,6 +79,7 @@
+ 
+ import surfaces
+ from extraction import cleanup
++from extraction import config as wall_rules
+ 
+ # ---------------------------------------------------------------------------
+ # The two output classes. There are no others: every remaining ADE20K label —
+@@ -119,6 +121,8 @@
+ WALL_MASK_FILENAME = "WALL_MASK.png"
+ FLOOR_OVERLAY_FILENAME = "FLOOR_OVERLAY.png"
+ WALL_OVERLAY_FILENAME = "WALL_OVERLAY.png"
++GLASS_MIRROR_FILENAME = "GLASS_MIRROR.png"
++WALL_STATUS_FILENAME = "WALL_STATUS.json"
+ 
+ _MASK2FORMER_NOTE = (
+     "Mask2Former needs PyTorch, and PyTorch cannot run on this machine. "
+@@ -144,6 +148,7 @@
+     wall: np.ndarray  # (H, W) bool, True where wall
+     shape: tuple[int, int]  # (height, width) of the source image
+     stats: dict = field(default_factory=dict)
++    glass_mirror: np.ndarray | None = None  # (H, W) bool, only when the photo was given
+ 
+     @property
+     def floor_png(self) -> np.ndarray:
+@@ -460,6 +465,9 @@
+     backend: str = "auto",
+     tidy: bool = True,
+     refine: bool = True,
++    photo: np.ndarray | None = None,
++    objects: np.ndarray | None = None,
++    override: dict | None = None,
+ ) -> FloorWall:
+     """
+     Detect the floor and the wall in a cleaned room image.
+@@ -478,6 +486,12 @@
+     cannot run on this machine. `tidy=False` returns the raw comparison, which
+     is what the cleanup is measured against. `refine=False` skips the boundary
+     refinement and returns the masks exactly as they were before it existed.
++
++    `photo` (the original photograph), `objects` (every pixel an object layer
++    claims) and `override` (a parsed wall override file) only ever take pixels
++    off the finished wall -- see `_wall_from_photo`. The floor is final before
++    they run and is never touched; without them the result is exactly what it
++    was before these arguments existed.
+     """
+     if backend == "mask2former":
+         raise FloorWallUnavailable(_MASK2FORMER_NOTE)
+@@ -509,6 +523,7 @@
+ 
+     raw_floor = int(floor.sum())
+     raw_wall = int(wall.sum())
++    wall_before_tidy = wall.copy()
+ 
+     if tidy:
+         floor = _tidy(floor, rgb)
+@@ -547,9 +562,143 @@
+         "boundary_refined": refined,
+     }
+ 
+-    return FloorWall(floor=floor, wall=wall, shape=(height, width), stats=stats)
++    glass = None
++
++    if photo is not None or override:
++        wall, glass, stats["wall_check"] = _wall_from_photo(
++            wall, wall_before_tidy, floor, photo, objects, override, (height, width))
++        stats["wall_pixels"] = int(wall.sum())
++        stats["wall_coverage"] = round(float(wall.mean()), 5)
++
++    return FloorWall(floor=floor, wall=wall, shape=(height, width), stats=stats, glass_mirror=glass)
++
++
++# ---------------------------------------------------------------------------
++# The wall, checked against the original photograph. Every step here only
++# removes wall pixels (an override include may add wall, never floor), after
++# the floor is final. Constants: extraction/config.py.
++
++def _polygon_fit(mask: np.ndarray) -> np.ndarray:
++    """Each glass / mirror region redrawn as its approxPolyDP polygon."""
++    out = np.zeros(mask.shape, np.uint8)
++    smallest = wall_rules.GLASS_POLYGON_MIN_FRACTION * mask.size
++    contours, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
++    for contour in contours:
++        if cv2.contourArea(contour) < smallest:
++            continue
++        epsilon = wall_rules.GLASS_POLYGON_EPSILON * cv2.arcLength(contour, True)
++        cv2.fillPoly(out, [cv2.approxPolyDP(contour, epsilon, True)], 1)
++    return out > 0
++
++
++def _photo_classes(photo: np.ndarray, shape: tuple[int, int]) -> dict:
++    """The photo's class evidence at `shape`: object, off-wall and glass maps, and the class ids used."""
++    session, labels = surfaces._load()
++    probs = session.run(None, {session.get_inputs()[0].name: surfaces._preprocess(photo)})[0][0].astype(np.float32)
++    probs -= probs.max(axis=0, keepdims=True)
++    np.exp(probs, out=probs)
++    probs /= probs.sum(axis=0, keepdims=True)
++
++    names = {i: label.strip() for i, label in labels.items()}
++    wanted = (wall_rules.WALL_FLAT_DECOR_CLASSES | wall_rules.WALL_OPENING_CLASSES
++              | wall_rules.WALL_GLASS_MIRROR_CLASSES)
++    ids = {name: i for i, name in names.items() if name in wanted}
++
++    def group(classes):
++        rows = [i for i, name in names.items() if name in classes]
++        return probs[rows].sum(axis=0) if rows else np.zeros(probs.shape[1:], np.float32)
++
++    surface = FLOOR_CLASSES | WALL_CLASSES | frozenset({"ceiling"})
++    best_surface = np.maximum(group(WALL_CLASSES), group(FLOOR_CLASSES))
++    planes = {
++        "object": group(set(names.values()) - surface) >= wall_rules.WALL_OBJECT_SHARE,
++        "off_wall": group(wall_rules.WALL_FLAT_DECOR_CLASSES | wall_rules.WALL_OPENING_CLASSES) > best_surface,
++        "glass": group(wall_rules.WALL_GLASS_MIRROR_CLASSES) > best_surface,
++    }
++    height, width = shape
++    full = {k: cv2.resize(v.astype(np.uint8), (width, height), interpolation=cv2.INTER_NEAREST) > 0
++            for k, v in planes.items()}
++    full["glass"] = _polygon_fit(full["glass"])
++    full["class_ids"] = dict(sorted(ids.items()))
++    full["missing_classes"] = sorted(wanted - set(ids))
++    return full
++
++
++def _polygons(items, shape) -> np.ndarray:
++    height, width = shape
++    out = np.zeros(shape, np.uint8)
++    for poly in items or []:
++        pts = np.round(np.asarray(poly, np.float64) * [width, height]).astype(np.int32)
++        if len(pts) >= 3:
++            cv2.fillPoly(out, [pts], 1)
++    return out > 0
+ 
+ 
++def load_override(directory: Path) -> dict | None:
++    """The job's wall override file, or None. An unreadable file is reported, never guessed at."""
++    path = Path(directory) / wall_rules.WALL_OVERRIDE_FILENAME
++    if not path.exists():
++        return None
++    try:
++        data = json.loads(path.read_text("utf-8"))
++    except (OSError, ValueError) as error:
++        return {"error": f"{path.name}: {error}"}
++    return data if isinstance(data, dict) else {"error": f"{path.name}: not a JSON object"}
++
++
++def _wall_from_photo(wall, wall_before_tidy, floor, photo, objects, override, shape):
++    """(wall, glass mask or None, report). See the section comment above."""
++    report: dict = {}
++    glass = None
++    evidence = None
++    if photo is not None:
++        evidence = _photo_classes(np.ascontiguousarray(photo, dtype=np.uint8), shape)
++        report["class_ids"] = evidence["class_ids"]
++        report["missing_classes"] = evidence["missing_classes"]
++
++        # Pixels the tidy / refine added to the wall that the photo calls an
++        # object: a sealed hole made of an object stays open.
++        added = wall & ~wall_before_tidy
++        count, labels = cv2.connectedComponents(added.astype(np.uint8))
++        object_share = np.bincount(labels.ravel(), weights=evidence["object"].ravel(), minlength=count) / \
++            np.maximum(np.bincount(labels.ravel(), minlength=count), 1)
++        reopen = (object_share >= wall_rules.WALL_OBJECT_SHARE)[labels] & added
++        glass = evidence["glass"]
++        off = (evidence["off_wall"] | glass) & wall & ~reopen
++        wall = wall & ~reopen & ~off
++        report.update({"reopened_pixels": int(reopen.sum()), "excluded_pixels": int(off.sum()),
++                       "glass_mirror_pixels": int(glass.sum())})
++
++    if override:
++        report["override"] = {k: len(override.get(k) or []) for k in ("wall_include", "wall_exclude")}
++        if "error" in override:
++            report["override"]["error"] = override["error"]
++        include = _polygons(override.get("wall_include"), shape) & ~floor
++        exclude = _polygons(override.get("wall_exclude"), shape)
++        wall = (wall | include) & ~exclude
++
++    if evidence is not None:
++        covered = objects if objects is not None and objects.shape == shape else np.zeros(shape, bool)
++        leftover = wall & evidence["object"] & ~covered
++        share = float(leftover.sum()) / max(1, int(wall.sum()))
++        if share <= wall_rules.WALL_STATUS_CONFIRMED_LEFTOVER:
++            status = "confirmed"
++        elif share <= wall_rules.WALL_STATUS_APPROXIMATE_LEFTOVER:
++            status = "approximate"
++        else:
++            status = "needs_review"
++        reason = (f"{share:.2%} of the wall is an object in the photo that no object layer covers "
++                  f"(confirmed <= {wall_rules.WALL_STATUS_CONFIRMED_LEFTOVER:.0%}, "
++                  f"approximate <= {wall_rules.WALL_STATUS_APPROXIMATE_LEFTOVER:.0%})")
++        if report.get("missing_classes"):
++            status, reason = "needs_review", reason + f"; classes missing from the model: {report['missing_classes']}"
++        if override and "error" in override:
++            status, reason = "needs_review", reason + f"; override unreadable: {override['error']}"
++        report["status"] = {"status": status, "reason": reason, "leftover_share": round(share, 5),
++                            "override_applied": bool(override) and "error" not in override}
++    return wall, glass, report
++
++
+ def _overlay(rgb: np.ndarray, mask: np.ndarray, colour: tuple[int, int, int]) -> np.ndarray:
+     """Tint `mask` over a copy of `rgb`. The source array is never written to."""
+     tinted = rgb.astype(np.float32).copy()
+@@ -586,6 +735,15 @@
+         "wall_mask": WALL_MASK_FILENAME,
+     }
+ 
++    if result.glass_mirror is not None:
++        Image.fromarray(result.glass_mirror.astype(np.uint8) * 255, mode="L").save(directory / GLASS_MIRROR_FILENAME)
++        written["glass_mirror"] = GLASS_MIRROR_FILENAME
++
++    status = (result.stats.get("wall_check") or {}).get("status")
++    if status is not None:
++        (directory / WALL_STATUS_FILENAME).write_text(json.dumps(status, indent=2), encoding="utf-8")
++        written["wall_status"] = WALL_STATUS_FILENAME
++
+     if overlays:
+         Image.fromarray(_overlay(image, result.floor, FLOOR_OVERLAY_RGB)).save(
+             directory / FLOOR_OVERLAY_FILENAME
+--- a/backend/app.py	2026-10-07 11:39:52
++++ b/backend/app.py	2026-10-07 11:41:10
+@@ -378,7 +378,11 @@
+     source = np.array(Image.open(source_path).convert("RGB")) if cleaned else rgb
+ 
+     try:
+-        result = floor_wall.detect_floor_wall(source)
++        # The wall is checked against the photo, the object layers the renderer
++        # puts back, and the job's wall override file; the floor is not changed.
++        result = floor_wall.detect_floor_wall(
++            source, photo=rgb, objects=_accepted_union(job_dir), override=floor_wall.load_override(job_dir),
++        )
+     except (floor_wall.FloorWallUnavailable, ValueError) as error:
+         return {"available": False, "reason": str(error)}
+ 

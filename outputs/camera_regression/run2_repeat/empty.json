@@ -1,0 +1,316 @@
+{
+ "room": "empty",
+ "size": [
+  1200,
+  912
+ ],
+ "diag": 1507.2,
+ "split_pairs": [],
+ "floor_status": "detected",
+ "vp_origin": "room-structure",
+ "depth_vp": [
+  706.2,
+  435.8
+ ],
+ "horizon_y": 435.8,
+ "focal_px": 866.7,
+ "focal_source": "prior",
+ "principal_point": [
+  600.0,
+  435.8
+ ],
+ "joint_confidence": "low",
+ "joint_decision": [
+  "level camera (vertical lines -0.00 / -0.01 deg -> 0): principal row moved -20.2 px onto the horizon",
+  "focal from the lens prior: no two perpendicular validated VPs"
+ ],
+ "level": true,
+ "vertical_lines": {
+  "reliable": true,
+  "pitch_deg": -0.0,
+  "roll_deg": -0.01
+ },
+ "walls": 3,
+ "wall_records": [
+  {
+   "id": "wall-0",
+   "index": 0,
+   "faces": "left-side",
+   "source": "floor-junction",
+   "validated": true,
+   "yaw_deg": 83.01,
+   "share": 0.2082
+  },
+  {
+   "id": "wall-4",
+   "index": 4,
+   "faces": "front",
+   "source": "ceiling-line+floor-junction",
+   "validated": true,
+   "yaw_deg": 0.0,
+   "share": 0.3779
+  },
+  {
+   "id": "wall-5",
+   "index": 5,
+   "faces": "right-side",
+   "source": "ceiling-line+floor-junction",
+   "validated": true,
+   "yaw_deg": 83.01,
+   "share": 0.1292
+  }
+ ],
+ "evidence": {
+  "depth_lines": 8,
+  "mean_dev_deg": 1.61,
+  "junction_runs": 3,
+  "junction_dev_deg": 3.72,
+  "vp_status": "confirmed",
+  "vp_reason": "8 depth lines within 1.61 deg"
+ },
+ "lines": [
+  [
+   1007.0,
+   686.4,
+   303.0,
+   686.5
+  ],
+  [
+   97.0,
+   782.2,
+   0.4,
+   835.9
+  ],
+  [
+   302.0,
+   686.2,
+   261.0,
+   709.2
+  ],
+  [
+   723.2,
+   687.0,
+   723.3,
+   106.9
+  ],
+  [
+   584.0,
+   687.0,
+   584.1,
+   106.0
+  ],
+  [
+   726.5,
+   106.0,
+   726.5,
+   687.0
+  ],
+  [
+   443.6,
+   687.0,
+   443.9,
+   106.0
+  ],
+  [
+   261.9,
+   731.2,
+   171.8,
+   786.0
+  ],
+  [
+   440.4,
+   688.0,
+   440.2,
+   106.9
+  ],
+  [
+   1006.2,
+   686.9,
+   1006.2,
+   105.0
+  ],
+  [
+   303.0,
+   394.9,
+   1004.4,
+   394.8
+  ],
+  [
+   1006.0,
+   105.2,
+   300.0,
+   105.0
+  ],
+  [
+   867.9,
+   687.0,
+   867.8,
+   106.0
+  ],
+  [
+   302.0,
+   398.0,
+   1006.0,
+   398.2
+  ],
+  [
+   262.1,
+   716.2,
+   174.5,
+   767.2
+  ],
+  [
+   89.0,
+   769.0,
+   0.5,
+   816.0
+  ],
+  [
+   171.8,
+   786.9,
+   172.8,
+   0.6
+  ],
+  [
+   301.2,
+   104.4,
+   301.1,
+   687.0
+  ],
+  [
+   383.5,
+   466.0,
+   383.6,
+   260.0
+  ],
+  [
+   864.4,
+   106.0,
+   864.4,
+   687.0
+  ],
+  [
+   403.0,
+   464.0,
+   404.0,
+   328.0
+  ],
+  [
+   260.1,
+   28.0,
+   260.1,
+   732.0
+  ],
+  [
+   378.4,
+   258.0,
+   378.9,
+   478.0
+  ],
+  [
+   1199.9,
+   846.9,
+   1005.9,
+   685.8
+  ],
+  [
+   398.4,
+   448.0,
+   399.0,
+   271.0
+  ],
+  [
+   172.0,
+   786.4,
+   90.6,
+   786.1
+  ],
+  [
+   173.0,
+   787.8,
+   240.0,
+   757.9
+  ],
+  [
+   412.6,
+   278.0,
+   411.4,
+   479.0
+  ],
+  [
+   362.9,
+   482.0,
+   363.1,
+   248.0
+  ],
+  [
+   72.0,
+   799.1,
+   1.0,
+   839.0
+  ],
+  [
+   167.0,
+   768.4,
+   95.0,
+   768.3
+  ],
+  [
+   172.1,
+   786.5,
+   97.9,
+   784.7
+  ],
+  [
+   377.7,
+   402.0,
+   379.9,
+   468.1
+  ],
+  [
+   508.7,
+   407.9,
+   509.8,
+   462.0
+  ]
+ ],
+ "junction_runs": [
+  [
+   0.0,
+   836.0,
+   90.0,
+   785.0
+  ],
+  [
+   90.0,
+   785.0,
+   172.0,
+   786.0
+  ],
+  [
+   172.0,
+   786.0,
+   263.0,
+   693.0
+  ],
+  [
+   299.0,
+   674.0,
+   1008.0,
+   687.0
+  ],
+  [
+   1008.0,
+   687.0,
+   1199.0,
+   846.0
+  ]
+ ],
+ "status": "approximate",
+ "reasons": {
+  "vp": "confirmed: 8 depth lines within 1.61 deg",
+  "focal": "approximate: focal from prior (not measured)",
+  "level": "confirmed: vertical lines say level",
+  "walls": "confirmed: one wall per plane, every direction validated"
+ }
+}

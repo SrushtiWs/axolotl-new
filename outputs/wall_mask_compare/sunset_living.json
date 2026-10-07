@@ -1,0 +1,31 @@
+{
+ "room": "sunset_living",
+ "size": [
+  1282,
+  816
+ ],
+ "grow_px": 4,
+ "wall_on_clean_pct_frame": 46.39,
+ "wall_on_photo_pct_frame": 23.09,
+ "differ_pct_frame": 27.16,
+ "differ_pct_of_union": 56.2,
+ "differ": {
+  "px": 284128,
+  "in_ALL_OBJECTS": 232270,
+  "in_inpaint_rim": 10698,
+  "outside_hole": 41160
+ },
+ "clean_only": {
+  "px": 263929,
+  "in_ALL_OBJECTS": 232259,
+  "in_inpaint_rim": 10519,
+  "outside_hole": 21151
+ },
+ "photo_only": {
+  "px": 20199,
+  "in_ALL_OBJECTS": 11,
+  "in_inpaint_rim": 179,
+  "outside_hole": 20009
+ },
+ "stored_WALL_MASK_vs_on_clean_differ_pct_frame": 0.67
+}

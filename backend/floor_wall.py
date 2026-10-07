@@ -598,3 +598,9 @@ def write(
         written["wall_overlay"] = WALL_OVERLAY_FILENAME
 
     return {"files": written, "stats": result.stats}
+
+
+
+
+
+

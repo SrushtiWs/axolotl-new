@@ -117,15 +117,64 @@ function without<T>(record: Record<string, T>, key: string): Record<string, T> {
   return rest
 }
 
-export function Studio({ catalogue, room, onChangeRoom }: Props) {
-  const [tile, setTile] = useState<CatalogueTile | null>(null)
-  const [upload, setUpload] = useState<UploadedImage | null>(null)
+type SurfaceConfig = {
+  tile: CatalogueTile | null
+  upload: UploadedImage | null
+  rotation: Rotation
+  grout: number
+  size: { width: string; length: string; height: string }
+}
 
-  const [rotation, setRotation] = useState<Rotation>(0)
-  const [grout, setGrout] = useState(5)
-  // Empty = AUTO (estimated from the photo); any typed value = MANUAL.
-  const [size, setSize] = useState({ width: '', length: '', height: '' })
+export function Studio({ catalogue, room, onChangeRoom }: Props) {
+  const [selected, setSelected] = useState<string[]>([])
+  const [configs, setConfigs] = useState<Record<string, SurfaceConfig>>({})
+  const [defaultConfig, setDefaultConfig] = useState<SurfaceConfig>({
+    tile: null,
+    upload: null,
+    rotation: 0,
+    grout: 5,
+    size: { width: '', length: '', height: '' }
+  })
+
+  const activeId = selected[0]
+  const currentConfig = activeId ? (configs[activeId] || defaultConfig) : defaultConfig
+
+  const tile = currentConfig.tile
+  const upload = currentConfig.upload
+  const rotation = currentConfig.rotation
+  const grout = currentConfig.grout
+  const size = currentConfig.size
   const roomMode = roomModeOf(size)
+
+  const updateConfig = useCallback((updates: Partial<SurfaceConfig>) => {
+    if (activeId) {
+      setConfigs(prev => ({
+        ...prev,
+        [activeId]: { ...(prev[activeId] || defaultConfig), ...updates }
+      }))
+    } else {
+      setDefaultConfig(prev => ({ ...prev, ...updates }))
+    }
+  }, [activeId, defaultConfig])
+
+  const setTile = useCallback((t: CatalogueTile | null) => updateConfig({ tile: t, upload: null }), [updateConfig])
+  const setUpload = useCallback((u: UploadedImage | null) => updateConfig({ upload: u, tile: null }), [updateConfig])
+  const setRotation = useCallback((r: Rotation) => updateConfig({ rotation: r }), [updateConfig])
+  const setGrout = useCallback((g: number) => updateConfig({ grout: g }), [updateConfig])
+  const setSize = useCallback((action: { width: string; length: string; height: string } | ((prev: { width: string; length: string; height: string }) => { width: string; length: string; height: string })) => {
+    if (typeof action === 'function') {
+      if (activeId) {
+        setConfigs(prev => {
+          const prevConfig = prev[activeId] || defaultConfig;
+          return { ...prev, [activeId]: { ...prevConfig, size: action(prevConfig.size) } }
+        });
+      } else {
+        setDefaultConfig(prev => ({ ...prev, size: action(prev.size) }));
+      }
+    } else {
+      updateConfig({ size: action });
+    }
+  }, [activeId, defaultConfig, updateConfig])
 
   const [panel, setPanel] = useState<Panel>(null)
   const [compare, setCompare] = useState(false)
@@ -156,9 +205,6 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
   /** The surfaces this room offers, each with its control. From POST /surfaces. */
   const [found, setFound] = useState<SurfacesResponse | null>(null)
   const [detecting, setDetecting] = useState(false)
-
-  /** The selected — active — surfaces: "floor", "wall-0", "wall-3"… */
-  const [selected, setSelected] = useState<string[]>([])
 
   /** The settings each surface should carry, by settings key. */
   const [assigned, setAssigned] = useState<Record<string, string>>({})
@@ -231,6 +277,7 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
   useEffect(() => {
     setFound(null)
     setSelected([])
+    setConfigs({})
     setAssigned({})
     setShownKey({})
     setRenders({})
@@ -487,12 +534,12 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
     const id = marker.id
 
     if (selected.includes(id)) {
-      setSelected((current) => current.filter((item) => item !== id))
+      setSelected([])
       return
     }
 
     // Selecting only selects: tiles are laid when Apply is pressed.
-    setSelected((current) => [...current, id])
+    setSelected([id])
     setFailures((current) => without(current, id))
   }
 
@@ -522,6 +569,7 @@ export function Studio({ catalogue, room, onChangeRoom }: Props) {
 
   function reset() {
     setSelected([])
+    setConfigs({})
     setAssigned({})
     setShownKey({})
     setFailures({})

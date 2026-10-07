@@ -1,0 +1,91 @@
+{
+ "room": "pillar",
+ "size": [
+  1438,
+  1093
+ ],
+ "stored_camera_reproduced": true,
+ "floor_status": "detected",
+ "vanishing_points": {
+  "depth_vp": [
+   675.1116652485312,
+   386.87386575198286
+  ],
+  "horizon_y": 386.87386575198286,
+  "origin": null,
+  "confidence": 0.6236994842550971,
+  "threshold": 0.55,
+  "source": "auto"
+ },
+ "vp_report_decision": "floor VP kept: confident on the room's long lines",
+ "floor_vp_score": {
+  "inliers": 11,
+  "support": 0.664,
+  "spread_deg": 0.629,
+  "confident": true
+ },
+ "pool_lines": 18,
+ "pool_vp": {
+  "point": [
+   678.6615093013603,
+   401.43213469508015
+  ],
+  "inliers": 12,
+  "support": 0.722,
+  "confident": true
+ },
+ "focal_px": 1038.5555555555554,
+ "focal_source": "prior",
+ "joint_decision": [
+  "vertical lines unreliable: level not verified, principal point kept",
+  "focal from the lens prior: no two perpendicular validated VPs"
+ ],
+ "joint_confidence": "low",
+ "vertical_lines": {
+  "reliable": false,
+  "pitch_deg": null,
+  "roll_deg": null
+ },
+ "floor_detector_lines": {
+  "floor_lines": 374,
+  "boundary_lines": 4,
+  "total_lines": 1118
+ },
+ "floor_boundary_wall_lines": 4,
+ "floor_boundary_lines_on_objects": 0,
+ "deeplsd_kept_lines": 146,
+ "deeplsd_from_cache": true,
+ "deviation_stored_vp": {
+  "deeplsd_depth_lines": 27,
+  "deeplsd_mean_deg": 1.79,
+  "junction_runs_all": 3,
+  "junction_runs": 3,
+  "junction_mean_deg": 2.52,
+  "deeplsd_vp": [
+   677.7,
+   395.5
+  ],
+  "deeplsd_vp_dist_px": 9.0,
+  "mean_deviation_deg": 2.16,
+  "exceeds_3deg": false
+ },
+ "current_code_depth_vp": [
+  675.1116652485312,
+  386.87386575198286
+ ],
+ "current_code_origin": null,
+ "deviation_current_code_vp": {
+  "deeplsd_depth_lines": 27,
+  "deeplsd_mean_deg": 1.79,
+  "junction_runs_all": 3,
+  "junction_runs": 3,
+  "junction_mean_deg": 2.52,
+  "deeplsd_vp": [
+   677.7,
+   395.5
+  ],
+  "deeplsd_vp_dist_px": 9.0,
+  "mean_deviation_deg": 2.16,
+  "exceeds_3deg": false
+ }
+}

@@ -1,0 +1,140 @@
+{
+  "canvas": [
+    1456,
+    1088
+  ],
+  "focal_px": 977.0901528039592,
+  "focal_source": "vp-pairs",
+  "principal_point": [
+    728.0,
+    544.0
+  ],
+  "joint": {
+    "focal_px": 977.1,
+    "focal_source": "vp-pairs",
+    "hfov_deg": 73.4,
+    "principal_point": [
+      728.0,
+      544.0
+    ],
+    "horizon_y": 350.0,
+    "horizon_from": [
+      "floor",
+      "wall-1",
+      "wall-3",
+      "wall-6"
+    ],
+    "vertical_lines": {
+      "reliable": true,
+      "pitch_deg": 8.38,
+      "roll_deg": 0.19
+    },
+    "level": false,
+    "pitch_deg": 8.38,
+    "roll_deg": 0.19,
+    "focal_pairs": [
+      {
+        "focal_px": 954.1,
+        "from": [
+          "floor vp1",
+          "wall-1"
+        ]
+      },
+      {
+        "focal_px": 1000.1,
+        "from": [
+          "floor vp1",
+          "wall-3"
+        ]
+      },
+      {
+        "focal_px": 954.1,
+        "from": [
+          "wall-1",
+          "wall-6"
+        ]
+      },
+      {
+        "focal_px": 1000.1,
+        "from": [
+          "wall-3",
+          "wall-6"
+        ]
+      }
+    ],
+    "confidence": "low",
+    "decision": [
+      "pitched camera (vertical lines 8.4 deg, roll 0.2 deg): walls are still built level -- not handled in this step",
+      "focal 1052 -> 977 px from 4 perpendicular VP pair(s)"
+    ]
+  },
+  "confidence": "low",
+  "hfov_deg": 73.3773373465423,
+  "status": "detected",
+  "boundary": {
+    "corners": [
+      [
+        1349.0,
+        787.0
+      ],
+      [
+        1267.0,
+        663.0
+      ],
+      [
+        831.0,
+        629.0
+      ],
+      [
+        788.0,
+        659.0
+      ],
+      [
+        679.0,
+        619.0
+      ],
+      [
+        577.0,
+        652.0
+      ],
+      [
+        571.0,
+        727.0
+      ],
+      [
+        423.0,
+        716.0
+      ],
+      [
+        305.0,
+        789.0
+      ],
+      [
+        306.0,
+        1025.0
+      ],
+      [
+        34.0,
+        972.0
+      ]
+    ],
+    "visible_fraction": 0.6211022376100311,
+    "floor_coverage": 0.2850631388372657
+  },
+  "coverage": 1.0,
+  "camera": {
+    "pitch_deg": 11.231617676772467,
+    "height_mm": 1500.0,
+    "floor_direction_deg": 14.960770062205768
+  },
+  "plane": [
+    0.0,
+    -0.9808478211552405,
+    -0.19477564461456023,
+    1500.0
+  ],
+  "visible_floor_mm": [
+    3638.98046875,
+    3848.68017578125
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "canvas": [
+    1376,
+    768
+  ],
+  "focal_px": 993.7777777777777,
+  "focal_source": "prior",
+  "principal_point": [
+    688.0,
+    315.59471161787116
+  ],
+  "joint": {
+    "focal_px": 993.8,
+    "focal_source": "prior",
+    "hfov_deg": 69.4,
+    "principal_point": [
+      688.0,
+      315.6
+    ],
+    "horizon_y": 315.6,
+    "horizon_from": [
+      "floor",
+      "wall-0",
+      "wall-2",
+      "wall-4"
+    ],
+    "vertical_lines": {
+      "reliable": true,
+      "pitch_deg": 0.66,
+      "roll_deg": -0.23
+    },
+    "level": true,
+    "pitch_deg": 0.0,
+    "roll_deg": 0.0,
+    "focal_pairs": [],
+    "confidence": "low",
+    "decision": [
+      "level camera (vertical lines 0.66 / -0.23 deg -> 0): principal row moved -68.4 px onto the horizon",
+      "focal from the lens prior: no two perpendicular validated VPs"
+    ]
+  },
+  "confidence": "low",
+  "hfov_deg": 69.39030706246794,
+  "status": "detected",
+  "boundary": {
+    "corners": [
+      [
+        1239.0,
+        584.0
+      ],
+      [
+        989.0,
+        582.0
+      ],
+      [
+        951.0,
+        486.0
+      ],
+      [
+        824.0,
+        447.0
+      ],
+      [
+        822.0,
+        404.0
+      ],
+      [
+        695.0,
+        441.0
+      ],
+      [
+        688.0,
+        400.0
+      ],
+      [
+        618.0,
+        399.0
+      ],
+      [
+        384.0,
+        492.0
+      ]
+    ],
+    "visible_fraction": 0.5195540903001488,
+    "floor_coverage": 0.3034076542817345
+  },
+  "coverage": 1.0,
+  "camera": {
+    "pitch_deg": 0.0,
+    "height_mm": 1500.0,
+    "floor_direction_deg": -0.22100040111103322
+  },
+  "plane": [
+    0.0,
+    -1.0,
+    0.0,
+    1500.0
+  ],
+  "visible_floor_mm": [
+    5705.1806640625,
+    14583.8427734375
+  ]
+}

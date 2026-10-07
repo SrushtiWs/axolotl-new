@@ -1,0 +1,95 @@
+{
+ "room": "kitchen",
+ "variant": "before",
+ "split_method": "floor-junction",
+ "walls": [
+  {
+   "id": "wall-0",
+   "index": 0,
+   "faces": "right-side",
+   "yaw_deg": -14.74,
+   "share": 0.1773,
+   "validated": false,
+   "validation": "only the floor-junction was usable, 65% of its points on one line"
+  },
+  {
+   "id": "wall-1",
+   "index": 1,
+   "faces": "right-side",
+   "yaw_deg": -15.34,
+   "share": 0.0627,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-2",
+   "index": 2,
+   "faces": "front",
+   "yaw_deg": 0.0,
+   "share": 0.0509,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-3",
+   "index": 3,
+   "faces": "right-side",
+   "yaw_deg": -14.07,
+   "share": 0.2355,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-6",
+   "index": 6,
+   "faces": "right-side",
+   "yaw_deg": 74.76,
+   "share": 0.1132,
+   "validated": true,
+   "validation": null
+  }
+ ],
+ "same_faces_normal_pairs": [
+  {
+   "pair": [
+    "wall-0",
+    "wall-1"
+   ],
+   "touch": true,
+   "coplanar": null
+  },
+  {
+   "pair": [
+    "wall-0",
+    "wall-3"
+   ],
+   "touch": false,
+   "coplanar": null
+  },
+  {
+   "pair": [
+    "wall-1",
+    "wall-3"
+   ],
+   "touch": false,
+   "coplanar": null
+  }
+ ],
+ "plane_merge": {
+  "merged": [],
+  "touching_merged": [
+   [
+    3,
+    4
+   ],
+   [
+    4,
+    5
+   ]
+  ],
+  "merged_over_unwitnessed_bend": null,
+  "walls_before": 7,
+  "walls_after": 5,
+  "uncertain": false
+ }
+}

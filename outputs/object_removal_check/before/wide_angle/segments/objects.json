@@ -1,0 +1,7991 @@
+{
+  "source": {
+    "width": 1920,
+    "height": 2560
+  },
+  "working_resolution": [
+    1200,
+    1600
+  ],
+  "counts": {
+    "raw_detections": 424,
+    "accepted": 22,
+    "mirrors": 0,
+    "objects": 22,
+    "rejected": 402
+  },
+  "timings": {
+    "surfaces_s": 6.99,
+    "detection_s": 451.22,
+    "segmentation_s": 43.4,
+    "selection_s": 32.43,
+    "overlap_adjustments": 56,
+    "png_s": 4.63,
+    "inpaint_s": 34.49
+  },
+  "objects": [
+    {
+      "id": "object_001",
+      "label": "object",
+      "confidence": 0.874,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        789,
+        858,
+        1017,
+        1266
+      ],
+      "detection_bbox": [
+        778,
+        845,
+        939,
+        1237
+      ],
+      "mask_area": 57858,
+      "alpha_area": 57111,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9846,
+        "mask_area": 19275,
+        "bbox_area": 24745,
+        "mask_to_bbox_ratio": 0.7789,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.01004,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.8612,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror partition"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "door",
+          "mirror partition",
+          "partition",
+          "mirror standwall panel",
+          "mirror wall",
+          "refrigerator"
+        ],
+        "detector_label": "door",
+        "final_mask_area": 57858,
+        "final_frame_fraction": 0.01177,
+        "final_surface_overlap": 0.0506
+      },
+      "cleanup": {
+        "area_in": 19275,
+        "after_close": 19275,
+        "after_open": 19273,
+        "after_components": 19273,
+        "after_holes": 19273,
+        "after_contours": 19273,
+        "area_out": 19273,
+        "net_change_fraction": -0.0001
+      }
+    },
+    {
+      "id": "object_002",
+      "label": "object",
+      "confidence": 0.5761,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1467,
+        789,
+        1599,
+        1358
+      ],
+      "detection_bbox": [
+        1454,
+        698,
+        1666,
+        1371
+      ],
+      "mask_area": 20804,
+      "alpha_area": 20222,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9672,
+        "mask_area": 9123,
+        "bbox_area": 55572,
+        "mask_to_bbox_ratio": 0.1642,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.00475,
+        "surface_overlap_ratio": 0.0111,
+        "connected_component_count": 6,
+        "rank": 0.4827,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror partition",
+          "mirror partition"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "mirror standwall panel",
+          "mirror partition",
+          "door",
+          "partition",
+          "mirror wall"
+        ],
+        "detector_label": "mirror partition",
+        "final_mask_area": 20804,
+        "final_frame_fraction": 0.00423,
+        "final_surface_overlap": 0.0183
+      },
+      "cleanup": {
+        "area_in": 9123,
+        "after_close": 9150,
+        "after_open": 8993,
+        "after_components": 8636,
+        "after_holes": 8636,
+        "after_contours": 8636,
+        "area_out": 8636,
+        "net_change_fraction": -0.0534
+      }
+    },
+    {
+      "id": "object_003",
+      "label": "bed",
+      "confidence": 0.5698,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        919,
+        1099,
+        1364,
+        1323
+      ],
+      "detection_bbox": [
+        917,
+        1093,
+        1368,
+        1338
+      ],
+      "mask_area": 61424,
+      "alpha_area": 60854,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9632,
+        "mask_area": 23913,
+        "bbox_area": 43146,
+        "mask_to_bbox_ratio": 0.5542,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.01245,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 1,
+        "rank": 0.7178,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "bed",
+          "throw",
+          "partition",
+          "chair",
+          "oven",
+          "dining chair",
+          "chair legs",
+          "table",
+          "desk",
+          "couch"
+        ],
+        "final_mask_area": 61424,
+        "final_frame_fraction": 0.0125,
+        "final_surface_overlap": 0.0001
+      },
+      "cleanup": {
+        "area_in": 23913,
+        "after_close": 24028,
+        "after_open": 24026,
+        "after_components": 24026,
+        "after_holes": 24026,
+        "after_contours": 24026,
+        "area_out": 24026,
+        "net_change_fraction": 0.0047
+      }
+    },
+    {
+      "id": "object_004",
+      "label": "object",
+      "confidence": 0.5531,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        115,
+        1124,
+        752,
+        1519
+      ],
+      "detection_bbox": [
+        2,
+        1117,
+        795,
+        1547
+      ],
+      "mask_area": 170188,
+      "alpha_area": 169781,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.8535,
+        "mask_area": 51018,
+        "bbox_area": 133424,
+        "mask_to_bbox_ratio": 0.3824,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.02657,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 2,
+        "rank": 0.5708,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror partition",
+          "mirror",
+          "framed mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "mirror wall",
+          "throw",
+          "mirror partition",
+          "bed",
+          "wall art",
+          "chair",
+          "toilet",
+          "desk",
+          "bedside table",
+          "side table",
+          "chandelier",
+          "dining chair",
+          "chair legs",
+          "table",
+          "mirror standwall panel",
+          "partition",
+          "flower pot",
+          "mirror",
+          "framed mirror",
+          "potted plant",
+          "bench"
+        ],
+        "detector_label": "partition",
+        "final_mask_area": 170188,
+        "final_frame_fraction": 0.03462,
+        "final_surface_overlap": 0.0003
+      },
+      "cleanup": {
+        "area_in": 51018,
+        "after_close": 51235,
+        "after_open": 51220,
+        "after_components": 51220,
+        "after_holes": 65781,
+        "after_contours": 65781,
+        "area_out": 65781,
+        "net_change_fraction": 0.2894
+      }
+    },
+    {
+      "id": "object_005",
+      "label": "door",
+      "confidence": 0.4788,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1466,
+        1092,
+        1581,
+        1358
+      ],
+      "detection_bbox": [
+        1445,
+        1138,
+        1584,
+        1373
+      ],
+      "mask_area": 18195,
+      "alpha_area": 17952,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9402,
+        "mask_area": 7243,
+        "bbox_area": 12789,
+        "mask_to_bbox_ratio": 0.5663,
+        "inside_box_ratio": 0.835,
+        "frame_fraction": 0.00377,
+        "surface_overlap_ratio": 0.0112,
+        "connected_component_count": 12,
+        "rank": 0.6561,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "partition",
+          "mirror standwall panel",
+          "cabinet"
+        ],
+        "final_mask_area": 18195,
+        "final_frame_fraction": 0.0037,
+        "final_surface_overlap": 0.0214
+      },
+      "cleanup": {
+        "area_in": 7243,
+        "after_close": 7282,
+        "after_open": 7220,
+        "after_components": 7205,
+        "after_holes": 7205,
+        "after_contours": 7205,
+        "area_out": 7205,
+        "net_change_fraction": -0.0052
+      }
+    },
+    {
+      "id": "object_006",
+      "label": "object",
+      "confidence": 0.4721,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        911,
+        374,
+        1195,
+        733
+      ],
+      "detection_bbox": [
+        907,
+        363,
+        1198,
+        746
+      ],
+      "mask_area": 8195,
+      "alpha_area": 7666,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.85,
+        "mask_area": 3649,
+        "bbox_area": 43498,
+        "mask_to_bbox_ratio": 0.0839,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.0019,
+        "surface_overlap_ratio": 0.7484,
+        "connected_component_count": 3,
+        "rank": 0.2443,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "chandelier",
+          "clock",
+          "throw",
+          "mirror"
+        ],
+        "detector_label": "chandelier",
+        "final_mask_area": 8195,
+        "final_frame_fraction": 0.00167,
+        "final_surface_overlap": 0.7201
+      },
+      "cleanup": {
+        "area_in": 3649,
+        "after_close": 3670,
+        "after_open": 3659,
+        "after_components": 3659,
+        "after_holes": 3659,
+        "after_contours": 3659,
+        "area_out": 3659,
+        "net_change_fraction": 0.0027
+      }
+    },
+    {
+      "id": "object_007",
+      "label": "object",
+      "confidence": 0.4657,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        126,
+        0,
+        955,
+        443
+      ],
+      "detection_bbox": [
+        86,
+        0,
+        965,
+        454
+      ],
+      "mask_area": 79828,
+      "alpha_area": 78929,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9832,
+        "mask_area": 30839,
+        "bbox_area": 155916,
+        "mask_to_bbox_ratio": 0.1978,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.01606,
+        "surface_overlap_ratio": 0.0061,
+        "connected_component_count": 1,
+        "rank": 0.5104,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "chandelier",
+          "throw",
+          "mirror"
+        ],
+        "detector_label": "chandelier",
+        "final_mask_area": 79828,
+        "final_frame_fraction": 0.01624,
+        "final_surface_overlap": 0.0096
+      },
+      "cleanup": {
+        "area_in": 30839,
+        "after_close": 30866,
+        "after_open": 30864,
+        "after_components": 30864,
+        "after_holes": 30864,
+        "after_contours": 30864,
+        "area_out": 30864,
+        "net_change_fraction": 0.0008
+      }
+    },
+    {
+      "id": "object_008",
+      "label": "object",
+      "confidence": 0.4037,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1420,
+        964,
+        1756,
+        1850
+      ],
+      "detection_bbox": [
+        1411,
+        1277,
+        1765,
+        1864
+      ],
+      "mask_area": 136930,
+      "alpha_area": 135527,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.8821,
+        "mask_area": 39350,
+        "bbox_area": 81107,
+        "mask_to_bbox_ratio": 0.4852,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.02049,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 21,
+        "rank": 0.644,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror partition",
+          "mirror",
+          "vanity mirror",
+          "bathroom mirror",
+          "mirror cabinet",
+          "framed mirror",
+          "wall mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "table",
+          "desk",
+          "bedside table",
+          "cabinet",
+          "mirror standwall panel",
+          "wall art",
+          "mirror partition",
+          "mirror",
+          "vanity",
+          "chandelier",
+          "throw",
+          "coffee table",
+          "dining table",
+          "side table",
+          "refrigerator",
+          "tray",
+          "partition",
+          "drawer",
+          "kitchen cabinet",
+          "table lamp",
+          "vanity mirror",
+          "bathroom mirror",
+          "table legs",
+          "shelf",
+          "mirror cabinet",
+          "framed mirror",
+          "ottoman",
+          "wall mirror",
+          "bench"
+        ],
+        "detector_label": "partition",
+        "final_mask_area": 136930,
+        "final_frame_fraction": 0.02786,
+        "final_surface_overlap": 0.0068
+      },
+      "cleanup": {
+        "area_in": 39350,
+        "after_close": 39865,
+        "after_open": 39739,
+        "after_components": 39395,
+        "after_holes": 39769,
+        "after_contours": 39769,
+        "area_out": 39769,
+        "net_change_fraction": 0.0106
+      }
+    },
+    {
+      "id": "object_009",
+      "label": "flower pot",
+      "confidence": 0.3964,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1448,
+        1357,
+        1663,
+        1523
+      ],
+      "detection_bbox": [
+        1490,
+        1334,
+        1608,
+        1526
+      ],
+      "mask_area": 18574,
+      "alpha_area": 18309,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9672,
+        "mask_area": 4868,
+        "bbox_area": 8880,
+        "mask_to_bbox_ratio": 0.5482,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.00254,
+        "surface_overlap_ratio": 0.0146,
+        "connected_component_count": 1,
+        "rank": 0.7106,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "flower pot",
+          "throw"
+        ],
+        "final_mask_area": 18574,
+        "final_frame_fraction": 0.00378,
+        "final_surface_overlap": 0.0348
+      },
+      "cleanup": {
+        "area_in": 4868,
+        "after_close": 4880,
+        "after_open": 4878,
+        "after_components": 4878,
+        "after_holes": 5037,
+        "after_contours": 5037,
+        "area_out": 5037,
+        "net_change_fraction": 0.0347
+      }
+    },
+    {
+      "id": "object_010",
+      "label": "object",
+      "confidence": 0.3752,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1447,
+        1358,
+        1756,
+        1667
+      ],
+      "detection_bbox": [
+        1435,
+        1278,
+        1760,
+        1675
+      ],
+      "mask_area": 55068,
+      "alpha_area": 54584,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.7715,
+        "mask_area": 20994,
+        "bbox_area": 50344,
+        "mask_to_bbox_ratio": 0.417,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.01093,
+        "surface_overlap_ratio": 0.0049,
+        "connected_component_count": 17,
+        "rank": 0.5574,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror partition",
+          "mirror partition"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "mirror partition",
+          "mirror standwall panel"
+        ],
+        "detector_label": "mirror partition",
+        "final_mask_area": 55068,
+        "final_frame_fraction": 0.0112,
+        "final_surface_overlap": 0.0076
+      },
+      "cleanup": {
+        "area_in": 20994,
+        "after_close": 21416,
+        "after_open": 21348,
+        "after_components": 21286,
+        "after_holes": 21516,
+        "after_contours": 21516,
+        "area_out": 21516,
+        "net_change_fraction": 0.0249
+      }
+    },
+    {
+      "id": "object_011",
+      "label": "chandelier",
+      "confidence": 0.3622,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1573,
+        1409,
+        1756,
+        1667
+      ],
+      "detection_bbox": [
+        1594,
+        1414,
+        1774,
+        1669
+      ],
+      "mask_area": 28843,
+      "alpha_area": 28377,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.5567,
+        "mask_area": 11012,
+        "bbox_area": 17967,
+        "mask_to_bbox_ratio": 0.6129,
+        "inside_box_ratio": 0.9351,
+        "frame_fraction": 0.00574,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 11,
+        "rank": 0.5666,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "chandelier"
+        ],
+        "final_mask_area": 28843,
+        "final_frame_fraction": 0.00587,
+        "final_surface_overlap": 0.0032
+      },
+      "cleanup": {
+        "area_in": 11012,
+        "after_close": 11291,
+        "after_open": 11244,
+        "after_components": 11166,
+        "after_holes": 11291,
+        "after_contours": 11291,
+        "area_out": 11291,
+        "net_change_fraction": 0.0253
+      }
+    },
+    {
+      "id": "object_012",
+      "label": "throw",
+      "confidence": 0.3129,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        392,
+        1185,
+        644,
+        1376
+      ],
+      "detection_bbox": [
+        389,
+        1179,
+        621,
+        1373
+      ],
+      "mask_area": 29013,
+      "alpha_area": 28759,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9092,
+        "mask_area": 11239,
+        "bbox_area": 17545,
+        "mask_to_bbox_ratio": 0.6406,
+        "inside_box_ratio": 0.97,
+        "frame_fraction": 0.00585,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 6,
+        "rank": 0.7365,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "throw"
+        ],
+        "final_mask_area": 29013,
+        "final_frame_fraction": 0.0059,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 11239,
+        "after_close": 11300,
+        "after_open": 11283,
+        "after_components": 11283,
+        "after_holes": 11283,
+        "after_contours": 11283,
+        "area_out": 11283,
+        "net_change_fraction": 0.0039
+      }
+    },
+    {
+      "id": "object_013",
+      "label": "object",
+      "confidence": 0.2705,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1422,
+        1411,
+        1511,
+        1792
+      ],
+      "detection_bbox": [
+        1416,
+        1416,
+        1472,
+        1779
+      ],
+      "mask_area": 18661,
+      "alpha_area": 18369,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.6191,
+        "mask_area": 7184,
+        "bbox_area": 7945,
+        "mask_to_bbox_ratio": 0.9042,
+        "inside_box_ratio": 0.7167,
+        "frame_fraction": 0.00374,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 16,
+        "rank": 0.6365,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror",
+          "mirror cabinet",
+          "vanity mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "also_detected_as": [
+          "drawer",
+          "cabinet",
+          "refrigerator",
+          "table",
+          "mirror",
+          "mirror cabinet",
+          "bedside table",
+          "cupboard",
+          "wardrobe",
+          "desk",
+          "shelf",
+          "kitchen cabinet",
+          "vanity mirror"
+        ],
+        "detector_label": "drawer",
+        "final_mask_area": 18661,
+        "final_frame_fraction": 0.0038,
+        "final_surface_overlap": 0.0128
+      },
+      "cleanup": {
+        "area_in": 7184,
+        "after_close": 7307,
+        "after_open": 7252,
+        "after_components": 7230,
+        "after_holes": 7252,
+        "after_contours": 7252,
+        "area_out": 7252,
+        "net_change_fraction": 0.0095
+      }
+    },
+    {
+      "id": "object_014",
+      "label": "mirror wall",
+      "confidence": 0.215,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1452,
+        58,
+        1920,
+        1336
+      ],
+      "detection_bbox": [
+        1467,
+        43,
+        1918,
+        1419
+      ],
+      "mask_area": 80021,
+      "alpha_area": 78218,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.4147,
+        "mask_area": 29483,
+        "bbox_area": 242520,
+        "mask_to_bbox_ratio": 0.1216,
+        "inside_box_ratio": 0.9782,
+        "frame_fraction": 0.01536,
+        "surface_overlap_ratio": 0.631,
+        "connected_component_count": 28,
+        "rank": 0.1624,
+        "chosen_candidate": 0,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "mirror wall"
+        ],
+        "final_mask_area": 80021,
+        "final_frame_fraction": 0.01628,
+        "final_surface_overlap": 0.5753
+      },
+      "cleanup": {
+        "area_in": 29483,
+        "after_close": 30192,
+        "after_open": 30018,
+        "after_components": 29152,
+        "after_holes": 31460,
+        "after_contours": 31132,
+        "area_out": 31132,
+        "net_change_fraction": 0.0559
+      }
+    },
+    {
+      "id": "object_015",
+      "label": "drawer",
+      "confidence": 0.2091,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1462,
+        1654,
+        1741,
+        1850
+      ],
+      "detection_bbox": [
+        1456,
+        1699,
+        1742,
+        1858
+      ],
+      "mask_area": 33899,
+      "alpha_area": 33394,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9737,
+        "mask_area": 13207,
+        "bbox_area": 17721,
+        "mask_to_bbox_ratio": 0.7453,
+        "inside_box_ratio": 0.9162,
+        "frame_fraction": 0.00688,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 12,
+        "rank": 0.7992,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "wardrobe"
+        ],
+        "final_mask_area": 33899,
+        "final_frame_fraction": 0.0069,
+        "final_surface_overlap": 0.0023
+      },
+      "cleanup": {
+        "area_in": 13207,
+        "after_close": 13476,
+        "after_open": 13411,
+        "after_components": 13393,
+        "after_holes": 13410,
+        "after_contours": 13410,
+        "area_out": 13410,
+        "net_change_fraction": 0.0154
+      }
+    },
+    {
+      "id": "object_016",
+      "label": "tv",
+      "confidence": 0.1916,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1575,
+        1284,
+        1627,
+        1439
+      ],
+      "detection_bbox": [
+        1574,
+        1278,
+        1614,
+        1418
+      ],
+      "mask_area": 3049,
+      "alpha_area": 2817,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.6851,
+        "mask_area": 1320,
+        "bbox_area": 2175,
+        "mask_to_bbox_ratio": 0.6069,
+        "inside_box_ratio": 0.8273,
+        "frame_fraction": 0.00069,
+        "surface_overlap_ratio": 0.6682,
+        "connected_component_count": 2,
+        "rank": 0.3831,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 3049,
+        "final_frame_fraction": 0.00062,
+        "final_surface_overlap": 0.6809
+      },
+      "cleanup": {
+        "area_in": 1320,
+        "after_close": 1330,
+        "after_open": 1317,
+        "after_components": 1317,
+        "after_holes": 1317,
+        "after_contours": 1317,
+        "area_out": 1317,
+        "net_change_fraction": -0.0023
+      }
+    },
+    {
+      "id": "object_017",
+      "label": "clock",
+      "confidence": 0.1883,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1341,
+        1374,
+        1443,
+        1443
+      ],
+      "detection_bbox": [
+        1330,
+        1368,
+        1477,
+        1450
+      ],
+      "mask_area": 4640,
+      "alpha_area": 4497,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.9639,
+        "mask_area": 1882,
+        "bbox_area": 4692,
+        "mask_to_bbox_ratio": 0.4011,
+        "inside_box_ratio": 1.0,
+        "frame_fraction": 0.00098,
+        "surface_overlap_ratio": 0.0027,
+        "connected_component_count": 1,
+        "rank": 0.6254,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "rug",
+          "clock",
+          "throw"
+        ],
+        "final_mask_area": 4640,
+        "final_frame_fraction": 0.00094,
+        "final_surface_overlap": 0.014
+      },
+      "cleanup": {
+        "area_in": 1882,
+        "after_close": 1893,
+        "after_open": 1888,
+        "after_components": 1888,
+        "after_holes": 1888,
+        "after_contours": 1888,
+        "area_out": 1888,
+        "net_change_fraction": 0.0032
+      }
+    },
+    {
+      "id": "object_018",
+      "label": "object",
+      "confidence": 0.184,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1599,
+        1372,
+        1696,
+        1434
+      ],
+      "detection_bbox": [
+        1595,
+        1368,
+        1690,
+        1421
+      ],
+      "mask_area": 2432,
+      "alpha_area": 2305,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.758,
+        "mask_area": 985,
+        "bbox_area": 1947,
+        "mask_to_bbox_ratio": 0.5059,
+        "inside_box_ratio": 0.8741,
+        "frame_fraction": 0.00051,
+        "surface_overlap_ratio": 0.736,
+        "connected_component_count": 3,
+        "rank": 0.3593,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "detector_label": "mirror",
+        "final_mask_area": 2432,
+        "final_frame_fraction": 0.00049,
+        "final_surface_overlap": 0.741
+      },
+      "cleanup": {
+        "area_in": 985,
+        "after_close": 993,
+        "after_open": 984,
+        "after_components": 984,
+        "after_holes": 984,
+        "after_contours": 984,
+        "area_out": 984,
+        "net_change_fraction": -0.001
+      }
+    },
+    {
+      "id": "object_019",
+      "label": "wall art",
+      "confidence": 0.1761,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        974,
+        846,
+        1287,
+        976
+      ],
+      "detection_bbox": [
+        933,
+        776,
+        1520,
+        984
+      ],
+      "mask_area": 21944,
+      "alpha_area": 21779,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.3126,
+        "mask_area": 7075,
+        "bbox_area": 47710,
+        "mask_to_bbox_ratio": 0.1483,
+        "inside_box_ratio": 0.9941,
+        "frame_fraction": 0.00368,
+        "surface_overlap_ratio": 0.0445,
+        "connected_component_count": 3,
+        "rank": 0.2087,
+        "chosen_candidate": 0,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 21944,
+        "final_frame_fraction": 0.00446,
+        "final_surface_overlap": 0.0295
+      },
+      "cleanup": {
+        "area_in": 7075,
+        "after_close": 7444,
+        "after_open": 7414,
+        "after_components": 7385,
+        "after_holes": 8550,
+        "after_contours": 8550,
+        "area_out": 8550,
+        "net_change_fraction": 0.2085
+      }
+    },
+    {
+      "id": "object_020",
+      "label": "object",
+      "confidence": 0.1749,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        975,
+        702,
+        1055,
+        731
+      ],
+      "detection_bbox": [
+        949,
+        702,
+        1066,
+        738
+      ],
+      "mask_area": 1032,
+      "alpha_area": 908,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.7063,
+        "mask_area": 508,
+        "bbox_area": 1606,
+        "mask_to_bbox_ratio": 0.3163,
+        "inside_box_ratio": 0.9843,
+        "frame_fraction": 0.00026,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 2,
+        "rank": 0.4693,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": true,
+        "mirror_phrases": [
+          "mirror"
+        ],
+        "mirror_threshold": 0.2,
+        "verdict": "detector said mirror but only 0% of the mask is mirror or glazing (needs 20%) \u2014 treated as an ordinary object",
+        "detector_label": "mirror",
+        "final_mask_area": 1032,
+        "final_frame_fraction": 0.00021,
+        "final_surface_overlap": 0.0019
+      },
+      "cleanup": {
+        "area_in": 508,
+        "after_close": 510,
+        "after_open": 508,
+        "after_components": 508,
+        "after_holes": 508,
+        "after_contours": 508,
+        "area_out": 508,
+        "net_change_fraction": 0.0
+      }
+    },
+    {
+      "id": "object_021",
+      "label": "rug",
+      "confidence": 0.1629,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1341,
+        1374,
+        1435,
+        1436
+      ],
+      "detection_bbox": [
+        1330,
+        1370,
+        1450,
+        1421
+      ],
+      "mask_area": 3717,
+      "alpha_area": 3575,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.93,
+        "mask_area": 1528,
+        "bbox_area": 2400,
+        "mask_to_bbox_ratio": 0.6367,
+        "inside_box_ratio": 0.8946,
+        "frame_fraction": 0.0008,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 3,
+        "rank": 0.7138,
+        "chosen_candidate": 2,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "also_detected_as": [
+          "rack"
+        ],
+        "final_mask_area": 3717,
+        "final_frame_fraction": 0.00076,
+        "final_surface_overlap": 0.0086
+      },
+      "cleanup": {
+        "area_in": 1528,
+        "after_close": 1560,
+        "after_open": 1541,
+        "after_components": 1519,
+        "after_holes": 1519,
+        "after_contours": 1519,
+        "area_out": 1519,
+        "net_change_fraction": -0.0059
+      }
+    },
+    {
+      "id": "object_022",
+      "label": "book",
+      "confidence": 0.1557,
+      "is_mirror": false,
+      "layer": "all_objects",
+      "bbox": [
+        1615,
+        1514,
+        1707,
+        1601
+      ],
+      "detection_bbox": [
+        1613,
+        1539,
+        1698,
+        1602
+      ],
+      "mask_area": 4792,
+      "alpha_area": 4614,
+      "source_width": 1920,
+      "source_height": 2560,
+      "metrics": {
+        "sam_predicted_iou": 0.7234,
+        "mask_area": 1961,
+        "bbox_area": 2067,
+        "mask_to_bbox_ratio": 0.9487,
+        "inside_box_ratio": 0.8144,
+        "frame_fraction": 0.00102,
+        "surface_overlap_ratio": 0.0,
+        "connected_component_count": 5,
+        "rank": 0.7529,
+        "chosen_candidate": 1,
+        "mirror_pixel_share": 0.0,
+        "detector_called_it_mirror": false,
+        "final_mask_area": 4792,
+        "final_frame_fraction": 0.00097,
+        "final_surface_overlap": 0.0
+      },
+      "cleanup": {
+        "area_in": 1961,
+        "after_close": 1995,
+        "after_open": 1960,
+        "after_components": 1930,
+        "after_holes": 1930,
+        "after_contours": 1930,
+        "area_out": 1930,
+        "net_change_fraction": -0.0158
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "label": "chandelier",
+      "confidence": 0.282,
+      "box": [
+        600,
+        230,
+        626,
+        286
+      ],
+      "reason": "box covers 0.08% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "tv",
+      "confidence": 0.26,
+      "box": [
+        985,
+        799,
+        1008,
+        848
+      ],
+      "reason": "box covers 0.06% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.248,
+      "box": [
+        230,
+        939,
+        250,
+        956
+      ],
+      "reason": "box covers 0.02% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.242,
+      "box": [
+        600,
+        230,
+        626,
+        285
+      ],
+      "reason": "box covers 0.07% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.225,
+      "box": [
+        622,
+        442,
+        659,
+        459
+      ],
+      "reason": "box covers 0.03% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.211,
+      "box": [
+        622,
+        443,
+        657,
+        459
+      ],
+      "reason": "box covers 0.03% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.197,
+      "box": [
+        363,
+        869,
+        377,
+        882
+      ],
+      "reason": "box covers 0.01% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.185,
+      "box": [
+        601,
+        232,
+        625,
+        285
+      ],
+      "reason": "box covers 0.07% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.183,
+      "box": [
+        984,
+        798,
+        1008,
+        849
+      ],
+      "reason": "box covers 0.06% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.181,
+      "box": [
+        535,
+        489,
+        565,
+        523
+      ],
+      "reason": "box covers 0.05% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "tv",
+      "confidence": 0.177,
+      "box": [
+        984,
+        799,
+        1008,
+        849
+      ],
+      "reason": "box covers 0.06% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.176,
+      "box": [
+        230,
+        939,
+        250,
+        956
+      ],
+      "reason": "box covers 0.02% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "drawer",
+      "confidence": 0.176,
+      "box": [
+        891,
+        935,
+        908,
+        995
+      ],
+      "reason": "box covers 0.05% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.175,
+      "box": [
+        983,
+        798,
+        1008,
+        848
+      ],
+      "reason": "box covers 0.07% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.175,
+      "box": [
+        535,
+        489,
+        564,
+        524
+      ],
+      "reason": "box covers 0.05% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.173,
+      "box": [
+        450,
+        821,
+        462,
+        834
+      ],
+      "reason": "box covers 0.01% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.165,
+      "box": [
+        854,
+        575,
+        942,
+        587
+      ],
+      "reason": "box covers 0.06% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.163,
+      "box": [
+        622,
+        442,
+        658,
+        459
+      ],
+      "reason": "box covers 0.03% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.161,
+      "box": [
+        368,
+        464,
+        396,
+        494
+      ],
+      "reason": "box covers 0.04% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.16,
+      "box": [
+        230,
+        939,
+        250,
+        956
+      ],
+      "reason": "box covers 0.02% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.159,
+      "box": [
+        1028,
+        855,
+        1057,
+        888
+      ],
+      "reason": "box covers 0.05% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.158,
+      "box": [
+        230,
+        939,
+        250,
+        956
+      ],
+      "reason": "box covers 0.02% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "cupboard",
+      "confidence": 0.157,
+      "box": [
+        854,
+        575,
+        941,
+        587
+      ],
+      "reason": "box covers 0.05% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.156,
+      "box": [
+        600,
+        232,
+        626,
+        287
+      ],
+      "reason": "box covers 0.07% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.155,
+      "box": [
+        858,
+        527,
+        949,
+        540
+      ],
+      "reason": "box covers 0.06% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror window",
+      "confidence": 0.153,
+      "box": [
+        858,
+        526,
+        949,
+        540
+      ],
+      "reason": "box covers 0.07% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.153,
+      "box": [
+        858,
+        526,
+        949,
+        540
+      ],
+      "reason": "box covers 0.07% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.152,
+      "box": [
+        854,
+        575,
+        942,
+        587
+      ],
+      "reason": "box covers 0.06% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "refrigerator",
+      "confidence": 0.151,
+      "box": [
+        230,
+        939,
+        250,
+        956
+      ],
+      "reason": "box covers 0.02% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.151,
+      "box": [
+        854,
+        575,
+        941,
+        587
+      ],
+      "reason": "box covers 0.05% of the frame \u2014 too small to be an object"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.49,
+      "box": [
+        594,
+        504,
+        638,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.413,
+      "box": [
+        595,
+        506,
+        638,
+        586
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "tv",
+      "confidence": 0.372,
+      "box": [
+        1042,
+        711,
+        1113,
+        784
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.296,
+      "box": [
+        1041,
+        711,
+        1115,
+        786
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.295,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "flower pot",
+      "confidence": 0.287,
+      "box": [
+        883,
+        480,
+        932,
+        527
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.275,
+      "box": [
+        855,
+        527,
+        948,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.266,
+      "box": [
+        855,
+        525,
+        948,
+        586
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.261,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "tv",
+      "confidence": 0.258,
+      "box": [
+        1042,
+        689,
+        1112,
+        784
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.257,
+      "box": [
+        854,
+        470,
+        953,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.254,
+      "box": [
+        855,
+        519,
+        948,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.252,
+      "box": [
+        854,
+        517,
+        948,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.25,
+      "box": [
+        855,
+        522,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "tv",
+      "confidence": 0.244,
+      "box": [
+        1043,
+        688,
+        1114,
+        784
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror window",
+      "confidence": 0.229,
+      "box": [
+        855,
+        519,
+        948,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "cupboard",
+      "confidence": 0.221,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "shelf",
+      "confidence": 0.218,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.217,
+      "box": [
+        854,
+        471,
+        953,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.214,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "cupboard",
+      "confidence": 0.209,
+      "box": [
+        854,
+        470,
+        953,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror window",
+      "confidence": 0.207,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.205,
+      "box": [
+        855,
+        519,
+        948,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.204,
+      "box": [
+        854,
+        472,
+        952,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "shelf",
+      "confidence": 0.201,
+      "box": [
+        854,
+        470,
+        953,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.197,
+      "box": [
+        855,
+        519,
+        948,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "tv",
+      "confidence": 0.197,
+      "box": [
+        965,
+        799,
+        1008,
+        851
+      ],
+      "reason": "99.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "kitchen cabinet",
+      "confidence": 0.196,
+      "box": [
+        854,
+        526,
+        948,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.196,
+      "box": [
+        596,
+        507,
+        637,
+        585
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "window",
+      "confidence": 0.194,
+      "box": [
+        855,
+        525,
+        948,
+        586
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.189,
+      "box": [
+        854,
+        472,
+        952,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.186,
+      "box": [
+        1042,
+        689,
+        1112,
+        784
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "wall mirror",
+      "confidence": 0.186,
+      "box": [
+        855,
+        525,
+        948,
+        586
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror door",
+      "confidence": 0.185,
+      "box": [
+        855,
+        525,
+        948,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "shelf",
+      "confidence": 0.184,
+      "box": [
+        855,
+        522,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "cupboard",
+      "confidence": 0.182,
+      "box": [
+        855,
+        522,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "kitchen cabinet",
+      "confidence": 0.181,
+      "box": [
+        854,
+        474,
+        951,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bathroom mirror",
+      "confidence": 0.18,
+      "box": [
+        855,
+        525,
+        948,
+        586
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.18,
+      "box": [
+        597,
+        508,
+        636,
+        584
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror door",
+      "confidence": 0.179,
+      "box": [
+        854,
+        518,
+        948,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "window",
+      "confidence": 0.176,
+      "box": [
+        854,
+        517,
+        948,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.175,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.174,
+      "box": [
+        597,
+        508,
+        636,
+        584
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror panel",
+      "confidence": 0.173,
+      "box": [
+        854,
+        518,
+        948,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.171,
+      "box": [
+        855,
+        475,
+        950,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "cupboard",
+      "confidence": 0.168,
+      "box": [
+        854,
+        472,
+        952,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "wall mirror",
+      "confidence": 0.168,
+      "box": [
+        854,
+        517,
+        948,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "books",
+      "confidence": 0.168,
+      "box": [
+        855,
+        526,
+        948,
+        586
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "decorative mirror",
+      "confidence": 0.168,
+      "box": [
+        854,
+        518,
+        948,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror window",
+      "confidence": 0.166,
+      "box": [
+        857,
+        520,
+        949,
+        541
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "shelf",
+      "confidence": 0.164,
+      "box": [
+        854,
+        472,
+        952,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "refrigerator",
+      "confidence": 0.163,
+      "box": [
+        855,
+        526,
+        947,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "fan",
+      "confidence": 0.161,
+      "box": [
+        855,
+        481,
+        946,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bottle",
+      "confidence": 0.159,
+      "box": [
+        854,
+        478,
+        949,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bathroom mirror",
+      "confidence": 0.158,
+      "box": [
+        854,
+        517,
+        948,
+        588
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bottle",
+      "confidence": 0.158,
+      "box": [
+        855,
+        526,
+        948,
+        586
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.155,
+      "box": [
+        853,
+        472,
+        952,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.155,
+      "box": [
+        1042,
+        688,
+        1113,
+        784
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.155,
+      "box": [
+        884,
+        483,
+        931,
+        522
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.154,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "kitchen cabinet",
+      "confidence": 0.152,
+      "box": [
+        854,
+        522,
+        948,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror window",
+      "confidence": 0.152,
+      "box": [
+        853,
+        472,
+        952,
+        589
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.152,
+      "box": [
+        857,
+        520,
+        949,
+        541
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "mirror panel",
+      "confidence": 0.152,
+      "box": [
+        855,
+        525,
+        948,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "flower pot",
+      "confidence": 0.152,
+      "box": [
+        873,
+        470,
+        943,
+        540
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "bookshelf",
+      "confidence": 0.151,
+      "box": [
+        855,
+        526,
+        947,
+        587
+      ],
+      "reason": "100.0% of the box is confident wall/floor/ceiling \u2014 nothing but surface"
+    },
+    {
+      "label": "door",
+      "confidence": 0.634,
+      "box": [
+        491,
+        534,
+        585,
+        771
+      ],
+      "merged_into": "door",
+      "extent": [
+        491,
+        534,
+        585,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.59,
+      "box": [
+        487,
+        530,
+        585,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        487,
+        530,
+        585,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.584,
+      "box": [
+        491,
+        532,
+        584,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        487,
+        530,
+        585,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.538,
+      "box": [
+        911,
+        437,
+        1040,
+        855
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        911,
+        436,
+        1040,
+        855
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.531,
+      "box": [
+        486,
+        530,
+        586,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        486,
+        530,
+        586,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.522,
+      "box": [
+        910,
+        437,
+        1039,
+        853
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        910,
+        436,
+        1040,
+        855
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bed",
+      "confidence": 0.508,
+      "box": [
+        575,
+        684,
+        854,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        574,
+        684,
+        854,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bed",
+      "confidence": 0.499,
+      "box": [
+        574,
+        685,
+        854,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        574,
+        684,
+        854,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.487,
+      "box": [
+        912,
+        436,
+        1040,
+        857
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        910,
+        436,
+        1040,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "door",
+      "confidence": 0.461,
+      "box": [
+        915,
+        460,
+        1031,
+        854
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        910,
+        436,
+        1040,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "door",
+      "confidence": 0.445,
+      "box": [
+        533,
+        533,
+        584,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        486,
+        530,
+        586,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.42,
+      "box": [
+        1,
+        711,
+        497,
+        957
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        711,
+        497,
+        957
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.409,
+      "box": [
+        574,
+        711,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        686,
+        667,
+        806
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.407,
+      "box": [
+        913,
+        441,
+        1036,
+        853
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        910,
+        436,
+        1040,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.402,
+      "box": [
+        689,
+        525,
+        808,
+        613
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        689,
+        525,
+        808,
+        613
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.385,
+      "box": [
+        72,
+        711,
+        472,
+        957
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        711,
+        497,
+        957
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.38,
+      "box": [
+        72,
+        712,
+        473,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        711,
+        497,
+        957
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.378,
+      "box": [
+        490,
+        530,
+        586,
+        772
+      ],
+      "merged_into": "door",
+      "extent": [
+        486,
+        530,
+        586,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bed",
+      "confidence": 0.375,
+      "box": [
+        72,
+        711,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        711,
+        497,
+        957
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.364,
+      "box": [
+        909,
+        436,
+        1041,
+        857
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        909,
+        436,
+        1041,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.352,
+      "box": [
+        495,
+        711,
+        584,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        495,
+        711,
+        584,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.347,
+      "box": [
+        911,
+        436,
+        1039,
+        853
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        909,
+        436,
+        1041,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.343,
+      "box": [
+        886,
+        877,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        886,
+        876,
+        1094,
+        1162
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.325,
+      "box": [
+        574,
+        685,
+        854,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        574,
+        684,
+        854,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "flower pot",
+      "confidence": 0.317,
+      "box": [
+        944,
+        834,
+        1005,
+        954
+      ],
+      "merged_into": "flower pot",
+      "extent": [
+        931,
+        834,
+        1005,
+        954
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.316,
+      "box": [
+        71,
+        712,
+        474,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        711,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.315,
+      "box": [
+        902,
+        800,
+        1099,
+        1046
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        901,
+        800,
+        1099,
+        1046
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.312,
+      "box": [
+        72,
+        700,
+        472,
+        888
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        700,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.312,
+      "box": [
+        887,
+        878,
+        1093,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        886,
+        876,
+        1094,
+        1162
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.293,
+      "box": [
+        885,
+        872,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        872,
+        1094,
+        1162
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.291,
+      "box": [
+        886,
+        877,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        872,
+        1094,
+        1162
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "door",
+      "confidence": 0.284,
+      "box": [
+        914,
+        457,
+        1033,
+        855
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        909,
+        436,
+        1041,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.282,
+      "box": [
+        574,
+        712,
+        854,
+        835
+      ],
+      "merged_into": "bed",
+      "extent": [
+        574,
+        684,
+        854,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.281,
+      "box": [
+        72,
+        699,
+        471,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.277,
+      "box": [
+        912,
+        442,
+        1037,
+        854
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        909,
+        436,
+        1041,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.274,
+      "box": [
+        72,
+        711,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.272,
+      "box": [
+        72,
+        699,
+        472,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.265,
+      "box": [
+        573,
+        712,
+        855,
+        835
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        684,
+        855,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.26,
+      "box": [
+        886,
+        877,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        872,
+        1094,
+        1162
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.256,
+      "box": [
+        886,
+        875,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        872,
+        1094,
+        1162
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.256,
+      "box": [
+        57,
+        1,
+        601,
+        282
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        54,
+        1,
+        601,
+        283
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "toilet",
+      "confidence": 0.255,
+      "box": [
+        71,
+        712,
+        473,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.254,
+      "box": [
+        916,
+        30,
+        1199,
+        1590
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        916,
+        30,
+        1199,
+        1593
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.253,
+      "box": [
+        574,
+        683,
+        854,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "drawer",
+      "confidence": 0.253,
+      "box": [
+        888,
+        990,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        888,
+        990,
+        919,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.253,
+      "box": [
+        2,
+        240,
+        495,
+        886
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        2,
+        240,
+        495,
+        886
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.251,
+      "box": [
+        885,
+        811,
+        1101,
+        1163
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        811,
+        1101,
+        1163
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.25,
+      "box": [
+        897,
+        873,
+        1100,
+        1045
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        897,
+        800,
+        1100,
+        1046
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.249,
+      "box": [
+        887,
+        815,
+        1099,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        811,
+        1101,
+        1163
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.249,
+      "box": [
+        886,
+        875,
+        1096,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        811,
+        1101,
+        1163
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.248,
+      "box": [
+        887,
+        871,
+        1094,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        811,
+        1101,
+        1163
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.245,
+      "box": [
+        675,
+        508,
+        822,
+        633
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        675,
+        508,
+        822,
+        633
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.245,
+      "box": [
+        885,
+        801,
+        1100,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        801,
+        1101,
+        1163
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.245,
+      "box": [
+        280,
+        738,
+        385,
+        806
+      ],
+      "merged_into": "throw",
+      "extent": [
+        279,
+        738,
+        385,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.242,
+      "box": [
+        72,
+        711,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.242,
+      "box": [
+        574,
+        711,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        686,
+        667,
+        806
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.241,
+      "box": [
+        574,
+        713,
+        855,
+        834
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "flower pot",
+      "confidence": 0.241,
+      "box": [
+        932,
+        835,
+        1005,
+        888
+      ],
+      "merged_into": "flower pot",
+      "extent": [
+        931,
+        834,
+        1005,
+        954
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.24,
+      "box": [
+        71,
+        700,
+        472,
+        888
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.24,
+      "box": [
+        574,
+        685,
+        854,
+        834
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "drawer",
+      "confidence": 0.239,
+      "box": [
+        889,
+        933,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        888,
+        933,
+        919,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.239,
+      "box": [
+        884,
+        799,
+        1008,
+        925
+      ],
+      "merged_into": "chair",
+      "extent": [
+        884,
+        799,
+        1009,
+        925
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.238,
+      "box": [
+        929,
+        143,
+        1198,
+        1588
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        916,
+        30,
+        1199,
+        1593
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.236,
+      "box": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "merged_into": "door",
+      "extent": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "vanity",
+      "confidence": 0.235,
+      "box": [
+        888,
+        877,
+        1093,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        885,
+        801,
+        1101,
+        1163
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "side table",
+      "confidence": 0.235,
+      "box": [
+        71,
+        712,
+        473,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.232,
+      "box": [
+        71,
+        712,
+        473,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.231,
+      "box": [
+        574,
+        685,
+        854,
+        834
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.23,
+      "box": [
+        496,
+        711,
+        584,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair legs",
+      "confidence": 0.23,
+      "box": [
+        574,
+        685,
+        855,
+        834
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        835
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.229,
+      "box": [
+        1017,
+        902,
+        1093,
+        975
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        1008,
+        900,
+        1095,
+        1004
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.229,
+      "box": [
+        71,
+        700,
+        472,
+        888
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.228,
+      "box": [
+        574,
+        712,
+        854,
+        836
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.227,
+      "box": [
+        882,
+        815,
+        1103,
+        1165
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        801,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.222,
+      "box": [
+        72,
+        711,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.222,
+      "box": [
+        569,
+        369,
+        666,
+        463
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        568,
+        368,
+        749,
+        464
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.221,
+      "box": [
+        574,
+        711,
+        666,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        686,
+        667,
+        806
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.221,
+      "box": [
+        72,
+        712,
+        474,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.22,
+      "box": [
+        888,
+        877,
+        1096,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        801,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.219,
+      "box": [
+        72,
+        711,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.217,
+      "box": [
+        889,
+        933,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        888,
+        933,
+        919,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "drawer",
+      "confidence": 0.216,
+      "box": [
+        887,
+        940,
+        920,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        887,
+        933,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "coffee table",
+      "confidence": 0.213,
+      "box": [
+        886,
+        877,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        801,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining table",
+      "confidence": 0.212,
+      "box": [
+        886,
+        877,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        801,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.21,
+      "box": [
+        575,
+        683,
+        854,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.209,
+      "box": [
+        574,
+        685,
+        854,
+        834
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "refrigerator",
+      "confidence": 0.207,
+      "box": [
+        889,
+        934,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        887,
+        933,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.207,
+      "box": [
+        930,
+        800,
+        1008,
+        888
+      ],
+      "merged_into": "chair",
+      "extent": [
+        884,
+        799,
+        1009,
+        925
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.207,
+      "box": [
+        690,
+        529,
+        806,
+        611
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        675,
+        508,
+        822,
+        633
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "side table",
+      "confidence": 0.206,
+      "box": [
+        885,
+        876,
+        1098,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        801,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.205,
+      "box": [
+        574,
+        711,
+        667,
+        807
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        686,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.205,
+      "box": [
+        574,
+        683,
+        854,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.205,
+      "box": [
+        887,
+        798,
+        1099,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.204,
+      "box": [
+        568,
+        369,
+        748,
+        464
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        568,
+        368,
+        749,
+        464
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "refrigerator",
+      "confidence": 0.204,
+      "box": [
+        886,
+        877,
+        1097,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair legs",
+      "confidence": 0.204,
+      "box": [
+        72,
+        712,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.202,
+      "box": [
+        889,
+        933,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        887,
+        933,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "clock",
+      "confidence": 0.201,
+      "box": [
+        568,
+        369,
+        749,
+        463
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        568,
+        368,
+        749,
+        464
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "tray",
+      "confidence": 0.2,
+      "box": [
+        888,
+        877,
+        1096,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.199,
+      "box": [
+        886,
+        871,
+        1095,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.199,
+      "box": [
+        574,
+        712,
+        854,
+        836
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.199,
+      "box": [
+        904,
+        799,
+        1099,
+        1047
+      ],
+      "merged_into": "mirror partition",
+      "extent": [
+        897,
+        799,
+        1100,
+        1047
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "blanket",
+      "confidence": 0.198,
+      "box": [
+        611,
+        734,
+        853,
+        777
+      ],
+      "merged_into": "oven",
+      "extent": [
+        606,
+        734,
+        854,
+        778
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.198,
+      "box": [
+        72,
+        699,
+        472,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair legs",
+      "confidence": 0.198,
+      "box": [
+        575,
+        683,
+        855,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.197,
+      "box": [
+        72,
+        711,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.196,
+      "box": [
+        893,
+        799,
+        1040,
+        888
+      ],
+      "merged_into": "chair",
+      "extent": [
+        884,
+        799,
+        1040,
+        925
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.195,
+      "box": [
+        496,
+        711,
+        583,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.194,
+      "box": [
+        72,
+        712,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        699,
+        497,
+        958
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "flower pot",
+      "confidence": 0.194,
+      "box": [
+        574,
+        712,
+        666,
+        807
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        686,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.194,
+      "box": [
+        534,
+        530,
+        585,
+        773
+      ],
+      "merged_into": "partition",
+      "extent": [
+        533,
+        530,
+        585,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "drawer",
+      "confidence": 0.194,
+      "box": [
+        885,
+        885,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair legs",
+      "confidence": 0.194,
+      "box": [
+        574,
+        712,
+        855,
+        835
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.193,
+      "box": [
+        887,
+        804,
+        1099,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.193,
+      "box": [
+        488,
+        531,
+        585,
+        772
+      ],
+      "merged_into": "door",
+      "extent": [
+        486,
+        530,
+        586,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.192,
+      "box": [
+        574,
+        684,
+        854,
+        834
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.192,
+      "box": [
+        497,
+        711,
+        583,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.191,
+      "box": [
+        885,
+        870,
+        1095,
+        1163
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.191,
+      "box": [
+        574,
+        686,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        686,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.191,
+      "box": [
+        885,
+        814,
+        1101,
+        1164
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.19,
+      "box": [
+        959,
+        166,
+        1199,
+        887
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        920,
+        27,
+        1199,
+        887
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.189,
+      "box": [
+        888,
+        876,
+        1095,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "refrigerator",
+      "confidence": 0.188,
+      "box": [
+        491,
+        533,
+        584,
+        772
+      ],
+      "merged_into": "door",
+      "extent": [
+        486,
+        530,
+        586,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "toilet",
+      "confidence": 0.188,
+      "box": [
+        71,
+        698,
+        473,
+        960
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        960
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.188,
+      "box": [
+        574,
+        685,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "drawer",
+      "confidence": 0.187,
+      "box": [
+        886,
+        877,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.187,
+      "box": [
+        889,
+        933,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.186,
+      "box": [
+        889,
+        934,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "sink",
+      "confidence": 0.186,
+      "box": [
+        350,
+        819,
+        466,
+        886
+      ],
+      "merged_into": "table",
+      "extent": [
+        350,
+        819,
+        466,
+        887
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.186,
+      "box": [
+        71,
+        700,
+        472,
+        888
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        960
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.185,
+      "box": [
+        3,
+        712,
+        495,
+        967
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "coffee table",
+      "confidence": 0.185,
+      "box": [
+        885,
+        872,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.184,
+      "box": [
+        55,
+        0,
+        599,
+        280
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        54,
+        0,
+        601,
+        283
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.184,
+      "box": [
+        596,
+        732,
+        854,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "rug",
+      "confidence": 0.184,
+      "box": [
+        831,
+        856,
+        923,
+        906
+      ],
+      "merged_into": "clock",
+      "extent": [
+        831,
+        855,
+        923,
+        906
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "kitchen cabinet",
+      "confidence": 0.184,
+      "box": [
+        887,
+        876,
+        1095,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.184,
+      "box": [
+        885,
+        885,
+        919,
+        1112
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        885,
+        885,
+        919,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "book",
+      "confidence": 0.183,
+      "box": [
+        243,
+        797,
+        363,
+        857
+      ],
+      "merged_into": "throw",
+      "extent": [
+        243,
+        797,
+        364,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "book",
+      "confidence": 0.182,
+      "box": [
+        243,
+        797,
+        390,
+        857
+      ],
+      "merged_into": "throw",
+      "extent": [
+        243,
+        797,
+        390,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.182,
+      "box": [
+        242,
+        797,
+        364,
+        856
+      ],
+      "merged_into": "throw",
+      "extent": [
+        242,
+        797,
+        390,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.181,
+      "box": [
+        889,
+        933,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.181,
+      "box": [
+        72,
+        699,
+        472,
+        887
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table legs",
+      "confidence": 0.179,
+      "box": [
+        349,
+        819,
+        466,
+        886
+      ],
+      "merged_into": "table",
+      "extent": [
+        349,
+        819,
+        466,
+        887
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining chair",
+      "confidence": 0.179,
+      "box": [
+        574,
+        711,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.179,
+      "box": [
+        574,
+        711,
+        666,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "dining table",
+      "confidence": 0.178,
+      "box": [
+        885,
+        872,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "drawer",
+      "confidence": 0.178,
+      "box": [
+        890,
+        991,
+        908,
+        1110
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.178,
+      "box": [
+        568,
+        229,
+        666,
+        464
+      ],
+      "merged_into": "mirror",
+      "extent": [
+        568,
+        229,
+        666,
+        464
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "flower pot",
+      "confidence": 0.178,
+      "box": [
+        72,
+        711,
+        472,
+        957
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "flower pot",
+      "confidence": 0.178,
+      "box": [
+        898,
+        845,
+        956,
+        888
+      ],
+      "merged_into": "flower pot",
+      "extent": [
+        897,
+        841,
+        956,
+        910
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.178,
+      "box": [
+        72,
+        711,
+        472,
+        957
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair legs",
+      "confidence": 0.178,
+      "box": [
+        574,
+        685,
+        666,
+        807
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.177,
+      "box": [
+        972,
+        161,
+        1198,
+        1585
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        916,
+        30,
+        1199,
+        1593
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair legs",
+      "confidence": 0.177,
+      "box": [
+        72,
+        699,
+        473,
+        958
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.177,
+      "box": [
+        350,
+        820,
+        464,
+        887
+      ],
+      "merged_into": "table",
+      "extent": [
+        349,
+        819,
+        466,
+        887
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.177,
+      "box": [
+        73,
+        711,
+        472,
+        957
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.177,
+      "box": [
+        961,
+        714,
+        1199,
+        1592
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        916,
+        30,
+        1199,
+        1593
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table lamp",
+      "confidence": 0.176,
+      "box": [
+        886,
+        877,
+        1097,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.175,
+      "box": [
+        534,
+        530,
+        585,
+        773
+      ],
+      "merged_into": "partition",
+      "extent": [
+        533,
+        530,
+        585,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror partition",
+      "confidence": 0.175,
+      "box": [
+        885,
+        853,
+        1098,
+        1163
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.175,
+      "box": [
+        886,
+        876,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.174,
+      "box": [
+        574,
+        712,
+        854,
+        836
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "door",
+      "confidence": 0.174,
+      "box": [
+        533,
+        711,
+        583,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.174,
+      "box": [
+        690,
+        528,
+        806,
+        612
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        675,
+        508,
+        822,
+        633
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "book",
+      "confidence": 0.174,
+      "box": [
+        246,
+        795,
+        388,
+        857
+      ],
+      "merged_into": "throw",
+      "extent": [
+        242,
+        795,
+        390,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.173,
+      "box": [
+        574,
+        712,
+        854,
+        835
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.173,
+      "box": [
+        917,
+        141,
+        1199,
+        887
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        917,
+        27,
+        1199,
+        887
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bathroom mirror",
+      "confidence": 0.172,
+      "box": [
+        886,
+        875,
+        1096,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.172,
+      "box": [
+        58,
+        1,
+        600,
+        280
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        54,
+        0,
+        601,
+        283
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.171,
+      "box": [
+        568,
+        370,
+        748,
+        462
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        568,
+        368,
+        749,
+        464
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table legs",
+      "confidence": 0.171,
+      "box": [
+        884,
+        860,
+        1096,
+        1163
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.171,
+      "box": [
+        630,
+        734,
+        853,
+        778
+      ],
+      "merged_into": "oven",
+      "extent": [
+        606,
+        734,
+        854,
+        778
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.171,
+      "box": [
+        887,
+        876,
+        1095,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.171,
+      "box": [
+        894,
+        712,
+        1199,
+        1595
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        894,
+        30,
+        1199,
+        1595
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.17,
+      "box": [
+        689,
+        526,
+        807,
+        613
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        675,
+        508,
+        822,
+        633
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.17,
+      "box": [
+        568,
+        371,
+        749,
+        463
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        568,
+        368,
+        749,
+        464
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "shelf",
+      "confidence": 0.17,
+      "box": [
+        886,
+        877,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.17,
+      "box": [
+        243,
+        738,
+        388,
+        858
+      ],
+      "merged_into": "throw",
+      "extent": [
+        243,
+        738,
+        388,
+        858
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.169,
+      "box": [
+        587,
+        500,
+        816,
+        621
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        587,
+        500,
+        822,
+        633
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.168,
+      "box": [
+        889,
+        932,
+        1090,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "rack",
+      "confidence": 0.168,
+      "box": [
+        606,
+        734,
+        854,
+        778
+      ],
+      "merged_into": "oven",
+      "extent": [
+        606,
+        734,
+        854,
+        778
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.167,
+      "box": [
+        911,
+        713,
+        1199,
+        1594
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        894,
+        30,
+        1199,
+        1595
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.167,
+      "box": [
+        243,
+        797,
+        364,
+        857
+      ],
+      "merged_into": "throw",
+      "extent": [
+        242,
+        795,
+        390,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.167,
+      "box": [
+        689,
+        528,
+        806,
+        612
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        587,
+        500,
+        822,
+        633
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "clock",
+      "confidence": 0.167,
+      "box": [
+        243,
+        796,
+        364,
+        856
+      ],
+      "merged_into": "throw",
+      "extent": [
+        242,
+        795,
+        390,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.167,
+      "box": [
+        590,
+        222,
+        636,
+        293
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        590,
+        222,
+        636,
+        293
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.166,
+      "box": [
+        72,
+        700,
+        472,
+        888
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cupboard",
+      "confidence": 0.166,
+      "box": [
+        889,
+        933,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.166,
+      "box": [
+        897,
+        713,
+        1199,
+        1594
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        894,
+        30,
+        1199,
+        1595
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.166,
+      "box": [
+        885,
+        883,
+        919,
+        1112
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        885,
+        883,
+        919,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "couch",
+      "confidence": 0.165,
+      "box": [
+        574,
+        712,
+        854,
+        836
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror cabinet",
+      "confidence": 0.165,
+      "box": [
+        886,
+        876,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "toilet",
+      "confidence": 0.165,
+      "box": [
+        71,
+        699,
+        473,
+        888
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.165,
+      "box": [
+        279,
+        737,
+        384,
+        808
+      ],
+      "merged_into": "throw",
+      "extent": [
+        243,
+        737,
+        388,
+        858
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "drawer",
+      "confidence": 0.164,
+      "box": [
+        497,
+        711,
+        583,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.164,
+      "box": [
+        898,
+        847,
+        956,
+        889
+      ],
+      "merged_into": "table",
+      "extent": [
+        898,
+        847,
+        956,
+        889
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bed",
+      "confidence": 0.164,
+      "box": [
+        574,
+        711,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cupboard",
+      "confidence": 0.164,
+      "box": [
+        889,
+        990,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "blanket",
+      "confidence": 0.164,
+      "box": [
+        632,
+        734,
+        853,
+        778
+      ],
+      "merged_into": "oven",
+      "extent": [
+        606,
+        734,
+        854,
+        778
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.164,
+      "box": [
+        574,
+        711,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.163,
+      "box": [
+        886,
+        871,
+        1095,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.163,
+      "box": [
+        497,
+        711,
+        583,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.163,
+      "box": [
+        58,
+        1,
+        603,
+        284
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        54,
+        0,
+        603,
+        284
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.162,
+      "box": [
+        574,
+        685,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.162,
+      "box": [
+        907,
+        711,
+        989,
+        855
+      ],
+      "merged_into": "door",
+      "extent": [
+        907,
+        711,
+        989,
+        858
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.162,
+      "box": [
+        226,
+        818,
+        466,
+        957
+      ],
+      "merged_into": "mirror",
+      "extent": [
+        226,
+        818,
+        466,
+        957
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wardrobe",
+      "confidence": 0.161,
+      "box": [
+        889,
+        990,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.161,
+      "box": [
+        487,
+        528,
+        587,
+        772
+      ],
+      "merged_into": "door",
+      "extent": [
+        486,
+        528,
+        587,
+        773
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table legs",
+      "confidence": 0.161,
+      "box": [
+        886,
+        875,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair legs",
+      "confidence": 0.161,
+      "box": [
+        574,
+        711,
+        666,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "clock",
+      "confidence": 0.161,
+      "box": [
+        831,
+        855,
+        899,
+        904
+      ],
+      "merged_into": "clock",
+      "extent": [
+        831,
+        855,
+        923,
+        906
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "sink",
+      "confidence": 0.161,
+      "box": [
+        227,
+        819,
+        466,
+        957
+      ],
+      "merged_into": "mirror",
+      "extent": [
+        226,
+        818,
+        466,
+        957
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "coffee table",
+      "confidence": 0.161,
+      "box": [
+        350,
+        821,
+        465,
+        887
+      ],
+      "merged_into": "table",
+      "extent": [
+        349,
+        819,
+        466,
+        887
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.161,
+      "box": [
+        889,
+        934,
+        919,
+        1111
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.161,
+      "box": [
+        886,
+        876,
+        1094,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.161,
+      "box": [
+        898,
+        846,
+        956,
+        888
+      ],
+      "merged_into": "table",
+      "extent": [
+        898,
+        846,
+        956,
+        889
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.161,
+      "box": [
+        889,
+        871,
+        1043,
+        889
+      ],
+      "merged_into": "mirror",
+      "extent": [
+        889,
+        846,
+        1043,
+        889
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.16,
+      "box": [
+        897,
+        714,
+        1199,
+        1593
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        894,
+        30,
+        1199,
+        1595
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.16,
+      "box": [
+        497,
+        711,
+        583,
+        773
+      ],
+      "merged_into": "door",
+      "extent": [
+        494,
+        711,
+        607,
+        774
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.16,
+      "box": [
+        905,
+        711,
+        990,
+        853
+      ],
+      "merged_into": "door",
+      "extent": [
+        905,
+        711,
+        990,
+        858
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.16,
+      "box": [
+        889,
+        990,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "framed mirror",
+      "confidence": 0.159,
+      "box": [
+        72,
+        711,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "shelf",
+      "confidence": 0.159,
+      "box": [
+        889,
+        933,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.159,
+      "box": [
+        656,
+        495,
+        839,
+        649
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        587,
+        495,
+        839,
+        649
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wardrobe",
+      "confidence": 0.158,
+      "box": [
+        910,
+        1062,
+        1089,
+        1161
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        910,
+        1062,
+        1089,
+        1161
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bed",
+      "confidence": 0.158,
+      "box": [
+        71,
+        700,
+        472,
+        888
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "potted plant",
+      "confidence": 0.158,
+      "box": [
+        72,
+        711,
+        472,
+        957
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "couch",
+      "confidence": 0.157,
+      "box": [
+        574,
+        685,
+        854,
+        834
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.157,
+      "box": [
+        567,
+        227,
+        749,
+        466
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        567,
+        227,
+        749,
+        466
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "book",
+      "confidence": 0.157,
+      "box": [
+        246,
+        796,
+        363,
+        856
+      ],
+      "merged_into": "throw",
+      "extent": [
+        242,
+        795,
+        390,
+        857
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "rack",
+      "confidence": 0.156,
+      "box": [
+        831,
+        856,
+        900,
+        887
+      ],
+      "merged_into": "rug",
+      "extent": [
+        831,
+        856,
+        906,
+        888
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.156,
+      "box": [
+        574,
+        711,
+        667,
+        806
+      ],
+      "merged_into": "chair",
+      "extent": [
+        574,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.156,
+      "box": [
+        835,
+        470,
+        952,
+        802
+      ],
+      "merged_into": "desk",
+      "extent": [
+        834,
+        469,
+        954,
+        802
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wardrobe",
+      "confidence": 0.156,
+      "box": [
+        889,
+        933,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.156,
+      "box": [
+        241,
+        760,
+        460,
+        861
+      ],
+      "merged_into": "oven",
+      "extent": [
+        241,
+        760,
+        460,
+        861
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.156,
+      "box": [
+        996,
+        884,
+        1109,
+        1043
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        996,
+        884,
+        1109,
+        1043
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bedside table",
+      "confidence": 0.156,
+      "box": [
+        72,
+        699,
+        472,
+        957
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.156,
+      "box": [
+        888,
+        801,
+        1096,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.155,
+      "box": [
+        535,
+        423,
+        961,
+        813
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        535,
+        423,
+        961,
+        813
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "ottoman",
+      "confidence": 0.155,
+      "box": [
+        887,
+        878,
+        1093,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall mirror",
+      "confidence": 0.155,
+      "box": [
+        886,
+        875,
+        1096,
+        1162
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.155,
+      "box": [
+        833,
+        467,
+        954,
+        801
+      ],
+      "merged_into": "desk",
+      "extent": [
+        833,
+        467,
+        954,
+        802
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "side table",
+      "confidence": 0.155,
+      "box": [
+        573,
+        712,
+        666,
+        807
+      ],
+      "merged_into": "chair",
+      "extent": [
+        573,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair",
+      "confidence": 0.154,
+      "box": [
+        899,
+        800,
+        1008,
+        890
+      ],
+      "merged_into": "chair",
+      "extent": [
+        884,
+        799,
+        1040,
+        925
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "vanity",
+      "confidence": 0.154,
+      "box": [
+        887,
+        872,
+        1095,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chandelier",
+      "confidence": 0.154,
+      "box": [
+        251,
+        83,
+        360,
+        279
+      ],
+      "merged_into": "chandelier",
+      "extent": [
+        250,
+        2,
+        360,
+        279
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.154,
+      "box": [
+        568,
+        416,
+        666,
+        462
+      ],
+      "merged_into": "mirror",
+      "extent": [
+        568,
+        229,
+        666,
+        464
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.154,
+      "box": [
+        887,
+        940,
+        920,
+        1112
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        885,
+        883,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "toilet",
+      "confidence": 0.154,
+      "box": [
+        573,
+        712,
+        666,
+        807
+      ],
+      "merged_into": "chair",
+      "extent": [
+        573,
+        685,
+        667,
+        807
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.153,
+      "box": [
+        832,
+        856,
+        923,
+        904
+      ],
+      "merged_into": "clock",
+      "extent": [
+        831,
+        855,
+        923,
+        906
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.153,
+      "box": [
+        692,
+        529,
+        805,
+        610
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        587,
+        495,
+        839,
+        649
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bench",
+      "confidence": 0.153,
+      "box": [
+        887,
+        878,
+        1093,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "chair legs",
+      "confidence": 0.153,
+      "box": [
+        71,
+        699,
+        473,
+        888
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "desk",
+      "confidence": 0.153,
+      "box": [
+        575,
+        684,
+        854,
+        833
+      ],
+      "merged_into": "bed",
+      "extent": [
+        573,
+        683,
+        855,
+        836
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.153,
+      "box": [
+        226,
+        818,
+        466,
+        957
+      ],
+      "merged_into": "mirror",
+      "extent": [
+        226,
+        818,
+        466,
+        957
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "table",
+      "confidence": 0.153,
+      "box": [
+        885,
+        883,
+        919,
+        1112
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        885,
+        883,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.152,
+      "box": [
+        885,
+        870,
+        1095,
+        1163
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.152,
+      "box": [
+        360,
+        820,
+        464,
+        884
+      ],
+      "merged_into": "table",
+      "extent": [
+        349,
+        819,
+        466,
+        887
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.152,
+      "box": [
+        531,
+        484,
+        643,
+        589
+      ],
+      "merged_into": "wall art",
+      "extent": [
+        531,
+        484,
+        649,
+        598
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror",
+      "confidence": 0.152,
+      "box": [
+        884,
+        881,
+        920,
+        1113
+      ],
+      "merged_into": "cabinet",
+      "extent": [
+        884,
+        881,
+        920,
+        1113
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "kitchen cabinet",
+      "confidence": 0.152,
+      "box": [
+        889,
+        934,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "side table",
+      "confidence": 0.151,
+      "box": [
+        885,
+        870,
+        1097,
+        1163
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.151,
+      "box": [
+        931,
+        837,
+        1004,
+        953
+      ],
+      "merged_into": "flower pot",
+      "extent": [
+        931,
+        834,
+        1005,
+        954
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "bench",
+      "confidence": 0.151,
+      "box": [
+        72,
+        711,
+        472,
+        956
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.151,
+      "box": [
+        535,
+        422,
+        1033,
+        851
+      ],
+      "merged_into": "mirror wall",
+      "extent": [
+        535,
+        422,
+        1033,
+        851
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "throw",
+      "confidence": 0.151,
+      "box": [
+        887,
+        856,
+        1096,
+        1161
+      ],
+      "merged_into": "partition",
+      "extent": [
+        882,
+        798,
+        1103,
+        1165
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "cabinet",
+      "confidence": 0.151,
+      "box": [
+        903,
+        711,
+        988,
+        854
+      ],
+      "merged_into": "door",
+      "extent": [
+        903,
+        711,
+        990,
+        858
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "oven",
+      "confidence": 0.15,
+      "box": [
+        244,
+        759,
+        459,
+        862
+      ],
+      "merged_into": "oven",
+      "extent": [
+        241,
+        759,
+        460,
+        862
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "vanity mirror",
+      "confidence": 0.15,
+      "box": [
+        889,
+        934,
+        919,
+        1112
+      ],
+      "merged_into": "drawer",
+      "extent": [
+        885,
+        885,
+        920,
+        1112
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "partition",
+      "confidence": 0.15,
+      "box": [
+        71,
+        698,
+        473,
+        960
+      ],
+      "merged_into": "partition",
+      "extent": [
+        1,
+        698,
+        497,
+        967
+      ],
+      "reason": "same physical object as a stronger detection"
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.524,
+      "box": [
+        587,
+        495,
+        839,
+        649
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.2019,
+          "sam_predicted_iou": 0.5039,
+          "mask_area": 18781,
+          "bbox_area": 38808,
+          "mask_to_bbox_ratio": 0.4839,
+          "inside_box_ratio": 0.6843,
+          "frame_fraction": 0.00978,
+          "surface_overlap_ratio": 0.9913,
+          "connected_component_count": 13,
+          "rejected": [
+            "99% of the mask is wall/floor/ceiling and it covers 1% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.3265,
+          "sam_predicted_iou": 0.6506,
+          "mask_area": 33111,
+          "bbox_area": 38808,
+          "mask_to_bbox_ratio": 0.8532,
+          "inside_box_ratio": 0.7195,
+          "frame_fraction": 0.01725,
+          "surface_overlap_ratio": 0.9611,
+          "connected_component_count": 20,
+          "rejected": [
+            "96% of the mask is wall/floor/ceiling and it covers 2% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.3175,
+          "sam_predicted_iou": 0.7781,
+          "mask_area": 20605,
+          "bbox_area": 38808,
+          "mask_to_bbox_ratio": 0.5309,
+          "inside_box_ratio": 0.9115,
+          "frame_fraction": 0.01073,
+          "surface_overlap_ratio": 0.9443,
+          "connected_component_count": 5,
+          "rejected": [
+            "94% of the mask is wall/floor/ceiling and it covers 1% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.474,
+      "box": [
+        894,
+        30,
+        1199,
+        1595
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.2944,
+          "sam_predicted_iou": 0.9337,
+          "mask_area": 169239,
+          "bbox_area": 477325,
+          "mask_to_bbox_ratio": 0.3546,
+          "inside_box_ratio": 0.9973,
+          "frame_fraction": 0.08815,
+          "surface_overlap_ratio": 0.9946,
+          "connected_component_count": 29,
+          "rejected": [
+            "99% of the mask is wall/floor/ceiling and it covers 9% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.3192,
+          "sam_predicted_iou": 0.8971,
+          "mask_area": 180331,
+          "bbox_area": 477325,
+          "mask_to_bbox_ratio": 0.3778,
+          "inside_box_ratio": 0.9988,
+          "frame_fraction": 0.09392,
+          "surface_overlap_ratio": 0.9092,
+          "connected_component_count": 40,
+          "rejected": [
+            "91% of the mask is wall/floor/ceiling and it covers 9% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.3046,
+          "sam_predicted_iou": 0.9579,
+          "mask_area": 174553,
+          "bbox_area": 477325,
+          "mask_to_bbox_ratio": 0.3657,
+          "inside_box_ratio": 0.9982,
+          "frame_fraction": 0.09091,
+          "surface_overlap_ratio": 0.9882,
+          "connected_component_count": 38,
+          "rejected": [
+            "99% of the mask is wall/floor/ceiling and it covers 9% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.291,
+      "box": [
+        2,
+        240,
+        495,
+        886
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.2327,
+          "sam_predicted_iou": 0.9141,
+          "mask_area": 53632,
+          "bbox_area": 318478,
+          "mask_to_bbox_ratio": 0.1684,
+          "inside_box_ratio": 0.9881,
+          "frame_fraction": 0.02793,
+          "surface_overlap_ratio": 1.0,
+          "connected_component_count": 160,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 3% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.353,
+          "sam_predicted_iou": 0.9372,
+          "mask_area": 175276,
+          "bbox_area": 318478,
+          "mask_to_bbox_ratio": 0.5504,
+          "inside_box_ratio": 0.9856,
+          "frame_fraction": 0.09129,
+          "surface_overlap_ratio": 0.9919,
+          "connected_component_count": 42,
+          "rejected": [
+            "99% of the mask is wall/floor/ceiling and it covers 9% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.3539,
+          "sam_predicted_iou": 0.9674,
+          "mask_area": 169622,
+          "bbox_area": 318478,
+          "mask_to_bbox_ratio": 0.5326,
+          "inside_box_ratio": 0.9959,
+          "frame_fraction": 0.08834,
+          "surface_overlap_ratio": 0.9964,
+          "connected_component_count": 33,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 9% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "desk",
+      "confidence": 0.195,
+      "box": [
+        833,
+        467,
+        954,
+        802
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.3364,
+          "sam_predicted_iou": 0.9169,
+          "mask_area": 20641,
+          "bbox_area": 40535,
+          "mask_to_bbox_ratio": 0.5092,
+          "inside_box_ratio": 1.0,
+          "frame_fraction": 0.01075,
+          "surface_overlap_ratio": 0.9991,
+          "connected_component_count": 3,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 1% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.2569,
+          "sam_predicted_iou": 0.854,
+          "mask_area": 11298,
+          "bbox_area": 40535,
+          "mask_to_bbox_ratio": 0.2787,
+          "inside_box_ratio": 1.0,
+          "frame_fraction": 0.00588,
+          "surface_overlap_ratio": 0.9902,
+          "connected_component_count": 8,
+          "rejected": [
+            "99% of the mask is wall/floor/ceiling and it covers 1% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.2767,
+          "sam_predicted_iou": 0.956,
+          "mask_area": 11226,
+          "bbox_area": 40535,
+          "mask_to_bbox_ratio": 0.2769,
+          "inside_box_ratio": 1.0,
+          "frame_fraction": 0.00585,
+          "surface_overlap_ratio": 0.9912,
+          "connected_component_count": 8,
+          "rejected": [
+            "99% of the mask is wall/floor/ceiling and it covers 1% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "table",
+      "confidence": 0.189,
+      "box": [
+        2,
+        752,
+        1145,
+        1598
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.3987,
+          "sam_predicted_iou": 0.9864,
+          "mask_area": 651189,
+          "bbox_area": 966978,
+          "mask_to_bbox_ratio": 0.6734,
+          "inside_box_ratio": 0.997,
+          "frame_fraction": 0.33916,
+          "surface_overlap_ratio": 1.0,
+          "connected_component_count": 38,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 34% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.4148,
+          "sam_predicted_iou": 0.9914,
+          "mask_area": 698956,
+          "bbox_area": 966978,
+          "mask_to_bbox_ratio": 0.7228,
+          "inside_box_ratio": 0.9968,
+          "frame_fraction": 0.36404,
+          "surface_overlap_ratio": 0.9991,
+          "connected_component_count": 33,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 36% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.4167,
+          "sam_predicted_iou": 0.9949,
+          "mask_area": 702296,
+          "bbox_area": 966978,
+          "mask_to_bbox_ratio": 0.7263,
+          "inside_box_ratio": 0.9969,
+          "frame_fraction": 0.36578,
+          "surface_overlap_ratio": 0.9989,
+          "connected_component_count": 42,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 37% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "partition",
+      "confidence": 0.177,
+      "box": [
+        888,
+        157,
+        1199,
+        1591
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.2973,
+          "sam_predicted_iou": 0.9357,
+          "mask_area": 160701,
+          "bbox_area": 445974,
+          "mask_to_bbox_ratio": 0.3603,
+          "inside_box_ratio": 0.9965,
+          "frame_fraction": 0.0837,
+          "surface_overlap_ratio": 0.9918,
+          "connected_component_count": 35,
+          "rejected": [
+            "99% of the mask is wall/floor/ceiling and it covers 8% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.3146,
+          "sam_predicted_iou": 0.8996,
+          "mask_area": 165321,
+          "bbox_area": 445974,
+          "mask_to_bbox_ratio": 0.3707,
+          "inside_box_ratio": 0.9983,
+          "frame_fraction": 0.0861,
+          "surface_overlap_ratio": 0.9188,
+          "connected_component_count": 49,
+          "rejected": [
+            "92% of the mask is wall/floor/ceiling and it covers 9% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.3011,
+          "sam_predicted_iou": 0.9531,
+          "mask_area": 161507,
+          "bbox_area": 445974,
+          "mask_to_bbox_ratio": 0.3621,
+          "inside_box_ratio": 0.9973,
+          "frame_fraction": 0.08412,
+          "surface_overlap_ratio": 0.9928,
+          "connected_component_count": 31,
+          "rejected": [
+            "99% of the mask is wall/floor/ceiling and it covers 8% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "mirror wall",
+      "confidence": 0.167,
+      "box": [
+        535,
+        422,
+        1033,
+        851
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.1393,
+          "sam_predicted_iou": 0.4028,
+          "mask_area": 39639,
+          "bbox_area": 213642,
+          "mask_to_bbox_ratio": 0.1855,
+          "inside_box_ratio": 1.0,
+          "frame_fraction": 0.02065,
+          "surface_overlap_ratio": 0.9772,
+          "connected_component_count": 35,
+          "rejected": [
+            "98% of the mask is wall/floor/ceiling and it covers 2% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.2517,
+          "sam_predicted_iou": 0.8116,
+          "mask_area": 54671,
+          "bbox_area": 213642,
+          "mask_to_bbox_ratio": 0.2559,
+          "inside_box_ratio": 1.0,
+          "frame_fraction": 0.02847,
+          "surface_overlap_ratio": 0.9474,
+          "connected_component_count": 55,
+          "rejected": [
+            "95% of the mask is wall/floor/ceiling and it covers 3% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.25,
+          "sam_predicted_iou": 0.8342,
+          "mask_area": 53850,
+          "bbox_area": 213642,
+          "mask_to_bbox_ratio": 0.2521,
+          "inside_box_ratio": 1.0,
+          "frame_fraction": 0.02805,
+          "surface_overlap_ratio": 0.969,
+          "connected_component_count": 41,
+          "rejected": [
+            "97% of the mask is wall/floor/ceiling and it covers 3% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "mirror standwall panel",
+      "confidence": 0.162,
+      "box": [
+        644,
+        481,
+        666,
+        698
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.2398,
+          "sam_predicted_iou": 0.6937,
+          "mask_area": 1924,
+          "bbox_area": 4774,
+          "mask_to_bbox_ratio": 0.403,
+          "inside_box_ratio": 0.8347,
+          "frame_fraction": 0.001,
+          "surface_overlap_ratio": 0.9995,
+          "connected_component_count": 11,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 0% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.0928,
+          "sam_predicted_iou": 0.2646,
+          "mask_area": 29344,
+          "bbox_area": 4774,
+          "mask_to_bbox_ratio": 6.1466,
+          "inside_box_ratio": 0.1295,
+          "frame_fraction": 0.01528,
+          "surface_overlap_ratio": 0.9888,
+          "connected_component_count": 19,
+          "rejected": [
+            "only 13% of the mask is inside its detection box",
+            "99% of the mask is wall/floor/ceiling and it covers 2% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.2963,
+          "sam_predicted_iou": 0.5996,
+          "mask_area": 6696,
+          "bbox_area": 4774,
+          "mask_to_bbox_ratio": 1.4026,
+          "inside_box_ratio": 0.5857,
+          "frame_fraction": 0.00349,
+          "surface_overlap_ratio": 0.9979,
+          "connected_component_count": 75,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 0% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "wall art",
+      "confidence": 0.155,
+      "box": [
+        531,
+        484,
+        649,
+        598
+      ],
+      "reason": "no SAM candidate passed the acceptance checks",
+      "candidates": [
+        {
+          "candidate": 0,
+          "rank": 0.2349,
+          "sam_predicted_iou": 0.7561,
+          "mask_area": 3788,
+          "bbox_area": 13452,
+          "mask_to_bbox_ratio": 0.2816,
+          "inside_box_ratio": 0.9871,
+          "frame_fraction": 0.00197,
+          "surface_overlap_ratio": 0.9989,
+          "connected_component_count": 8,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 0% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 1,
+          "rank": 0.2628,
+          "sam_predicted_iou": 0.5629,
+          "mask_area": 8943,
+          "bbox_area": 13452,
+          "mask_to_bbox_ratio": 0.6648,
+          "inside_box_ratio": 0.7484,
+          "frame_fraction": 0.00466,
+          "surface_overlap_ratio": 0.9962,
+          "connected_component_count": 10,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 0% of the frame \u2014 a surface, not an object on one"
+          ]
+        },
+        {
+          "candidate": 2,
+          "rank": 0.3027,
+          "sam_predicted_iou": 0.827,
+          "mask_area": 6374,
+          "bbox_area": 13452,
+          "mask_to_bbox_ratio": 0.4738,
+          "inside_box_ratio": 0.96,
+          "frame_fraction": 0.00332,
+          "surface_overlap_ratio": 0.9973,
+          "connected_component_count": 14,
+          "rejected": [
+            "100% of the mask is wall/floor/ceiling and it covers 0% of the frame \u2014 a surface, not an object on one"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "object_002",
+      "label": "object",
+      "confidence": 0.654,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_009",
+      "label": "object",
+      "confidence": 0.459,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_015",
+      "label": "object",
+      "confidence": 0.313,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_016",
+      "label": "chair",
+      "confidence": 0.3,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_018",
+      "label": "flower pot",
+      "confidence": 0.258,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_019",
+      "label": "object",
+      "confidence": 0.234,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_020",
+      "label": "chandelier",
+      "confidence": 0.23,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_021",
+      "label": "throw",
+      "confidence": 0.219,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_023",
+      "label": "oven",
+      "confidence": 0.215,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_024",
+      "label": "object",
+      "confidence": 0.214,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_026",
+      "label": "object",
+      "confidence": 0.207,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_027",
+      "label": "object",
+      "confidence": 0.205,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_030",
+      "label": "table",
+      "confidence": 0.185,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_032",
+      "label": "mirror wall",
+      "confidence": 0.181,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_033",
+      "label": "mirror wall",
+      "confidence": 0.18,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_034",
+      "label": "flower pot",
+      "confidence": 0.18,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_037",
+      "label": "table",
+      "confidence": 0.171,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_038",
+      "label": "oven",
+      "confidence": 0.171,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_039",
+      "label": "chandelier",
+      "confidence": 0.166,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_040",
+      "label": "object",
+      "confidence": 0.164,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_041",
+      "label": "mirror wall",
+      "confidence": 0.163,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_043",
+      "label": "object",
+      "confidence": 0.163,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_044",
+      "label": "mirror standwall panel",
+      "confidence": 0.16,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_045",
+      "label": "chair",
+      "confidence": 0.158,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_047",
+      "label": "object",
+      "confidence": 0.154,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_048",
+      "label": "mirror standwall panel",
+      "confidence": 0.152,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    },
+    {
+      "id": "object_049",
+      "label": "table",
+      "confidence": 0.151,
+      "reason": "every pixel was claimed by a stronger overlapping object"
+    }
+  ],
+  "models": {
+    "detection": "Grounding DINO tiny (ONNX, CPU)",
+    "segmentation": "SAM 2.1 Hiera-large (ONNX, CPU)",
+    "surfaces": "SegFormer-B4 ADE20K (ONNX, CPU)",
+    "matting": "colour guided filter + foreground decontamination",
+    "inpainting": "LaMa (big-lama, ONNX, CPU)"
+  },
+  "thresholds": {
+    "box_threshold": 0.15,
+    "text_threshold": 0.1,
+    "duplicate_iou": 0.65
+  },
+  "clean_room": {
+    "model": "LaMa (big-lama, ONNX, CPU)",
+    "grid": 512,
+    "hole_px": 602663,
+    "grow_px": 8,
+    "windows": 6,
+    "whole_frame": false,
+    "filled_px": 713059,
+    "available": true,
+    "filename": "CLEAN_ROOM.png",
+    "checks": {
+      "outside_changed": 0,
+      "hole_px": 713059,
+      "dark_px": 6073,
+      "mean_rgb": [
+        107.4,
+        108.4,
+        106.4
+      ],
+      "surface_delta": {
+        "wall": 12.77,
+        "floor": 65.65,
+        "ceiling": 17.26
+      }
+    }
+  },
+  "fragments_removed": {
+    "all_objects": {
+      "removed": 37,
+      "components": 13
+    },
+    "mirrors": {
+      "removed": 0,
+      "components": 0
+    }
+  }
+}

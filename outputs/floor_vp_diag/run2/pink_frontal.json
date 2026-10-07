@@ -1,0 +1,91 @@
+{
+ "room": "pink_frontal",
+ "size": [
+  673,
+  1200
+ ],
+ "stored_camera_reproduced": true,
+ "floor_status": "detected",
+ "vanishing_points": {
+  "depth_vp": [
+   317.6751308430571,
+   628.6917046393006
+  ],
+  "horizon_y": 628.6917046393006,
+  "origin": "long-structural-lines",
+  "confidence": 0.3037,
+  "threshold": 0.55,
+  "source": "auto"
+ },
+ "vp_report_decision": "long lines' VP used (the floor gave none)",
+ "floor_vp_score": {
+  "inliers": 0,
+  "support": 0.0,
+  "spread_deg": null,
+  "confident": false
+ },
+ "pool_lines": 6,
+ "pool_vp": {
+  "point": [
+   317.6751308430571,
+   628.6917046393006
+  ],
+  "inliers": 6,
+  "support": 1.0,
+  "confident": true
+ },
+ "focal_px": 866.6666666666666,
+ "focal_source": "prior",
+ "joint_decision": [
+  "level camera (vertical lines -1.25 / 0.45 deg -> 0): principal row moved +28.7 px onto the horizon",
+  "focal from the lens prior: no two perpendicular validated VPs"
+ ],
+ "joint_confidence": "low",
+ "vertical_lines": {
+  "reliable": true,
+  "pitch_deg": -1.25,
+  "roll_deg": 0.45
+ },
+ "floor_detector_lines": {
+  "floor_lines": 79,
+  "boundary_lines": 0,
+  "total_lines": 194
+ },
+ "floor_boundary_wall_lines": 0,
+ "floor_boundary_lines_on_objects": 0,
+ "deeplsd_kept_lines": 56,
+ "deeplsd_from_cache": true,
+ "deviation_stored_vp": {
+  "deeplsd_depth_lines": 12,
+  "deeplsd_mean_deg": 2.39,
+  "junction_runs_all": 0,
+  "junction_runs": 0,
+  "junction_mean_deg": null,
+  "deeplsd_vp": [
+   311.0,
+   612.4
+  ],
+  "deeplsd_vp_dist_px": 17.6,
+  "mean_deviation_deg": 2.39,
+  "exceeds_3deg": false
+ },
+ "current_code_depth_vp": [
+  317.6751308430571,
+  628.6917046393006
+ ],
+ "current_code_origin": "long-structural-lines",
+ "deviation_current_code_vp": {
+  "deeplsd_depth_lines": 12,
+  "deeplsd_mean_deg": 2.39,
+  "junction_runs_all": 0,
+  "junction_runs": 0,
+  "junction_mean_deg": null,
+  "deeplsd_vp": [
+   311.0,
+   612.4
+  ],
+  "deeplsd_vp_dist_px": 17.6,
+  "mean_deviation_deg": 2.39,
+  "exceeds_3deg": false
+ }
+}

@@ -1,0 +1,31 @@
+{
+ "room": "kitchen",
+ "size": [
+  1456,
+  1088
+ ],
+ "grow_px": 4,
+ "wall_on_clean_pct_frame": 64.1,
+ "wall_on_photo_pct_frame": 61.35,
+ "differ_pct_frame": 2.83,
+ "differ_pct_of_union": 4.41,
+ "differ": {
+  "px": 44772,
+  "in_ALL_OBJECTS": 35710,
+  "in_inpaint_rim": 1661,
+  "outside_hole": 7401
+ },
+ "clean_only": {
+  "px": 44114,
+  "in_ALL_OBJECTS": 35634,
+  "in_inpaint_rim": 1635,
+  "outside_hole": 6845
+ },
+ "photo_only": {
+  "px": 658,
+  "in_ALL_OBJECTS": 76,
+  "in_inpaint_rim": 26,
+  "outside_hole": 556
+ },
+ "stored_WALL_MASK_vs_on_clean_differ_pct_frame": 0.15
+}

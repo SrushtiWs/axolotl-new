@@ -1,0 +1,31 @@
+{
+ "room": "living",
+ "size": [
+  1280,
+  864
+ ],
+ "grow_px": 4,
+ "wall_on_clean_pct_frame": 43.16,
+ "wall_on_photo_pct_frame": 15.34,
+ "differ_pct_frame": 30.2,
+ "differ_pct_of_union": 68.09,
+ "differ": {
+  "px": 333978,
+  "in_ALL_OBJECTS": 295195,
+  "in_inpaint_rim": 11812,
+  "outside_hole": 26971
+ },
+ "clean_only": {
+  "px": 320791,
+  "in_ALL_OBJECTS": 290749,
+  "in_inpaint_rim": 9490,
+  "outside_hole": 20552
+ },
+ "photo_only": {
+  "px": 13187,
+  "in_ALL_OBJECTS": 4446,
+  "in_inpaint_rim": 2322,
+  "outside_hole": 6419
+ },
+ "stored_WALL_MASK_vs_on_clean_differ_pct_frame": 0.0
+}

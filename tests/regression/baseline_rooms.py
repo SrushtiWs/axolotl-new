@@ -43,6 +43,8 @@ ROOMS = {
     "bedroom": ROOT / "tests/fixtures/rooms/bedroom",
     "living": ROOT / "tests/fixtures/rooms/living",
     "empty": ROOT / "tests/fixtures/rooms/empty",
+    "kitchen": ROOT / "backend/jobs/cf6f7831d6de",
+    "pink_frontal": ROOT / "backend/jobs/63705139a5ee",
 }
 TILE = ROOT / "tests/fixtures/tile.png"
 TILE_W_MM, TILE_H_MM, GROUT_MM = 600.0, 600.0, 5.0

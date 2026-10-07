@@ -1,0 +1,16 @@
+{
+ "floor_depth_vp": [
+  994.2,
+  350.0
+ ],
+ "floor_vp_origin": "long-structural-lines",
+ "floor_status": "detected",
+ "focal_px": 977.1,
+ "focal_source": "vp-pairs",
+ "walls": 5,
+ "junction_runs": 1,
+ "junction_mean_dev_deg": 0.46,
+ "refused": {},
+ "provenance": null,
+ "superseded": []
+}

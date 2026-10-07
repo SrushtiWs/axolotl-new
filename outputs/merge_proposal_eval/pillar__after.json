@@ -1,0 +1,83 @@
+{
+ "room": "pillar",
+ "variant": "after",
+ "split_method": "floor-junction",
+ "walls": [
+  {
+   "id": "wall-0",
+   "index": 0,
+   "faces": "left-side",
+   "yaw_deg": -87.58,
+   "share": 0.1534,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-1",
+   "index": 1,
+   "faces": "front",
+   "yaw_deg": 0.0,
+   "share": 0.2739,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-3",
+   "index": 3,
+   "faces": "right-side",
+   "yaw_deg": -87.58,
+   "share": 0.0416,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-4",
+   "index": 4,
+   "faces": "front",
+   "yaw_deg": 0.0,
+   "share": 0.0537,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-5",
+   "index": 5,
+   "faces": "right-side",
+   "yaw_deg": -87.58,
+   "share": 0.0756,
+   "validated": true,
+   "validation": null
+  }
+ ],
+ "same_faces_normal_pairs": [
+  {
+   "pair": [
+    "wall-1",
+    "wall-4"
+   ],
+   "touch": false,
+   "coplanar": null
+  },
+  {
+   "pair": [
+    "wall-3",
+    "wall-5"
+   ],
+   "touch": false,
+   "coplanar": null
+  }
+ ],
+ "plane_merge": {
+  "merged": [],
+  "touching_merged": [
+   [
+    1,
+    2
+   ]
+  ],
+  "merged_over_unwitnessed_bend": [],
+  "walls_before": 6,
+  "walls_after": 5,
+  "uncertain": false
+ }
+}

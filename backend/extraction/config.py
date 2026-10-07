@@ -27,6 +27,7 @@ OBJECT_PROMPTS: tuple[str, ...] = (
     "sofa",
     "couch",
     "table",
+    "curtain",
     "coffee table",
     "dining table",
     "dining chair",
@@ -101,7 +102,21 @@ OBJECT_PROMPTS: tuple[str, ...] = (
     "mirrored partition",
     "mirrored wall panel",
     "mirrored door",
-    # --- soft furnishings -------------------------------------------------
+    "mirror window",
+    "mirror wall",
+    "matte window",
+    "cross door",
+    "cloth",
+    "bottle",
+    "plant",
+    "potted plant",
+    "kitchen plateform",
+    "mirror stand"
+    "wall panel",
+    "chair legs",
+    "table legs",
+
+# --- soft furnishings -------------------------------------------------
     #
     # These were the largest measured gap in the list. A sofa's cushions are
     # not part of "sofa" as SAM segments it — it cuts them out — so with no

@@ -21,8 +21,14 @@ measured at the render resolution and says so in `canvas`.
 
 from __future__ import annotations
 
+import ast
+import filecmp
+import functools
+import hashlib
 import json
 import shutil
+import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 
 import cv2
@@ -30,10 +36,110 @@ import numpy as np
 from PIL import Image
 
 from floor_wall import FLOOR_MASK_FILENAME, WALL_MASK_FILENAME
+from scene import PROJECT_ROOT
 from tiles_backend.perspective_engine.engine import GEOMETRY_VERSION
 
 FLOOR_DIR = "floor"
 WALL_DIR = "wall"
+ROOM_DIR = "room"
+
+# What the stored geometry was detected from, beside it rather than inside it,
+# so a room whose geometry comes out the same keeps its geometry files
+# byte-identical. Geometry that no longer matches is moved, never overwritten.
+PROVENANCE_FILENAME = "geometry_provenance.json"
+SUPERSEDED_DIR = "geometry_superseded"
+
+# The code that detects geometry. Any change to what it does invalidates every
+# stored geometry, because GEOMETRY_VERSION alone was not bumped when the floor
+# vanishing point logic changed. Hashed by syntax tree, so comments and
+# docstrings do not count as a change.
+SOURCE_ROOTS = (PROJECT_ROOT / "tiles_backend" / "perspective_engine", Path(__file__).resolve().parent)
+
+
+def _without_docstrings(tree: ast.AST) -> ast.AST:
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and node.body:
+            first = node.body[0]
+            if isinstance(first, ast.Expr) and isinstance(first.value, ast.Constant) and isinstance(first.value.value, str):
+                node.body = node.body[1:] or [ast.Pass()]
+    return tree
+
+
+@functools.lru_cache(maxsize=1)
+def code_hash() -> str:
+    digest = hashlib.sha256()
+    for root in SOURCE_ROOTS:
+        for path in sorted(root.rglob("*.py")):
+            if "__pycache__" in path.parts:
+                continue
+            digest.update(str(path.relative_to(root)).encode())
+            digest.update(ast.dump(_without_docstrings(ast.parse(path.read_text("utf-8")))).encode())
+    return digest.hexdigest()
+
+
+def provenance(floor: np.ndarray, wall: np.ndarray, objects, image: np.ndarray) -> dict:
+    """
+    The detection's inputs and code, hashed. The photo bytes (EXIF focal) are
+    left out: not every caller has them, and the photo of a job never changes.
+    """
+    digest = hashlib.sha256()
+    for array in (floor, wall, objects, image):
+        if array is None:
+            digest.update(b"none")
+            continue
+        array = np.ascontiguousarray(array)
+        digest.update(str((array.shape, array.dtype.str)).encode())
+        digest.update(np.packbits(array).tobytes() if array.dtype == bool else array.tobytes())
+    return {"geometry_version": GEOMETRY_VERSION, "code_sha256": code_hash(), "inputs_sha256": digest.hexdigest()}
+
+
+def is_current(segments: Path, expected: dict) -> tuple[bool, str]:
+    """Whether the stored geometry was detected from `expected`, and why not."""
+    stored = _optional_json(segments / PROVENANCE_FILENAME)
+    if stored is None:
+        return False, "no provenance stored (geometry from before this check)"
+    changed = [k for k in ("geometry_version", "code_sha256", "inputs_sha256") if stored.get(k) != expected[k]]
+    if changed:
+        return False, "changed: " + ", ".join(changed)
+    return True, "current"
+
+
+def write_provenance(segments: Path, expected: dict, reason: str) -> None:
+    _json(segments / PROVENANCE_FILENAME, {
+        **expected, "reason": reason, "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    })
+
+
+def same_as_stored(segments: Path, geometry: dict, wall_masks: dict) -> bool:
+    """Whether writing `geometry` would reproduce the stored files byte for byte."""
+    with tempfile.TemporaryDirectory() as tmp:
+        probe = Path(tmp)
+        for name in (FLOOR_MASK_FILENAME, WALL_MASK_FILENAME):
+            shutil.copyfile(segments / name, probe / name)
+        write(probe, geometry, wall_masks)
+        for sub in (FLOOR_DIR, WALL_DIR, ROOM_DIR):
+            new, old = probe / sub, segments / sub
+            if new.exists() != old.exists():
+                return False
+            if not new.exists():
+                continue
+            names = sorted(p.relative_to(new) for p in new.rglob("*") if p.is_file())
+            if names != sorted(p.relative_to(old) for p in old.rglob("*") if p.is_file()):
+                return False
+            if any(not filecmp.cmp(new / n, old / n, shallow=False) for n in names):
+                return False
+    return True
+
+
+def supersede(segments: Path, reason: str) -> Path:
+    """Move the stored geometry into a new dated folder, keeping it."""
+    target = segments / SUPERSEDED_DIR / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    target.mkdir(parents=True)
+    for name in (FLOOR_DIR, WALL_DIR, ROOM_DIR, PROVENANCE_FILENAME):
+        if (segments / name).exists():
+            shutil.move(str(segments / name), str(target / name))
+    _json(target / "superseded.json", {"reason": reason})
+    return target
 
 
 def _json(path: Path, payload: dict) -> None:

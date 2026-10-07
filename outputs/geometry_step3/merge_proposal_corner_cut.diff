@@ -1,0 +1,48 @@
+--- a/tiles_backend/perspective_engine/surface/wall/corner_cut.py	2026-10-07 11:18:39
++++ b/tiles_backend/perspective_engine/surface/wall/corner_cut.py	2026-10-07 11:18:39
+@@ -597,8 +597,8 @@
+     widths = [int(m.any(axis=0).sum()) for _, m, _ in order]
+     lines, doubtful, _, _ = corners(floor, wall, objects, room_bgr)
+     confirmed_x = [(t[0] + b[0]) / 2 for t, b, _ in lines]
+-    # every bend of the floor or ceiling line, witnessed or not: a corner is there
+-    bend_x = confirmed_x + [u["x"] for u in doubtful]
++    # bends only one edge shows: not a corner on their own (see the touching merge below)
++    unwitnessed_x = [u["x"] for u in doubtful]
+ 
+     used, merges = set(), []
+     for side_first in (True, False):
+@@ -643,7 +643,7 @@
+                     "members": [int(order[m][0]) for m in members],
+                 })
+     # directly touching neighbours of one wall (same facing, normals within MERGE_DEG)
+-    touching = []
++    touching, over_bend = [], []
+     for i in range(len(order) - 1):
+         (ia, ma, da), (ib, mb, db) = order[i], order[i + 1]
+         if _faces(da) is None or _faces(da) != _faces(db):
+@@ -658,10 +658,14 @@
+         k_ = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * radius + 1,) * 2)
+         seam = cv2.dilate(ma.astype(np.uint8), k_).astype(bool) & mb
+         seam_x = float(np.nonzero(seam)[1].mean())
+-        if any(abs(seam_x - x) <= MATCH * w for x in bend_x):
+-            continue                              # the edge bends at the seam: a corner, not one plane
++        if any(abs(seam_x - x) <= MATCH * w for x in confirmed_x):
++            continue                              # a confirmed corner (two witnesses) at the seam: two planes
+         if _coplanar(ma, mb, floor, objects, w, diag) is not None:
++            # Same facing, same normal, touching and on one line: one plane, even
++            # across a bend only one edge shows. Recorded, and the room marked uncertain.
+             touching.append([int(ia), int(ib)])
++            if any(abs(seam_x - x) <= MATCH * w for x in unwitnessed_x):
++                over_bend.append([int(ia), int(ib)])
+     if not merges and not touching:
+         return refined, {"enabled": True, "merged": []}
+ 
+@@ -699,6 +703,7 @@
+             out.append((index, union, direction))
+         else:
+             out.append((index, mask, direction))
+-    uncertain = any(m["pillar"].startswith("merged") for m in merges)
++    uncertain = any(m["pillar"].startswith("merged") for m in merges) or bool(over_bend)
+     return out, {"enabled": True, "merged": merges, "touching_merged": touching,
++                 "merged_over_unwitnessed_bend": over_bend,
+                  "walls_before": len(refined), "walls_after": len(out), "uncertain": uncertain}

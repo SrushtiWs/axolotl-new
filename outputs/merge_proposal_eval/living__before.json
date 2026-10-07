@@ -1,0 +1,43 @@
+{
+ "room": "living",
+ "variant": "before",
+ "split_method": "refined-split",
+ "walls": [
+  {
+   "id": "wall-0",
+   "index": 0,
+   "faces": "left-side",
+   "yaw_deg": 89.75,
+   "share": 0.2007,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-1",
+   "index": 1,
+   "faces": "left-side",
+   "yaw_deg": 7.55,
+   "share": 0.1333,
+   "validated": false,
+   "validation": "junction and ceiling line disagree by 88.7 deg"
+  },
+  {
+   "id": "wall-2",
+   "index": 2,
+   "faces": "front",
+   "yaw_deg": -0.25,
+   "share": 0.0977,
+   "validated": false,
+   "validation": "no usable junction or ceiling line; direction from floor-manhattan, every pixel tileable"
+  }
+ ],
+ "same_faces_normal_pairs": [],
+ "plane_merge": {
+  "merged": [],
+  "touching_merged": null,
+  "merged_over_unwitnessed_bend": null,
+  "walls_before": null,
+  "walls_after": null,
+  "uncertain": null
+ }
+}

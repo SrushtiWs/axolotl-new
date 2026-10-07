@@ -1,0 +1,72 @@
+{
+ "room": "empty",
+ "variant": "before",
+ "split_method": "floor-junction",
+ "walls": [
+  {
+   "id": "wall-0",
+   "index": 0,
+   "faces": "left-side",
+   "yaw_deg": 83.01,
+   "share": 0.2082,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-4",
+   "index": 4,
+   "faces": "front",
+   "yaw_deg": 0.0,
+   "share": 0.3779,
+   "validated": true,
+   "validation": null
+  },
+  {
+   "id": "wall-5",
+   "index": 5,
+   "faces": "right-side",
+   "yaw_deg": 83.01,
+   "share": 0.1292,
+   "validated": true,
+   "validation": null
+  }
+ ],
+ "same_faces_normal_pairs": [],
+ "plane_merge": {
+  "merged": [
+   {
+    "wall_pieces": [
+     0,
+     3
+    ],
+    "between": [
+     1,
+     2
+    ],
+    "edges_x": [
+     98.0,
+     180.0,
+     271.0
+    ],
+    "edges_with_two_witnesses": [
+     false,
+     true,
+     true
+    ],
+    "pillar": "merged into the wall (not 95% sure)",
+    "one_plane_evidence": "floor junction on one line (median off 0.4 px)",
+    "members": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
+  ],
+  "touching_merged": [],
+  "merged_over_unwitnessed_bend": null,
+  "walls_before": 6,
+  "walls_after": 3,
+  "uncertain": true
+ }
+}

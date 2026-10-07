@@ -1,0 +1,71 @@
+{
+ "room": "bedroom",
+ "size": [
+  1376,
+  768
+ ],
+ "stored_camera_reproduced": false,
+ "floor_status": "detected",
+ "vanishing_points": {
+  "depth_vp": [
+   739.369900773693,
+   292.9876199021121
+  ],
+  "horizon_y": 292.9876199021121,
+  "origin": "room-structure",
+  "confidence": 0.1156,
+  "threshold": 0.55,
+  "source": "auto"
+ },
+ "vp_report_decision": "floor VP replaced by the long lines' VP",
+ "floor_vp_score": {
+  "inliers": 10,
+  "support": 0.301,
+  "spread_deg": 1.061,
+  "confident": false
+ },
+ "pool_lines": 33,
+ "pool_vp": {
+  "point": [
+   684.1667966024235,
+   315.59471161787116
+  ],
+  "inliers": 26,
+  "support": 0.745,
+  "confident": true
+ },
+ "focal_px": 993.7777777777777,
+ "focal_source": "prior",
+ "joint_decision": [
+  "level camera (vertical lines 0.66 / -0.23 deg -> 0): principal row moved -68.4 px onto the horizon",
+  "focal from the lens prior: no two perpendicular validated VPs"
+ ],
+ "joint_confidence": "low",
+ "vertical_lines": {
+  "reliable": true,
+  "pitch_deg": 0.66,
+  "roll_deg": -0.23
+ },
+ "floor_detector_lines": {
+  "floor_lines": 162,
+  "boundary_lines": 7,
+  "total_lines": 786
+ },
+ "floor_boundary_wall_lines": 7,
+ "floor_boundary_lines_on_objects": 6,
+ "deeplsd_kept_lines": 146,
+ "deeplsd_from_cache": true,
+ "deviation": {
+  "deeplsd_depth_lines": 22,
+  "deeplsd_mean_deg": 4.49,
+  "junction_runs": 3,
+  "junction_mean_deg": 6.13,
+  "deeplsd_vp": [
+   687.6,
+   316.3
+  ],
+  "deeplsd_vp_dist_px": 56.8,
+  "mean_deviation_deg": 5.31,
+  "exceeds_3deg": true
+ }
+}

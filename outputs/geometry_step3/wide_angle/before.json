@@ -1,0 +1,16 @@
+{
+ "floor_depth_vp": [
+  844.5,
+  606.6
+ ],
+ "floor_vp_origin": null,
+ "floor_status": "detected",
+ "focal_px": 447.2,
+ "focal_source": "vp",
+ "walls": 4,
+ "junction_runs": 2,
+ "junction_mean_dev_deg": 2.5,
+ "refused": {},
+ "provenance": null,
+ "superseded": []
+}

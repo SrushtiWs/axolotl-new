@@ -1,0 +1,24 @@
+{
+ "floor_depth_vp": [
+  317.7,
+  628.7
+ ],
+ "floor_vp_origin": "long-structural-lines",
+ "floor_status": "detected",
+ "focal_px": 866.7,
+ "focal_source": "prior",
+ "walls": 1,
+ "junction_runs": 0,
+ "junction_mean_dev_deg": null,
+ "refused": {
+  "wall-0": "wall scale: no physical anchor available. Supply the room height (Room Size panel), render with the floor visible so its"
+ },
+ "provenance": {
+  "geometry_version": 5,
+  "code_sha256": "a7ea18189c809df0ad35ea3607606e294475757f130f529fe1da90a43a50b14f",
+  "inputs_sha256": "ecc5132c976caf30f5494d8ad9848da070e082738e32f739372418ca9d01362b",
+  "reason": "no provenance stored (geometry from before this check); re-detected, identical",
+  "written_at": "2026-10-07T05:19:32+00:00"
+ },
+ "superseded": []
+}

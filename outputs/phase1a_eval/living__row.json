@@ -1,0 +1,28 @@
+{
+ "room": "living",
+ "floor_identical": true,
+ "wall_pct_before": 43.16,
+ "wall_pct_after": 28.06,
+ "wall_only_on_clean_outside_hole_before": 20552,
+ "wall_only_on_clean_outside_hole_after": 17425,
+ "wall_pixels_added": 0,
+ "wall_added_on_floor": 0,
+ "reopened": 21654,
+ "excluded": 145337,
+ "glass_mirror_px": 159682,
+ "status": "needs_review",
+ "leftover_share": 0.07516,
+ "class_ids": {
+  "blind": 63,
+  "bulletin board": 144,
+  "door": 14,
+  "glass": 147,
+  "mirror": 27,
+  "painting": 22,
+  "poster": 100,
+  "screen door": 58,
+  "windowpane": 8
+ },
+ "missing_classes": [],
+ "override": null
+}

@@ -1,0 +1,52 @@
+{
+ "room": "wide_angle",
+ "variant": "after",
+ "split_method": "floor-junction+ceiling-line",
+ "walls": [
+  {
+   "id": "wall-0",
+   "index": 0,
+   "faces": "left-side",
+   "yaw_deg": 61.33,
+   "share": 0.1695,
+   "validated": false,
+   "validation": "junction and ceiling line disagree by 48.4 deg"
+  },
+  {
+   "id": "wall-1",
+   "index": 1,
+   "faces": "right-side",
+   "yaw_deg": -11.27,
+   "share": 0.0794,
+   "validated": false,
+   "validation": "junction and ceiling line disagree by 30.1 deg"
+  },
+  {
+   "id": "wall-2",
+   "index": 2,
+   "faces": "right-side",
+   "yaw_deg": -38.52,
+   "share": 0.018,
+   "validated": false,
+   "validation": "only the ceiling-line was usable, 70% of its points on one line"
+  },
+  {
+   "id": "wall-3",
+   "index": 3,
+   "faces": "right-side",
+   "yaw_deg": 61.33,
+   "share": 0.137,
+   "validated": false,
+   "validation": "junction and ceiling line disagree by 13.1 deg"
+  }
+ ],
+ "same_faces_normal_pairs": [],
+ "plane_merge": {
+  "merged": [],
+  "touching_merged": null,
+  "merged_over_unwitnessed_bend": null,
+  "walls_before": null,
+  "walls_after": null,
+  "uncertain": null
+ }
+}
