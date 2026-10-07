@@ -1,0 +1,16 @@
+--- a/frontend/src/components/RoomAnalysis.tsx	2026-10-07 14:08:30
++++ b/frontend/src/components/RoomAnalysis.tsx	2026-10-07 14:08:30
+@@ -57,7 +57,12 @@
+ 
+     // Start cleaning as soon as the room opens, so its floor and walls are
+     // ready to select without anyone having to press the button first.
+-    if (autoStart) void clearRoom(true)
++    // Deferred one tick and cancelled on cleanup: React StrictMode (dev) runs
++    // this effect, its cleanup, and the effect again, and an immediate start
++    // sent two /segment/start requests for one room. Only the surviving run starts.
++    if (!autoStart) return
++    const start = window.setTimeout(() => void clearRoom(true), 0)
++    return () => window.clearTimeout(start)
+     // `onCleared` is intentionally not a dependency: it is a notification, and
+     // re-running this on every parent render would clear the panel constantly.
+     // eslint-disable-next-line react-hooks/exhaustive-deps

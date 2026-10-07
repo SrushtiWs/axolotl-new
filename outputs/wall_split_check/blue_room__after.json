@@ -1,0 +1,1 @@
+{"method": "floor-junction+ceiling-line", "corners": [{"x": 513.0, "seen_on": ["ceiling-line"]}], "unconfirmed_not_cut": null, "stage": "ok", "walls": [["wall-0", "left-side", 50.6, 0, 513, false], ["wall-1", "right-side", -67.3, 514, 1099, false]], "floor_vp": [1202.3428788402894, 405.73474403136623]}

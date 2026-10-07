@@ -1,0 +1,131 @@
+{
+ "room": "bedroom",
+ "before": {
+  "wall_pct": 50.68,
+  "clean_only_outside_hole": 31925,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 513
+  }
+ },
+ "base": {
+  "wall_pct": 30.68,
+  "clean_only_outside_hole": 20040,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 211266,
+  "removed_by_class": {
+   "windowpane": 183871,
+   "painting": 11550,
+   "wall": 4640,
+   "bed": 3916,
+   "door": 3471,
+   "curtain": 1509,
+   "table": 1076,
+   "cushion": 702
+  },
+  "glass_px": 191658,
+  "status": "needs_review",
+  "leftover_share": 0.08061,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 513
+  }
+ },
+ "+staircase": {
+  "wall_pct": 30.4,
+  "clean_only_outside_hole": 20040,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 214300,
+  "removed_by_class": {
+   "windowpane": 183877,
+   "painting": 11550,
+   "bed": 6320,
+   "wall": 4654,
+   "door": 3471,
+   "curtain": 1509,
+   "table": 1472,
+   "cushion": 798
+  },
+  "glass_px": 191658,
+  "status": "needs_review",
+  "leftover_share": 0.08128,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 513
+  }
+ },
+ "+ceiling": {
+  "wall_pct": 30.51,
+  "clean_only_outside_hole": 19870,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 213078,
+  "removed_by_class": {
+   "windowpane": 183888,
+   "painting": 11550,
+   "wall": 5326,
+   "bed": 3916,
+   "door": 3471,
+   "curtain": 1509,
+   "ceiling": 1123,
+   "table": 1076
+  },
+  "glass_px": 191658,
+  "status": "needs_review",
+  "leftover_share": 0.08106,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 471
+  }
+ },
+ "final": {
+  "wall_pct": 30.22,
+  "clean_only_outside_hole": 19870,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 216151,
+  "removed_by_class": {
+   "windowpane": 183894,
+   "painting": 11550,
+   "bed": 6320,
+   "wall": 5347,
+   "door": 3471,
+   "curtain": 1509,
+   "table": 1472,
+   "ceiling": 1123
+  },
+  "glass_px": 191658,
+  "status": "needs_review",
+  "leftover_share": 0.08175,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 471
+  }
+ },
+ "final-glass": {
+  "wall_pct": 30.22,
+  "clean_only_outside_hole": 19870,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 216151,
+  "removed_by_class": {
+   "windowpane": 183894,
+   "painting": 11550,
+   "bed": 6320,
+   "wall": 5347,
+   "door": 3471,
+   "curtain": 1509,
+   "table": 1472,
+   "ceiling": 1123
+  },
+  "glass_px": 191658,
+  "status": "needs_review",
+  "leftover_share": 0.08175,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 471
+  }
+ }
+}

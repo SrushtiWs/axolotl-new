@@ -1,0 +1,131 @@
+{
+ "room": "living",
+ "before": {
+  "wall_pct": 43.16,
+  "clean_only_outside_hole": 20552,
+  "ceiling_runs": {
+   "runs": 3,
+   "columns_spanned": 354
+  }
+ },
+ "base": {
+  "wall_pct": 28.06,
+  "clean_only_outside_hole": 17425,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 166991,
+  "removed_by_class": {
+   "curtain": 89383,
+   "cabinet": 23176,
+   "chair": 17926,
+   "cushion": 10549,
+   "swivel chair": 7802,
+   "sofa": 6913,
+   "wall": 5167,
+   "windowpane": 2736
+  },
+  "glass_px": 159682,
+  "status": "needs_review",
+  "leftover_share": 0.07516,
+  "ceiling_runs": {
+   "runs": 3,
+   "columns_spanned": 354
+  }
+ },
+ "+staircase": {
+  "wall_pct": 27.5,
+  "clean_only_outside_hole": 15132,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 173214,
+  "removed_by_class": {
+   "curtain": 89383,
+   "cabinet": 23176,
+   "chair": 17926,
+   "sofa": 12791,
+   "cushion": 10764,
+   "swivel chair": 7872,
+   "wall": 5167,
+   "windowpane": 2736
+  },
+  "glass_px": 159682,
+  "status": "needs_review",
+  "leftover_share": 0.06764,
+  "ceiling_runs": {
+   "runs": 3,
+   "columns_spanned": 354
+  }
+ },
+ "+ceiling": {
+  "wall_pct": 27.04,
+  "clean_only_outside_hole": 16302,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 178233,
+  "removed_by_class": {
+   "curtain": 90631,
+   "cabinet": 28851,
+   "chair": 17926,
+   "cushion": 11104,
+   "swivel chair": 7802,
+   "sofa": 7602,
+   "wall": 5622,
+   "ceiling": 2830
+  },
+  "glass_px": 159682,
+  "status": "needs_review",
+  "leftover_share": 0.07768,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 254
+  }
+ },
+ "final": {
+  "wall_pct": 26.38,
+  "clean_only_outside_hole": 13904,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 185496,
+  "removed_by_class": {
+   "curtain": 90631,
+   "cabinet": 28851,
+   "chair": 17926,
+   "sofa": 14517,
+   "cushion": 11306,
+   "swivel chair": 7872,
+   "wall": 5627,
+   "ceiling": 2841
+  },
+  "glass_px": 159682,
+  "status": "needs_review",
+  "leftover_share": 0.06942,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 294
+  }
+ },
+ "final-glass": {
+  "wall_pct": 26.38,
+  "clean_only_outside_hole": 13904,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 185496,
+  "removed_by_class": {
+   "curtain": 90631,
+   "cabinet": 28851,
+   "chair": 17926,
+   "sofa": 14517,
+   "cushion": 11306,
+   "swivel chair": 7872,
+   "wall": 5627,
+   "ceiling": 2841
+  },
+  "glass_px": 159682,
+  "status": "needs_review",
+  "leftover_share": 0.06942,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 294
+  }
+ }
+}

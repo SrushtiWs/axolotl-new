@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "shape": [
+    825,
+    1100
+  ],
+  "surfaces": [
+    {
+      "label": "wall",
+      "bbox": [
+        0,
+        0,
+        1100,
+        825
+      ],
+      "pixels": 499995
+    },
+    {
+      "label": "floor",
+      "bbox": [
+        6,
+        525,
+        1033,
+        825
+      ],
+      "pixels": 219317
+    },
+    {
+      "label": "ceiling",
+      "bbox": [
+        0,
+        0,
+        1029,
+        270
+      ],
+      "pixels": 184739
+    }
+  ],
+  "source": "4a4cee4c1f8c88dcfba1463187cf5158b5adf1eac102ff87273d06d1d419899b",
+  "object_count": 20,
+  "clean_room": {
+    "model": "LaMa (big-lama, ONNX, CPU)",
+    "grid": 512,
+    "hole_px": 270748,
+    "grow_px": 3,
+    "windows": 3,
+    "whole_frame": false,
+    "filled_px": 292270,
+    "available": true,
+    "filename": "CLEAN_ROOM.png"
+  },
+  "timings": {
+    "surfaces_s": 6.41,
+    "detection_s": 86.91,
+    "segmentation_s": 18.55,
+    "selection_s": 1.28,
+    "overlap_adjustments": 11,
+    "png_s": 0.75,
+    "inpaint_s": 14.99,
+    "handoff_s": 4.53,
+    "floor_wall_s": 3.64,
+    "object_completion_s": 2.67,
+    "geometry_s": 19.05
+  }
+}

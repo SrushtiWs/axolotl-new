@@ -1,0 +1,182 @@
+{
+  "canvas": [
+    1376,
+    768
+  ],
+  "focal_px": 993.7777777777777,
+  "focal_source": "prior",
+  "principal_point": [
+    688.0,
+    384.0
+  ],
+  "version": 5,
+  "wall_split": {
+    "method": "refined-split",
+    "junction_layout": {
+      "stage": "junction-hidden"
+    },
+    "pieces": 4,
+    "merges": [
+      "ghost of a removed object"
+    ],
+    "walls": 3
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "index": 0,
+      "pixels": 259192,
+      "bbox": [
+        0,
+        0,
+        784,
+        692
+      ],
+      "select_point": [
+        314,
+        279
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            735.3150391781606,
+            291.38081355705486,
+            0.9945157875763008
+          ],
+          "at_infinity": false,
+          "image": [
+            739.369900773693,
+            292.9876199021121
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          0.9986666639273929,
+          0.0,
+          -0.05162261481300384
+        ],
+        "yaw_deg": 87.04092678049108,
+        "faces": "left-side",
+        "source": "floor-manhattan",
+        "evidence": {
+          "axis": "side",
+          "share": {
+            "side": 0.506,
+            "back": 0.225
+          },
+          "mask_reach": 0.9985,
+          "segments": {
+            "top-edge": 3,
+            "floor-junction": 1,
+            "line": 10
+          }
+        }
+      },
+      "orientation_source": "floor-manhattan"
+    },
+    {
+      "id": "wall-1",
+      "index": 1,
+      "pixels": 214381,
+      "bbox": [
+        809,
+        0,
+        1281,
+        596
+      ],
+      "select_point": [
+        1073,
+        318
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            -957.2423967169086,
+            14.999152224595306,
+            0.051193808904303056
+          ],
+          "at_infinity": false,
+          "image": [
+            -18698.40156856249,
+            292.9876199021121
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          -0.05119437157186008,
+          -0.0,
+          -0.9986887084168732
+        ],
+        "yaw_deg": -2.9345042016102627,
+        "faces": "front",
+        "source": "floor-manhattan",
+        "evidence": {
+          "axis": "back",
+          "share": {
+            "side": 0.177,
+            "back": 0.609
+          },
+          "mask_reach": 1.0,
+          "segments": {
+            "top-edge": 2,
+            "floor-junction": 1,
+            "line": 10
+          }
+        }
+      },
+      "orientation_source": "floor-manhattan"
+    },
+    {
+      "id": "wall-2",
+      "index": 2,
+      "pixels": 61959,
+      "bbox": [
+        1259,
+        0,
+        1375,
+        652
+      ],
+      "select_point": [
+        1322,
+        524
+      ],
+      "direction": {
+        "vanishing_point": {
+          "homogeneous": [
+            735.3150391781606,
+            291.38081355705486,
+            0.9945157875763008
+          ],
+          "at_infinity": false,
+          "image": [
+            739.369900773693,
+            292.9876199021121
+          ],
+          "image_direction_deg": null
+        },
+        "normal": [
+          0.9986666639273929,
+          0.0,
+          -0.05162261481300384
+        ],
+        "yaw_deg": 87.04092678049108,
+        "faces": "right-side",
+        "source": "floor-manhattan",
+        "evidence": {
+          "axis": "side",
+          "share": {
+            "side": 1.0,
+            "back": 0.0
+          },
+          "mask_reach": 1.0,
+          "segments": {
+            "top-edge": 0,
+            "floor-junction": 1,
+            "line": 1
+          }
+        }
+      },
+      "orientation_source": "floor-manhattan"
+    }
+  ]
+}

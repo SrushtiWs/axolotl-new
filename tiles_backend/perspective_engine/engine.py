@@ -459,7 +459,7 @@ def detect_room_geometry(
     edged, edge_info = (None, {})
     if not laid:
         from .surface.wall import edge_layout
-        edged, edge_info = edge_layout.layout(floor, wall, horizon_y, f, cx, cy, depth_point, objects)
+        edged, edge_info = edge_layout.layout(floor, wall, horizon_y, f, cx, cy, depth_point, objects, room_bgr)
         if edged and not edge_info.get("corners"):
             edged, edge_info = None, {**edge_info, "stage": "no-corner-seen: pipeline split kept"}
         # It may add corners the pipeline missed, never merge walls the

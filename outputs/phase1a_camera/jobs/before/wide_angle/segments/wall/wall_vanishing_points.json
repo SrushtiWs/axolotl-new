@@ -1,0 +1,99 @@
+{
+  "canvas": [
+    1200,
+    1600
+  ],
+  "principal_point": [
+    600.0,
+    800.0
+  ],
+  "focal_px": 447.1972569472493,
+  "room_horizontal": {
+    "points": [
+      [
+        -1199.3531213986976,
+        588.087750284643
+      ],
+      [
+        1081.2742167194078,
+        696.4892393286432
+      ]
+    ],
+    "info": {
+      "total_lines": 270,
+      "wall_lines": 47,
+      "horizontal_lines": 25,
+      "stage": "ok"
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "vanishing_point": {
+        "homogeneous": [
+          740.9874711093627,
+          626.5112967957269,
+          0.8773985781496636
+        ],
+        "at_infinity": false,
+        "image": [
+          844.5277774122032,
+          714.0555186640146
+        ],
+        "image_direction_deg": null
+      },
+      "source": "ceiling-line+floor-junction"
+    },
+    {
+      "id": "wall-1",
+      "vanishing_point": {
+        "homogeneous": [
+          321.27900245936144,
+          -139.58645905302353,
+          -0.19548404207306927
+        ],
+        "at_infinity": false,
+        "image": [
+          -1643.5050096788552,
+          714.0555186640146
+        ],
+        "image_direction_deg": null
+      },
+      "source": "ceiling-line+floor-junction"
+    },
+    {
+      "id": "wall-2",
+      "vanishing_point": {
+        "homogeneous": [
+          -23.776187267954356,
+          -444.69500018823777,
+          -0.6227737039554773
+        ],
+        "at_infinity": false,
+        "image": [
+          38.17789209297466,
+          714.0555186640146
+        ],
+        "image_direction_deg": null
+      },
+      "source": "ceiling-line"
+    },
+    {
+      "id": "wall-3",
+      "vanishing_point": {
+        "homogeneous": [
+          740.9874711093627,
+          626.5112967957269,
+          0.8773985781496636
+        ],
+        "at_infinity": false,
+        "image": [
+          844.5277774122032,
+          714.0555186640146
+        ],
+        "image_direction_deg": null
+      },
+      "source": "ceiling-line+floor-junction"
+    }
+  ]
+}

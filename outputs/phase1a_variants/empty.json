@@ -1,0 +1,95 @@
+{
+ "room": "empty",
+ "before": {
+  "wall_pct": 71.54,
+  "clean_only_outside_hole": 0,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 821
+  }
+ },
+ "base": {
+  "wall_pct": 71.54,
+  "clean_only_outside_hole": 0,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 0,
+  "removed_by_class": {},
+  "glass_px": 0,
+  "status": "confirmed",
+  "leftover_share": 0.0,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 821
+  }
+ },
+ "+staircase": {
+  "wall_pct": 71.54,
+  "clean_only_outside_hole": 0,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 0,
+  "removed_by_class": {},
+  "glass_px": 0,
+  "status": "confirmed",
+  "leftover_share": 0.0,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 821
+  }
+ },
+ "+ceiling": {
+  "wall_pct": 71.33,
+  "clean_only_outside_hole": 0,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 2338,
+  "removed_by_class": {
+   "ceiling": 1617,
+   "wall": 721
+  },
+  "glass_px": 0,
+  "status": "confirmed",
+  "leftover_share": 0.0,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 821
+  }
+ },
+ "final": {
+  "wall_pct": 71.33,
+  "clean_only_outside_hole": 0,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 2338,
+  "removed_by_class": {
+   "ceiling": 1617,
+   "wall": 721
+  },
+  "glass_px": 0,
+  "status": "confirmed",
+  "leftover_share": 0.0,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 821
+  }
+ },
+ "final-glass": {
+  "wall_pct": 71.33,
+  "clean_only_outside_hole": 0,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 2338,
+  "removed_by_class": {
+   "ceiling": 1617,
+   "wall": 721
+  },
+  "glass_px": 0,
+  "status": "confirmed",
+  "leftover_share": 0.0,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 821
+  }
+ }
+}

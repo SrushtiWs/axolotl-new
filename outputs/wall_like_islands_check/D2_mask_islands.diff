@@ -1,0 +1,86 @@
+--- a/backend/extraction/config.py	2026-10-07 12:49:30
++++ b/backend/extraction/config.py	2026-10-07 12:49:30
+@@ -215,6 +215,13 @@
+ )
+ 
+ 
++# A piece of floor or wall still visible after the object layers are erased,
++# smaller than this share of the frame, is part of an object the object mask
++# missed (a door handle, a lamp base, a sofa edge), not surface: it is taken out
++# of the mask, so no tile lands on it and the Mask view shows no dots.
++MASK_ISLAND_MAX_FRACTION = 0.0002
++
++
+ @dataclass(frozen=True)
+ class DetectionConfig:
+     """Grounding DINO thresholds and duplicate handling."""
+--- a/backend/floor_wall.py	2026-10-07 12:49:30
++++ b/backend/floor_wall.py	2026-10-07 12:49:30
+@@ -548,6 +548,26 @@
+     }
+ 
+     return FloorWall(floor=floor, wall=wall, shape=(height, width), stats=stats)
++
++
++def drop_islands(floor: np.ndarray, wall: np.ndarray, objects: np.ndarray, max_fraction: float):
++    """
++    (floor, wall, report): each mask without the pieces that are visible after
++    `objects` is erased but smaller than `max_fraction` of the frame -- object
++    pixels the object masks missed. Only ever removes pixels.
++    """
++    limit = max_fraction * floor.size
++    report = {"limit_px": int(limit)}
++    out = []
++    for name, mask in (("floor", floor), ("wall", wall)):
++        visible = mask & ~objects
++        count, labels, stats, _ = cv2.connectedComponentsWithStats(visible.astype(np.uint8), connectivity=8)
++        small = np.zeros(count, bool)
++        small[1:] = stats[1:, cv2.CC_STAT_AREA] < limit
++        island = small[labels]
++        out.append(mask & ~island)
++        report[name] = {"islands": int(small.sum()), "pixels": int(island.sum())}
++    return out[0], out[1], report
+ 
+ 
+ def _overlay(rgb: np.ndarray, mask: np.ndarray, colour: tuple[int, int, int]) -> np.ndarray:
+--- a/backend/app.py	2026-10-07 12:49:30
++++ b/backend/app.py	2026-10-07 12:49:30
+@@ -392,6 +392,28 @@
+     }
+ 
+ 
++def _drop_mask_islands(job_dir: Path) -> dict:
++    """
++    FLOOR_MASK / WALL_MASK without the small pieces left visible between the
++    object layers (floor_wall.drop_islands), rewritten in place before the
++    geometry, the reuse bundle and the Mask view read them.
++    """
++    try:
++        floor_path = job_dir / floor_wall.FLOOR_MASK_FILENAME
++        wall_path = job_dir / floor_wall.WALL_MASK_FILENAME
++        floor = np.asarray(Image.open(floor_path).convert("L")) > 127
++        wall = np.asarray(Image.open(wall_path).convert("L")) > 127
++        objects = _to_shape(_accepted_union(job_dir), floor.shape)
++        floor2, wall2, report = floor_wall.drop_islands(floor, wall, objects, extraction_config.MASK_ISLAND_MAX_FRACTION)
++        if report["floor"]["pixels"]:
++            Image.fromarray(floor2.astype(np.uint8) * 255, mode="L").save(floor_path)
++        if report["wall"]["pixels"]:
++            Image.fromarray(wall2.astype(np.uint8) * 255, mode="L").save(wall_path)
++        return {"applied": True, **report}
++    except Exception as error:  # a clean-up must never cost the room
++        return {"applied": False, "reason": str(error)}
++
++
+ def _detect_geometry(job_dir: Path, render_rgb: np.ndarray, render_clean: np.ndarray, payload: bytes) -> dict:
+     """Detect and store the room's floor/wall geometry. Reports, never raises."""
+     try:
+@@ -736,6 +758,9 @@
+             metadata["object_completion"] = {"applied": False, "reason": str(error)}
+         metadata["timings"]["object_completion_s"] = round(time.perf_counter() - clock, 2)
+ 
++        # ---- no tile on the bits of objects their masks missed -------------
++        metadata["mask_islands"] = _drop_mask_islands(job_dir)
++
+         # ---- floor + wall geometry, from the masks just written ------------
+         #
+         # The floor's vanishing points and plane, and every wall's own

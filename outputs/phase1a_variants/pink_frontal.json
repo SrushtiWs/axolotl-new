@@ -1,0 +1,131 @@
+{
+ "room": "pink_frontal",
+ "before": {
+  "wall_pct": 48.14,
+  "clean_only_outside_hole": 498,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 672
+  }
+ },
+ "base": {
+  "wall_pct": 47.6,
+  "clean_only_outside_hole": 455,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 4351,
+  "removed_by_class": {
+   "sofa": 1859,
+   "plant": 664,
+   "wall": 563,
+   "floor": 528,
+   "coffee table": 418,
+   "table": 243,
+   "pot": 74,
+   "ottoman": 2
+  },
+  "glass_px": 0,
+  "status": "needs_review",
+  "leftover_share": 0.03169,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 672
+  }
+ },
+ "+staircase": {
+  "wall_pct": 47.43,
+  "clean_only_outside_hole": 455,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 5697,
+  "removed_by_class": {
+   "sofa": 2457,
+   "coffee table": 1052,
+   "plant": 664,
+   "wall": 653,
+   "floor": 528,
+   "table": 243,
+   "pot": 74,
+   "ottoman": 26
+  },
+  "glass_px": 0,
+  "status": "needs_review",
+  "leftover_share": 0.03148,
+  "ceiling_runs": {
+   "runs": 2,
+   "columns_spanned": 672
+  }
+ },
+ "+ceiling": {
+  "wall_pct": 47.02,
+  "clean_only_outside_hole": 429,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 9013,
+  "removed_by_class": {
+   "wall": 2706,
+   "ceiling": 2519,
+   "sofa": 1859,
+   "plant": 664,
+   "floor": 528,
+   "coffee table": 418,
+   "table": 243,
+   "pot": 74
+  },
+  "glass_px": 0,
+  "status": "needs_review",
+  "leftover_share": 0.03208,
+  "ceiling_runs": {
+   "runs": 1,
+   "columns_spanned": 636
+  }
+ },
+ "final": {
+  "wall_pct": 46.85,
+  "clean_only_outside_hole": 429,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 10404,
+  "removed_by_class": {
+   "wall": 2841,
+   "ceiling": 2519,
+   "sofa": 2457,
+   "coffee table": 1052,
+   "plant": 664,
+   "floor": 528,
+   "table": 243,
+   "pot": 74
+  },
+  "glass_px": 0,
+  "status": "needs_review",
+  "leftover_share": 0.03175,
+  "ceiling_runs": {
+   "runs": 1,
+   "columns_spanned": 636
+  }
+ },
+ "final-glass": {
+  "wall_pct": 46.85,
+  "clean_only_outside_hole": 429,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 10404,
+  "removed_by_class": {
+   "wall": 2841,
+   "ceiling": 2519,
+   "sofa": 2457,
+   "coffee table": 1052,
+   "plant": 664,
+   "floor": 528,
+   "table": 243,
+   "pot": 74
+  },
+  "glass_px": 0,
+  "status": "needs_review",
+  "leftover_share": 0.03175,
+  "ceiling_runs": {
+   "runs": 1,
+   "columns_spanned": 636
+  }
+ }
+}

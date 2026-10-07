@@ -1,0 +1,1 @@
+{"method": "floor-junction", "corners": [90.0, 172.0, 263.0, 299.0, 1008.0], "one_plane_cuts_removed": null, "stage": "ok", "walls": [["wall-0", "left-side", 83.0, 0, 299, true], ["wall-4", "front", 0.0, 300, 1008, true], ["wall-5", "right-side", 83.0, 1009, 1199, true]], "floor_vp": [706.2404889609579, 435.79705625545716]}

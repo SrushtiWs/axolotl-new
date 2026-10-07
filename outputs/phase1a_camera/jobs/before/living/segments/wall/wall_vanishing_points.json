@@ -1,0 +1,73 @@
+{
+  "canvas": [
+    1280,
+    864
+  ],
+  "principal_point": [
+    640.0,
+    432.0
+  ],
+  "focal_px": 924.4444444444445,
+  "room_horizontal": {
+    "points": [],
+    "info": {
+      "total_lines": 849,
+      "wall_lines": 43,
+      "horizontal_lines": 10,
+      "stage": "no-vp"
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "vanishing_point": {
+        "homogeneous": [
+          650.8769542551169,
+          324.45969069987825,
+          0.9934314359135085
+        ],
+        "at_infinity": false,
+        "image": [
+          655.1805496839386,
+          326.6050166829297
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-manhattan"
+    },
+    {
+      "id": "wall-1",
+      "vanishing_point": {
+        "homogeneous": [
+          0.9983424217253123,
+          -0.05755264690645781,
+          -0.0003190888578894616
+        ],
+        "at_infinity": false,
+        "image": [
+          -3128.7285564548197,
+          180.36557994261
+        ],
+        "image_direction_deg": null
+      },
+      "source": "wall-lines"
+    },
+    {
+      "id": "wall-2",
+      "vanishing_point": {
+        "homogeneous": [
+          -913.9480473161447,
+          5.293746317769017,
+          0.01620840479283948
+        ],
+        "at_infinity": false,
+        "image": [
+          -56387.291593303926,
+          326.6050166829297
+        ],
+        "image_direction_deg": null
+      },
+      "source": "floor-manhattan"
+    }
+  ]
+}

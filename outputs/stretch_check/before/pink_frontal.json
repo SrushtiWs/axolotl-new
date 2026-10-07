@@ -1,0 +1,1 @@
+{"floor_stretch": 1.2, "tile_mm": [600.0, 600.0], "regions": ["floor"], "refused": {"wall-0": "wall scale: no physical anchor available. Supply the room height (Room Size panel), render with the floor visible so its"}}

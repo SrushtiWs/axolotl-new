@@ -115,7 +115,7 @@ def _seen_corners(stretches) -> list[float]:
 
 
 def layout(floor: np.ndarray, wall: np.ndarray, horizon_y: Optional[float], f: float, cx: float, cy: float,
-           depth_vp=None, objects: Optional[np.ndarray] = None):
+           depth_vp=None, objects: Optional[np.ndarray] = None, room_bgr=None):
     """
     [(mask, direction or None)] -- one per wall, left to right -- or (None, info).
     Every WALL_MASK pixel goes to exactly one wall, by column, between seen
@@ -168,8 +168,38 @@ def layout(floor: np.ndarray, wall: np.ndarray, horizon_y: Optional[float], f: f
             changed = True
             break
 
-    edges = [-1.0] + [c[0] for c in corners] + [float(w)]
     cols = np.arange(w)[None, :]
+
+    # One wall is one plane. A cut that is not a confirmed corner (corner_cut:
+    # both edges bend there, or a bend plus a long vertical photo edge) is
+    # removed when the pieces on its two sides lie on ONE plane -- their floor
+    # junction (else ceiling line) points fall on one straight image line
+    # (corner_cut._coplanar). Two walls meeting at a corner are never on one
+    # line, so they stay apart. Decided on the masks only, before any
+    # direction is fitted. Without the photo the old behaviour is kept.
+    one_plane_cuts = []
+    if room_bgr is not None and corners:
+        from . import corner_cut
+        lines, _, _, _ = corner_cut.corners(floor, wall, objects, room_bgr)
+        confirmed_x = [(t[0] + b[0]) / 2.0 for t, b, _ in lines]
+        diag = float(np.hypot(h, w))
+        changed = True
+        while changed:
+            changed = False
+            edges = [-1.0] + [c[0] for c in corners] + [float(w)]
+            for k, c in enumerate(corners):
+                if any(abs(c[0] - x) <= corner_cut.MATCH * w for x in confirmed_x):
+                    continue
+                left = wall & np.broadcast_to((cols > edges[k]) & (cols <= edges[k + 1]), wall.shape)
+                right = wall & np.broadcast_to((cols > edges[k + 1]) & (cols <= edges[k + 2]), wall.shape)
+                evidence = corner_cut._coplanar(left, right, floor, objects, w, diag)
+                if evidence:
+                    one_plane_cuts.append({"x": round(c[0], 1), "evidence": evidence})
+                    del corners[k]
+                    changed = True
+                    break
+
+    edges = [-1.0] + [c[0] for c in corners] + [float(w)]
     all_runs = [(s, "floor-junction") for r in j_runs for s in r] + [(s, "ceiling-line") for r in t_runs for s in r]
     walls = []
     for i in range(len(edges) - 1):
@@ -197,7 +227,7 @@ def layout(floor: np.ndarray, wall: np.ndarray, horizon_y: Optional[float], f: f
                     direction["evidence"] = {**direction.get("evidence", {}), "run_source": best[2]}
         walls.append((mask, direction))
 
-    return walls, {"stage": "ok", **info,
+    return walls, {"stage": "ok", **info, "one_plane_cuts_removed": one_plane_cuts,
                    "corners": [{"x": round(c[0], 1), "seen_on": sorted(c[1])} for c in corners],
                    "junction_runs": [[round(float(v), 1) for v in s] for r in j_runs for s in r],
                    "ceiling_runs": [[round(float(v), 1) for v in s] for r in t_runs for s in r]}

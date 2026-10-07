@@ -40,10 +40,10 @@ from ..surface.floor import constraints as floor_constraints
 from ..surface.floor import scale as floor_scale
 from ..surface.floor import vp as floor_vp
 
-#: Texture-space v squash inherited from the original renderer. Hand-tuned,
-#: not derived; kept because removing it would change every existing floor
-#: render. See core.composite.sample_tile.
-FLOOR_TILE_HEIGHT_STRETCH = 1.20
+#: Texture-space v squash inherited from the original renderer. 1.0: every
+#: floor tile shows the whole uploaded tile image once (at 1.20 the bottom
+#: sixth of the design was never shown). See core.composite.sample_tile.
+FLOOR_TILE_HEIGHT_STRETCH = 1.0
 
 
 class FloorProfile(SurfaceProfile):

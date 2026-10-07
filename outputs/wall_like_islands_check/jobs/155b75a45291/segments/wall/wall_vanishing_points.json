@@ -1,0 +1,87 @@
+{
+  "canvas": [
+    1100,
+    825
+  ],
+  "principal_point": [
+    550.0,
+    525.604382713486
+  ],
+  "focal_px": 383.3653134374102,
+  "room_horizontal": {
+    "points": [
+      [
+        122.24769059906934,
+        381.46492368859344
+      ],
+      [
+        164.7700544011104,
+        412.55812552060587
+      ]
+    ],
+    "info": {
+      "total_lines": 307,
+      "wall_lines": 31,
+      "horizontal_lines": 17,
+      "stage": "ok"
+    }
+  },
+  "walls": [
+    {
+      "id": "wall-0",
+      "vanishing_point": {
+        "homogeneous": [
+          176.24474900868813,
+          401.7717122009025,
+          1.0
+        ],
+        "at_infinity": false,
+        "image": [
+          176.24474900868813,
+          401.7717122009025
+        ],
+        "image_direction_deg": null
+      },
+      "source": "ceiling-line"
+    },
+    {
+      "id": "wall-1",
+      "vanishing_point": null,
+      "source": "room-vp (pipeline)"
+    },
+    {
+      "id": "wall-2",
+      "vanishing_point": {
+        "homogeneous": [
+          -126.19553118635486,
+          -376.34553451084497,
+          -0.7160243462353243
+        ],
+        "at_infinity": false,
+        "image": [
+          176.2447490086883,
+          525.604382713486
+        ],
+        "image_direction_deg": null
+      },
+      "source": "ceiling-line"
+    },
+    {
+      "id": "wall-3",
+      "vanishing_point": {
+        "homogeneous": [
+          -390.12028966976845,
+          -495.33969310881884,
+          -0.9424192594277419
+        ],
+        "at_infinity": false,
+        "image": [
+          413.9561938777209,
+          525.604382713486
+        ],
+        "image_direction_deg": null
+      },
+      "source": "ceiling-line+floor-junction"
+    }
+  ]
+}

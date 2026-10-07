@@ -1,0 +1,54 @@
+--- a/backend/extraction/config.py	2026-10-07 12:48:41
++++ b/backend/extraction/config.py	2026-10-07 12:48:52
+@@ -213,6 +213,18 @@
+         "ground",
+     }
+ )
++
++
++# Detector labels that name a wall-like surface rather than a thing standing in
++# the room. A detection with one of these labels whose pixels are not a mirror
++# and are at least WALL_LIKE_DROP_SHARE confident wall/floor/ceiling is the wall
++# itself: it is dropped, so the wall stays wall and gets tiled. Real mirrors are
++# decided on pixel evidence before this rule and are never affected by it.
++WALL_LIKE_LABELS: frozenset[str] = frozenset({
++    "mirror wall", "mirror partition", "mirrored partition", "partition",
++    "wall panel", "mirror panel", "mirrored wall panel", "mirror standwall panel",
++})
++WALL_LIKE_DROP_SHARE = 0.5
+ 
+ 
+ @dataclass(frozen=True)
+@@ -697,6 +709,8 @@
+     mirror_prompts: frozenset[str] = MIRROR_PROMPTS
+     structural_labels: frozenset[str] = STRUCTURAL_LABELS
+     glazing_labels: frozenset[str] = GLAZING_LABELS
++    wall_like_labels: frozenset[str] = WALL_LIKE_LABELS
++    wall_like_drop_share: float = WALL_LIKE_DROP_SHARE
+ 
+     detection: DetectionConfig = field(default_factory=DetectionConfig)
+     segmentation: SegmentationConfig = field(default_factory=SegmentationConfig)
+--- a/backend/extraction/extractor.py	2026-10-07 12:48:41
++++ b/backend/extraction/extractor.py	2026-10-07 12:48:52
+@@ -357,6 +357,21 @@
+             )
+             continue
+ 
++        # A wall-like label on what the pixels say is wall: the wall itself, not
++        # an object. Dropped, so it is tiled instead of put back over the tiles.
++        wall_share = float(chosen.metrics.get("surface_overlap_ratio") or 0.0)
++        if detection.label.strip().lower() in config.wall_like_labels and wall_share >= config.wall_like_drop_share:
++            rejected.append(
++                {
++                    "label": detection.label,
++                    "confidence": round(detection.confidence, 3),
++                    "box": list(detection.box),
++                    "reason": f"a wall the detector named '{detection.label}': {wall_share:.0%} of its mask "
++                    f"is wall/floor/ceiling (>= {config.wall_like_drop_share:.0%})",
++                }
++            )
++            continue
++
+         mask, steps = cleanup.clean(chosen.mask, config, hole_guard)
+ 
+         if not mask.any():

@@ -1,0 +1,131 @@
+{
+ "room": "sunset_living",
+ "before": {
+  "wall_pct": 46.39,
+  "clean_only_outside_hole": 21151,
+  "ceiling_runs": {
+   "runs": 3,
+   "columns_spanned": 728
+  }
+ },
+ "base": {
+  "wall_pct": 25.37,
+  "clean_only_outside_hole": 9810,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 219883,
+  "removed_by_class": {
+   "windowpane": 79413,
+   "door": 78482,
+   "shelf": 13329,
+   "tree": 11032,
+   "sky": 10398,
+   "mirror": 8630,
+   "wall": 6370,
+   "armchair": 3849
+  },
+  "glass_px": 198039,
+  "status": "needs_review",
+  "leftover_share": 0.03627,
+  "ceiling_runs": {
+   "runs": 3,
+   "columns_spanned": 728
+  }
+ },
+ "+staircase": {
+  "wall_pct": 25.35,
+  "clean_only_outside_hole": 9777,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 220107,
+  "removed_by_class": {
+   "windowpane": 79469,
+   "door": 78500,
+   "shelf": 13399,
+   "tree": 11032,
+   "sky": 10398,
+   "mirror": 8630,
+   "wall": 6430,
+   "armchair": 3849
+  },
+  "glass_px": 198039,
+  "status": "needs_review",
+  "leftover_share": 0.03584,
+  "ceiling_runs": {
+   "runs": 3,
+   "columns_spanned": 728
+  }
+ },
+ "+ceiling": {
+  "wall_pct": 24.46,
+  "clean_only_outside_hole": 5996,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 229407,
+  "removed_by_class": {
+   "windowpane": 79538,
+   "door": 78500,
+   "shelf": 13329,
+   "tree": 11032,
+   "sky": 10404,
+   "mirror": 8630,
+   "wall": 7921,
+   "ceiling": 7887
+  },
+  "glass_px": 198039,
+  "status": "needs_review",
+  "leftover_share": 0.03718,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 770
+  }
+ },
+ "final": {
+  "wall_pct": 24.45,
+  "clean_only_outside_hole": 5963,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 229510,
+  "removed_by_class": {
+   "windowpane": 79547,
+   "door": 78500,
+   "shelf": 13399,
+   "tree": 11032,
+   "sky": 10404,
+   "mirror": 8630,
+   "wall": 7929,
+   "ceiling": 7887
+  },
+  "glass_px": 198039,
+  "status": "needs_review",
+  "leftover_share": 0.03707,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 770
+  }
+ },
+ "final-glass": {
+  "wall_pct": 24.45,
+  "clean_only_outside_hole": 5963,
+  "floor_identical": true,
+  "wall_added": 0,
+  "removed_px": 229605,
+  "removed_by_class": {
+   "windowpane": 79547,
+   "door": 78500,
+   "shelf": 13494,
+   "tree": 11032,
+   "sky": 10404,
+   "mirror": 8630,
+   "wall": 7929,
+   "ceiling": 7887
+  },
+  "glass_px": 197988,
+  "status": "needs_review",
+  "leftover_share": 0.03708,
+  "ceiling_runs": {
+   "runs": 4,
+   "columns_spanned": 770
+  }
+ }
+}

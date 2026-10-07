@@ -626,6 +626,12 @@ SEGMENT_JOBS: dict[str, dict] = {}
 # How long a finished result stays available to be collected.
 SEGMENT_JOB_TTL_S = 3600
 
+# Clean-room runs at once. Each holds several GB (detector, SAM, LaMa); more
+# than one at a time has run this machine out of memory and killed the worker.
+# Further requests wait their turn instead.
+MAX_PARALLEL_SEGMENTS = 1
+_SEGMENT_SLOTS = asyncio.Semaphore(MAX_PARALLEL_SEGMENTS)
+
 
 def _forget_old_segment_jobs() -> None:
     """Drop results nobody collected, so the registry cannot grow forever."""
@@ -995,15 +1001,23 @@ async def segment_start(
 
     _forget_old_segment_jobs()
 
+    # The same photo with the same options already running (the page can send
+    # one request twice): that job's token, not a second run.
+    key = f"{reuse.digest(payload)}|{bool(debug)}|{bool(use_saved)}"
+    for existing, job in SEGMENT_JOBS.items():
+        if job.get("key") == key and job.get("status") == "running":
+            return {"job_id": existing, "status": "running", "deduplicated": True}
+
     token = uuid.uuid4().hex[:12]
 
-    SEGMENT_JOBS[token] = {"status": "running", "started": time.time(), "finished": 0}
+    SEGMENT_JOBS[token] = {"status": "running", "started": time.time(), "finished": 0, "key": key}
 
     base = str(request.base_url).rstrip("/")
 
     async def run() -> None:
         try:
-            result = await _segment_core(payload, rgb, debug, base, use_saved)
+            async with _SEGMENT_SLOTS:
+                result = await _segment_core(payload, rgb, debug, base, use_saved)
 
             SEGMENT_JOBS[token].update(status="done", result=result)
         except HTTPException as error:

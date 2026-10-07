@@ -1,0 +1,62 @@
+--- a/tiles_backend/perspective_engine/room/geometry.py	2026-10-07 12:19:21
++++ b/tiles_backend/perspective_engine/room/geometry.py	2026-10-07 12:19:56
+@@ -339,6 +339,12 @@
+         room["reason"] = fr.get("status", "no room frame")
+         room["camera_height_mm"] = CAMERA_HEIGHT_PRIOR_MM
+         room["camera_height_source"] = "CAMERA_HEIGHT_PRIOR"
++        typed = [k for k, v in dims_mm.items() if v]
++        # Never silent: a typed size the photo cannot use is reported as such.
++        room["decision"] = _decision(
++            "needs_review",
++            (f"typed {', '.join(typed)} could not be used: {room['reason']}; " if typed else "nothing typed; ")
++            + f"tile size uses an assumed camera height of {CAMERA_HEIGHT_PRIOR_MM:.0f} mm")
+         return room
+ 
+     K = np.array(fr["K"], np.float64)
+@@ -372,6 +378,12 @@
+         s_source = "USER_INPUT(" + "+".join(c[0] for c in cands) + ")"
+     else:
+         s, s_source = CAMERA_HEIGHT_PRIOR_MM, "CAMERA_HEIGHT_PRIOR"
++        # A typed length is a bound, not a scale: the camera stands inside the
++        # room, so the back wall is at most `length` away. When the prior puts
++        # it farther, the camera height is lowered to the largest the typed
++        # length allows -- the typed size is used, and the result is approximate.
++        if L and B_u and B_u > 0 and CAMERA_HEIGHT_PRIOR_MM * B_u > L:
++            s, s_source = L / B_u, "USER_INPUT(length bound)"
+     residuals = {c[0]: round(c[1] / s - 1.0, 4) for c in cands}
+ 
+     length_conflict = None
+@@ -521,8 +533,21 @@
+         conf *= 1.0 / (1.0 + max(err_vals) / 20.0)
+     if conflict:
+         conf *= 0.3
++
++    if status == "OK" and not warnings:
++        decision = _decision("confirmed", f"scale from typed {', '.join(c[0] for c in cands)}, consistent with the photo")
++    elif status in ("OK", "ESTIMATED") or s_source == "USER_INPUT(length bound)":
++        decision = _decision("approximate", f"{status.lower()}: camera height {s:.0f} mm from {s_source}"
++                             + (f"; {'; '.join(warnings)}" if warnings else ""))
++    else:
++        # Length is a bound (camera inside the room), never a scale: only width / height count here.
++        unused = [n for n, e in input_checks.items() if n != "length" and not e.get("used_for_scale")]
++        decision = _decision("needs_review", f"{status.lower()}: "
++                             + (f"typed {', '.join(unused)} could not set the scale; " if unused else "")
++                             + f"camera height {s:.0f} mm from {s_source}")
+ 
+     room.update({
++        "decision": decision,
+         "status": status,
+         "width_mm": width, "length_mm": length, "height_mm": height,
+         "width_source": width_src, "length_source": length_src, "height_source": height_src,
+@@ -564,6 +589,11 @@
+     return room
+ 
+ 
++def _decision(status: str, reason: str) -> dict:
++    """confirmed / approximate / needs_review, with the reason, for the response and the UI."""
++    return {"status": status, "reason": reason}
++
++
+ def _room_check(status: str, input_checks: dict, room_dims=(None, None, None),
+                 width_lb: bool = False, length_lb: bool = False) -> Optional[str]:
+     """
