@@ -730,7 +730,7 @@ async def _segment_core(
         #
         # Furniture the object detector missed is put back over the tiles
         # instead of being tiled, and the floor between chair legs is tiled
-        # (object_completion.py). Rewrites the masks and ALL_OBJECTS.png just
+        #(letion.py). Rewrites the masks and ALL_OBJECTS.png just
         # written, so every later reader -- geometry, render, Mask view, 3D --
         # sees the same result; the renderer's object union is rebuilt from it.
         clock = time.perf_counter()

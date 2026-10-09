@@ -59,6 +59,7 @@ STRAIGHT_SHARE = 0.5      # a bend-free run across this share of a slot makes it
 SEAM_MIN_LEN = 0.10       # x height: a seam shorter than this is too short to judge its lean
 SEAM_VERTICAL_TOL_DEG = 3.0   # a seam this close to the photo's own vertical could be a corner
 NEAR = 0.10               # x width: photo edges this close give the local vertical
+HIDDEN_SHARE = 0.9        # share of the stretch between the two lines' ends that objects must hide
 
 
 def _split(pts: np.ndarray, tol: float) -> list[np.ndarray]:
@@ -197,6 +198,34 @@ def _edge_at(bend: dict, edges: list, h: int, w: int, at: str):
     return best
 
 
+def _edge_from_ceiling_line(bend: dict, edges: list, ceiling_runs: list, w: int, diag: float):
+    """
+    A long vertical photo edge whose TOP END lies on the ceiling line next to
+    this bend (within FIT_TOL of one of its two runs, extended), and which
+    passes within MATCH of the bend: the corner's own edge, starting where the
+    ceiling turns. A bend located from two fitted runs can sit a little off
+    the real corner when one run is short; the edge's end on the line is the
+    independent check. Returns (miss_px, top, bottom) or None.
+    """
+    tol = FIT_TOL * diag
+    near_runs = [r for r in ceiling_runs if r["x0"] - GAP * w <= bend["x"] <= r["x1"] + GAP * w]
+    best = None
+    for top, bottom in edges:
+        miss = abs(top[0] - bend["x"])
+        if miss > MATCH * w:
+            continue
+        on_line = False
+        for r in near_runs:
+            vx, vy, x0, y0 = r["line"]
+            n = math.hypot(vx, vy) or 1.0
+            if abs((top[0] - x0) * vy - (top[1] - y0) * vx) / n <= tol:
+                on_line = True
+                break
+        if on_line and (best is None or miss < best[0]):
+            best = (miss, top, bottom)
+    return best
+
+
 def corners(floor: np.ndarray, wall: np.ndarray, objects: Optional[np.ndarray], room_bgr=None) -> tuple[list, list, list]:
     """
     (confirmed corner lines [(top_xy, bottom_xy, evidence)], uncertain bends [evidence],
@@ -250,6 +279,11 @@ def corners(floor: np.ndarray, wall: np.ndarray, objects: Optional[np.ndarray], 
             add(edge[1], edge[2], {"x": round(c["x"], 1), "witness": "ceiling bend + photo edge",
                                    "turn_deg": [c["turn_deg"]], "edge_miss_px": round(edge[0], 1)})
             continue
+        edge = _edge_from_ceiling_line(c, edges, ceiling_runs, w, diag)
+        if edge is not None:
+            add(edge[1], edge[2], {"x": round(c["x"], 1), "witness": "ceiling bend + photo edge starting on the ceiling line",
+                                   "turn_deg": [c["turn_deg"]], "edge_miss_px": round(edge[0], 1)})
+            continue
         uncertain.append({"x": round(c["x"], 1), "seen_in": "ceiling line only", "turn_deg": c["turn_deg"]})
     # Corners hidden in a gap of an edge (curtain, window, furniture): a run end
     # facing the gap counts only with a photo edge starting / ending there.
@@ -261,8 +295,84 @@ def corners(floor: np.ndarray, wall: np.ndarray, objects: Optional[np.ndarray], 
             if edge is not None:
                 add(edge[1], edge[2], {"x": round(g["x"], 1), "witness": f"{at} line turns across a hidden gap + photo edge",
                                        "turn_deg": [g["turn_deg"]], "gap": g["gap"], "edge_miss_px": round(edge[0], 1)})
+    for top, bottom, ev in _hidden_corners(floor_runs, ceiling_runs, objects, w, h):
+        add(top, bottom, ev)
     confirmed.sort(key=lambda item: (item[0][0] + item[1][0]) / 2)
     return confirmed, sorted(uncertain, key=lambda u: u["x"]), floor_runs + ceiling_runs, edges
+
+
+def _level(angle: float) -> float:
+    """A run's angle folded into (-90, 90]: its slope's direction, ignoring travel."""
+    return ((angle + 90.0) % 180.0) - 90.0
+
+
+def _one_plane(ceiling_angle: float, floor_angle: float) -> bool:
+    """
+    Can these be one wall's ceiling line and floor line? On one plane they meet
+    at its vanishing point on the horizon, between them: so either both are
+    level, or they slope opposite ways. Exactly one level, or both sloping the
+    same way, is two different planes.
+    """
+    c, f = _level(ceiling_angle), _level(floor_angle)
+    c_level, f_level = abs(c) < BEND_DEG, abs(f) < BEND_DEG
+    if c_level or f_level:
+        return c_level and f_level
+    return (c > 0) != (f > 0)
+
+
+def _hidden_corners(floor_runs: list, ceiling_runs: list, objects: Optional[np.ndarray], w: int, h: int) -> list:
+    """
+    Corners hidden behind objects (curtain, wardrobe, sofa), witnessed by the two
+    lines: one line's run stops where a hidden stretch begins, and the OTHER line
+    resumes inside that stretch with a slope the first run's plane cannot have
+    (_one_plane). Those are two planes, so a corner lies in the stretch; the
+    stretch is hidden (HIDDEN_SHARE of it objects), so no visible pixel depends
+    on where in it the cut falls. The cut is the vertical at the run's last
+    seen point. Returns [(top_xy, bottom_xy, evidence)].
+    """
+    if objects is None:
+        return []
+    out = []
+    for name, own, other in (("ceiling", ceiling_runs, floor_runs), ("floor", floor_runs, ceiling_runs)):
+        for a, b in zip(own, own[1:]):
+            if b["x0"] - a["x1"] <= GAP * w:
+                continue                                    # no hidden stretch in this line
+            for run, end, into in ((a, a["x1"], 1), (b, b["x0"], -1)):
+                if not (BORDER * w <= end <= (1 - BORDER) * w):
+                    continue
+                # the other line, last seen on this run's side, resuming across the stretch
+                if into == 1:
+                    resumed = [o for o in other if end < o["x0"] <= b["x0"]]
+                    covering = [o for o in other if o["x0"] <= end <= o["x1"]]
+                    far = min(resumed, key=lambda o: o["x0"]) if resumed else None
+                    lo, hi = end, (far["x0"] if far else end)
+                else:
+                    resumed = [o for o in other if a["x1"] <= o["x1"] < end]
+                    covering = [o for o in other if o["x0"] <= end <= o["x1"]]
+                    far = max(resumed, key=lambda o: o["x1"]) if resumed else None
+                    lo, hi = (far["x1"] if far else end), end
+                if far is None or covering:
+                    continue
+                ceiling_run, floor_run = (run, far) if name == "ceiling" else (far, run)
+                if _one_plane(ceiling_run["angle"], floor_run["angle"]):
+                    continue
+                vx, vy, x0, y0 = run["line"]
+                y_end = y0 + (end - x0) * vy / (vx or 1e-9)
+                fvx, fvy, fx0, fy0 = far["line"]
+                y_far = fy0 + (end - fx0) * fvy / (fvx or 1e-9)
+                y_top, y_bottom = sorted((int(round(y_end)), int(round(y_far))))
+                x_lo, x_hi = int(max(0, math.floor(lo))), int(min(w, math.ceil(hi) + 1))
+                y_top, y_bottom = max(0, y_top), min(h, y_bottom + 1)
+                stretch = objects[y_top:y_bottom, x_lo:x_hi]
+                if stretch.size == 0 or stretch.mean() < HIDDEN_SHARE:
+                    continue
+                out.append(((end, 0.0), (end, float(h - 1)),
+                            {"x": round(float(end), 1), "witness": f"{name} run ends at a hidden stretch; the other line resumes there "
+                             "with a slope its plane cannot have",
+                             "turn_deg": [round(_level(ceiling_run["angle"]), 1), round(_level(floor_run["angle"]), 1)],
+                             "hidden_share": round(float(stretch.mean()), 2), "stretch": [round(lo, 1), round(hi, 1)],
+                             "hidden": True}))
+    return out
 
 
 def slots(shape, lines) -> np.ndarray:
@@ -334,6 +444,26 @@ def _seam_lean(a: np.ndarray, b: np.ndarray, radius: int, min_len: float):
     return math.degrees(math.atan2(dx, dy)), float(xs.mean())
 
 
+def _seam_roughness(a: np.ndarray, b: np.ndarray, radius: int, min_len: float):
+    """
+    RMS distance (px) of the seam where two pieces touch from its own straight
+    principal line, or None when they share too little seam to judge. A wall
+    corner is a straight line, so a corner seam scores near zero.
+    """
+    k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * radius + 1,) * 2)
+    seam = cv2.dilate(a.astype(np.uint8), k).astype(bool) & b
+    ys, xs = np.nonzero(seam)
+    if len(xs) < 2:
+        return None
+    pts = np.column_stack([xs, ys]).astype(np.float64)
+    pts -= pts.mean(axis=0)
+    _, sv, _ = np.linalg.svd(pts, full_matrices=False)
+    if 2.0 * sv[0] / math.sqrt(len(pts)) * math.sqrt(3.0) < min_len:
+        return None
+    # the seam band is ~2*radius wide by construction: measure beyond it
+    return max(0.0, float(sv[1] / math.sqrt(len(pts))) - radius)
+
+
 def _bend_between(a: np.ndarray, b: np.ndarray, bend_xs: list) -> bool:
     xa, xb = float(np.nonzero(a)[1].mean()), float(np.nonzero(b)[1].mean())
     lo, hi = min(xa, xb), max(xa, xb)
@@ -392,8 +522,11 @@ def cut(refined: list, floor: np.ndarray, wall: np.ndarray, objects: Optional[np
     #     corner, e.g. a slanted cut on a plain wall).
     # 2b and 2c only where the room's corners are known: with no confirmed
     # corner, nothing says where one plane ends, and a merge would be a guess.
+    # A hidden corner (_hidden_corners) places a cut but says nothing about the
+    # planes elsewhere, so only corners actually seen open 2b and 2c.
+    seen = [line for line in lines if not line[2].get("hidden")]
     straight = []
-    for s in (range(nslots) if lines else []):
+    for s in (range(nslots) if seen else []):
         members = [g for g in groups if g["slot"] == s]
         if len(members) < 2:
             continue
@@ -431,7 +564,7 @@ def cut(refined: list, floor: np.ndarray, wall: np.ndarray, objects: Optional[np
     #     show): touching pieces of one slot meeting along such a seam, with no
     #     bend between them, are one plane.
     seams = []
-    merged = bool(lines)
+    merged = bool(seen)
     while merged:
         merged = False
         for i in range(len(groups)):
@@ -454,6 +587,34 @@ def cut(refined: list, floor: np.ndarray, wall: np.ndarray, objects: Optional[np
                 groups[keep]["mask"] = groups[keep]["mask"] | groups[gone]["mask"]
                 groups[keep]["sources"] += groups[gone]["sources"]
                 del groups[gone]
+                merged = True
+                break
+            if merged:
+                break
+
+    # 2d. a piece with no direction of its own (no line of it fitted) that meets
+    #     a neighbour of its slot along a RAGGED seam -- not a straight line, as
+    #     every wall corner is -- with no bend of either line between them, is
+    #     part of that neighbour: the split followed light or texture, not a
+    #     corner. Pieces that each have their own direction are never touched.
+    ragged = []
+    merged = True
+    while merged:
+        merged = False
+        for i in range(len(groups)):
+            for j in range(len(groups)):
+                a, b = groups[i], groups[j]
+                if i == j or a["direction"] is not None or a["slot"] != b["slot"]:
+                    continue
+                if _bend_between(a["mask"], b["mask"], bend_xs):
+                    continue
+                rough = _seam_roughness(a["mask"], b["mask"], radius, SEAM_MIN_LEN * h)
+                if rough is None or rough <= FIT_TOL * math.hypot(h, w):
+                    continue
+                ragged.append({"merged": [list(b["sources"]), list(a["sources"])], "seam_rms_px": round(rough, 1)})
+                b["mask"] = b["mask"] | a["mask"]
+                b["sources"] += a["sources"]
+                del groups[i]
                 merged = True
                 break
             if merged:
@@ -497,6 +658,7 @@ def cut(refined: list, floor: np.ndarray, wall: np.ndarray, objects: Optional[np
         "merged": [g["sources"] for g in groups if len(g["sources"]) > 1],
         "one_straight_edge_slots": straight,
         "slanted_seams_merged": seams,
+        "ragged_seams_merged": ragged,
         "slots_with_two_directions": two_directions,
         # Not 95% sure: a bend with no witness, or two walls in one slot with no corner between.
         "uncertain": bool(uncertain or two_directions),

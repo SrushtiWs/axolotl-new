@@ -690,6 +690,102 @@ class ResidualConfig:
 
 
 @dataclass(frozen=True)
+class OpeningsConfig:
+    """
+    Curtains, blinds and windows the detector never boxed (extraction/openings.py).
+
+    A curtain the detector misses stays in the clean room, the floor/wall stage
+    then calls it wall, and tiles are drawn over it. SegFormer names these
+    classes on the original photo; a region it names that no accepted mask
+    claims is lifted out as an object, so it is inpainted, never tiled, and
+    restored over the tiles. Mirrors already have this path (mirrors.unclaimed).
+    Every limit is a fraction, so it means the same at any resolution.
+    """
+
+    enabled: bool = True
+
+    # ADE20K classes that are an opening or its covering: never a tile surface.
+    classes: tuple[str, ...] = ("curtain", "blind", "windowpane")
+
+    # A region smaller than this share of the frame is class-map speckle.
+    min_region_frame_fraction: float = 0.002
+
+    # Closing radius (share of the image diagonal) before regions are found,
+    # so one curtain the class map broke into strips is one region.
+    close_radius_fraction: float = 0.004
+
+    # A SAM mask more than this share confident wall/floor/ceiling grew onto
+    # the room surface rather than the opening; the class-map region is used.
+    max_surface_share: float = 0.5
+
+    # SAM candidates covering less than this share of the region answered a
+    # different question; the class-map region is used instead.
+    min_region_agreement: float = 0.5
+
+    # A region whose surrounding ring is more than this share confident floor
+    # is a reflection in a glossy floor, not an opening in a wall.
+    max_floor_ring_share: float = 0.5
+
+    # Width of that ring, as a share of the image diagonal.
+    ring_fraction: float = 0.006
+
+    # A curtain hangs at a window and a window's unboxed edge lies against the
+    # window object, so a real region touches an accepted object. An island in
+    # the middle of a wall touching none (ring share below this) is kept only
+    # when SegFormer is sure of it: at least `confident_share` of its pixels
+    # scoring the class above 0.5. Otherwise it is wall texture or tile design.
+    min_object_ring_share: float = 0.3
+    confident_share: float = 0.95
+
+    # A curtain hangs: its region is at least this many times taller than wide.
+    # A "curtain" lying wider than tall is wall texture or tile design. Curtains
+    # only — a roller blind may be wider than tall.
+    min_curtain_height_to_width: float = 1.0
+
+
+@dataclass(frozen=True)
+class PropsConfig:
+    """
+    Every prop the detector did not name (extraction/props.py).
+
+    Props cannot be listed — any room may hold anything — but the room's own
+    structure can: it is short and fixed. So a prop is defined the other way
+    round: a region SegFormer labels as NOT structure, that no accepted mask
+    claims. Same evidence guard as the openings sweep: a region must touch an
+    accepted object (the part of a lamp or plant the detector cut short) or
+    SegFormer must be sure of it, so wall texture and tile design never become
+    a prop. Region size limits and SAM scoring are `ResidualConfig`'s.
+    """
+
+    enabled: bool = True
+
+    # Never a prop. Room surfaces; architecture; doors and glazing; the view
+    # through a window; openings and mirrors (their own sweeps); built-in
+    # fittings, whose behaviour is left exactly as it was; and rug, which the
+    # floor stage tiles over.
+    structure_classes: frozenset[str] = frozenset({
+        "wall", "floor", "ceiling",
+        "stairway", "stairs", "step", "railing", "bannister", "column", "escalator",
+        "door", "screen door", "windowpane", "glass",
+        "sky", "building", "house", "skyscraper", "tree", "palm", "grass", "road",
+        "sidewalk", "earth", "mountain", "sea", "water", "field", "rock", "sand",
+        "river", "hill", "land", "lake", "waterfall", "path", "bridge", "pier",
+        "fence", "dirt track", "runway", "tower", "hovel",
+        "curtain", "blind", "mirror",
+        "cabinet", "wardrobe", "counter", "countertop", "kitchen island", "sink",
+        "bathtub", "toilet", "shower", "fireplace", "stove", "hood", "dishwasher",
+        "radiator", "washer", "bar", "booth", "stage", "awning", "canopy",
+        "rug",
+    })
+
+    min_object_ring_share: float = 0.3
+    confident_share: float = 0.95
+
+    # Width of the ring the touch test reads, as a share of the image diagonal.
+    ring_fraction: float = 0.006
+
+
+@dataclass(frozen=True)
 class ExtractionConfig:
     """The whole pipeline's configuration."""
 
@@ -703,6 +799,8 @@ class ExtractionConfig:
     cleanup: CleanupConfig = field(default_factory=CleanupConfig)
     overlap: OverlapConfig = field(default_factory=OverlapConfig)
     residual: ResidualConfig = field(default_factory=ResidualConfig)
+    openings: OpeningsConfig = field(default_factory=OpeningsConfig)
+    props: PropsConfig = field(default_factory=PropsConfig)
 
     # Longest edge the *models* see. The photo itself is never permanently
     # resized: every mask is mapped back to the original pixel dimensions.
@@ -749,6 +847,8 @@ _SECTIONS = {
     "cleanup": CleanupConfig,
     "overlap": OverlapConfig,
     "residual": ResidualConfig,
+    "openings": OpeningsConfig,
+    "props": PropsConfig,
 }
 
 

@@ -15,12 +15,14 @@
     {
       "id": "room_02",
       "name": "Coastal Lounge",
-      "status": "new",
-      "group": null,
-      "wall_count": null,
+      "status": "auto",
+      "group": "C",
+      "wall_count": 3,
       "original": "original.jpg",
       "sha256": "be6d82f5e2b8bcbaf84b54db3fefb49ba6f64b8c10e453b76e69e53e75563020",
-      "source_file": "living-2.jpg"
+      "source_file": "living-2.jpg",
+      "needs_review": true,
+      "updated_at": "2026-10-07T09:31:51+00:00"
     },
     {
       "id": "room_03",
@@ -37,14 +39,14 @@
     {
       "id": "room_04",
       "name": "Open Plan Sofa",
-      "status": "needs_fix",
-      "group": "C",
-      "wall_count": 3,
+      "status": "auto",
+      "group": "B",
+      "wall_count": 2,
       "original": "original.jpg",
       "sha256": "7c7bfaa69cf9f90f81ee0a22faddde9aef4f9a9ed09840d08911d050b0cf672f",
       "source_file": "living-4.jpg",
       "needs_review": false,
-      "updated_at": "2026-10-01T12:29:46+00:00"
+      "updated_at": "2026-10-07T09:36:57+00:00"
     },
     {
       "id": "room_05",
@@ -162,5 +164,5 @@
     }
   ],
   "schema_version": 1,
-  "updated_at": "2026-10-01T12:40:29+00:00"
+  "updated_at": "2026-10-07T09:36:57+00:00"
 }

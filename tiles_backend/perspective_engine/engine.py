@@ -828,6 +828,73 @@ def _direction_check(walls, horizon_y, depth_vp, f, cx) -> dict:
             "walls": rows}
 
 
+# The floor grid lies parallel to the walls. When the room frame took its axes
+# from a back wall facing the camera (its own long floor junction; see
+# room/geometry.py) and the floor's own depth vanishing point disagrees with
+# them by more than this, the floor's lines were not the room's (a sunlight
+# patch, a rug, veining) and the grid follows the room's axes instead.
+FLOOR_AXES_TOLERANCE_DEG = 1.0
+
+
+# A side wall's own floor junction passing this close (x image diagonal) to the
+# floor's depth vanishing point confirms that vanishing point from the room's
+# structure.
+SIDE_WALL_VP_TOLERANCE = 0.01
+
+
+def _side_wall_confirms_floor_vp(geometry: dict) -> bool:
+    """
+    Whether a side wall's own fitted floor junction runs through the floor's
+    depth vanishing point. Side walls run along the room's depth, so their
+    junction line is the room's depth direction measured from the structure
+    itself, with no focal length involved; when it agrees with the floor VP,
+    the floor VP is the room's direction and must not be overridden by axes
+    that depend on an assumed focal length.
+    """
+    vp = (((geometry or {}).get("floor") or {}).get("vanishing_points") or {}).get("depth_vp")
+    canvas = (geometry or {}).get("canvas")
+    if vp is None or not canvas:
+        return False
+    tol = SIDE_WALL_VP_TOLERANCE * math.hypot(canvas[0], canvas[1])
+    for wall in (geometry or {}).get("walls", []):
+        d = wall.get("direction") or {}
+        if d.get("faces") not in ("left-side", "right-side"):
+            continue
+        fj = (d.get("fit") or {}).get("floor-junction") or {}
+        if not fj.get("usable") or not fj.get("line"):
+            continue
+        a, b, c = fj["line"]
+        if abs(a * vp[0] + b * vp[1] + c) / (math.hypot(a, b) or 1.0) <= tol:
+            return True
+    return False
+
+
+def _align_floor_to_room_axes(ev, geometry: dict, scale: float):
+    """
+    The stored floor evidence with its grid direction (vp_x, vp_y) taken from
+    the room's depth axis, when the room frame's axes come from a back wall and
+    the floor VP disagrees with them beyond FLOOR_AXES_TOLERANCE_DEG; otherwise
+    `ev` unchanged. Only the direction moves: the horizon, plane, focal length
+    and scale are the floor's own, exactly as before.
+    """
+    frame = (geometry or {}).get("room_frame") or {}
+    axes, K = frame.get("axes_camera"), frame.get("K")
+    off = frame.get("floor_vp_vs_axes_deg")
+    if (not axes or not K or off is None or off <= FLOOR_AXES_TOLERANCE_DEG
+            or not str(frame.get("axes_source", "")).startswith("back wall")):
+        return ev
+    if _side_wall_confirms_floor_vp(geometry):
+        return ev
+    Z = axes["Z"]
+    if Z[2] <= 1e-6:
+        return ev
+    f, cx, cy = K[0][0], K[0][2], K[1][2]
+    ev.vp_x = (cx + f * Z[0] / Z[2]) * scale
+    ev.vp_y = (cy + f * Z[1] / Z[2]) * scale
+    ev.info = {**(ev.info or {}), "direction": f"room axes ({frame['axes_source']}); floor VP was {off:.1f} deg off"}
+    return ev
+
+
 def _stored_floor(geometry: Optional[dict], shape, fallback_vp):
     """
     (GeometryEvidence or None, (f, info) or None) for a render of `shape`.
@@ -851,7 +918,7 @@ def _stored_floor(geometry: Optional[dict], shape, fallback_vp):
     floor = geometry.get("floor") or {}
 
     if floor.get("status") == "detected":
-        return floor_geometry.evidence_from(floor, scale), focal
+        return _align_floor_to_room_axes(floor_geometry.evidence_from(floor, scale), geometry, scale), focal
 
     if fallback_vp is not None:
         ev = GeometryEvidence(

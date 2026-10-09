@@ -1751,7 +1751,9 @@ body {
 }
 
 .marker.on .marker-dot {
-  background: var(--sr-ink);
+  /* A fixed black, not the theme's ink: the black theme turns --sr-ink white,
+     which made a selected dot look exactly like an unselected one. */
+  background: #16181d;
   border-color: #fff;
 }
 

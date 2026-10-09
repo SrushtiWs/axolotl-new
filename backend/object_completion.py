@@ -62,6 +62,18 @@ EDGE_GAP_FRACTION = 0.006
 INSIDE_BOXES_SHARE = 0.9
 MAX_WALL_BORDER_SHARE = 0.02
 
+#: Surface behind objects: share of a filled region's surrounding ring that
+#: must already be floor or wall, and the most of it the clean room may still
+#: show as an opening (window, door, curtain...) or ceiling.
+MIN_SURFACE_RING_SHARE = 0.5
+MAX_OPENING_SHARE = 0.05
+
+#: Clean-room classes a filled region must not be: never a tile surface.
+NOT_SURFACE = frozenset({
+    "ceiling", "windowpane", "door", "screen door", "sky", "curtain", "blind",
+    "mirror", "glass", "stairs", "stairway", "step", "railing", "bannister",
+})
+
 
 def _disc(radius: int) -> np.ndarray:
     return cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * radius + 1, 2 * radius + 1))
@@ -118,7 +130,78 @@ def floor_behind_objects(floor, wall, objects, boxes) -> np.ndarray:
             if (nxt == grown).all():
                 break
             grown = nxt
-    return add
+    return _below_floor_edge(add, floor)
+
+
+def _below_floor_edge(add: np.ndarray, floor: np.ndarray) -> np.ndarray:
+    """
+    Floor seen behind an object is never farther away than the floor around it.
+    Each added piece keeps only its pixels at or below the floor's far edge in
+    the neighbouring columns (the piece's own width on each side); pieces left
+    no wider than the speck size anywhere are label noise and are dropped whole;
+    every other piece is kept whole, so no sliver is shaved off its edge.
+    """
+    h, w = floor.shape
+    top = np.where(floor.any(axis=0), floor.argmax(axis=0), h)
+    rows = np.arange(h)[:, None]
+    n, lab, st, _ = cv2.connectedComponentsWithStats(add.astype(np.uint8), 8)
+    keep = np.zeros_like(add)
+    for i in range(1, n):
+        x, _, cw, _, _ = st[i]
+        edge = int(top[max(0, x - cw):min(w, x + 2 * cw)].min())
+        keep |= (lab == i) & (rows >= edge)
+    r = max(1, int(round(SPECK_RADIUS_FRACTION * math.hypot(h, w))))
+    core = cv2.morphologyEx(keep.astype(np.uint8), cv2.MORPH_OPEN, _disc(r)).astype(bool)
+    n, lab, _, _ = cv2.connectedComponentsWithStats(keep.astype(np.uint8), 8)
+    return keep & np.isin(lab, np.unique(lab[core]))
+
+
+def _enclosed(mask: np.ndarray) -> int:
+    """How many gaps the mask encloses (4-connected, not touching the border)."""
+    h, w = mask.shape
+    n, _, st, _ = cv2.connectedComponentsWithStats((~mask).astype(np.uint8), 4)
+    return sum(1 for x, y, ww, hh, _ in st[1:] if x > 0 and y > 0 and x + ww < w and y + hh < h)
+
+
+def surface_behind_objects(floor, wall, inpainted, clean_labels, names) -> tuple[np.ndarray, np.ndarray]:
+    """
+    (floor, wall) pixels to add where the clean room was rebuilt behind an object.
+
+    LaMa fills every object's footprint plus a margin ring, and its fill there
+    (a ghost, a blur) is often called neither floor nor wall, so no tiles go
+    there and the ghost shows around the restored object. What stands behind an
+    object is the surface around it, so a filled region is given to floor/wall
+    (each pixel to the nearer one) only when all three hold: its ring is mostly
+    floor or wall; the clean room shows almost none of it as an opening or
+    ceiling; and adding it encloses no new gap in either mask. Any region
+    failing one of them is left exactly as it was.
+    """
+    h, w = floor.shape
+    unassigned = inpainted & ~floor & ~wall
+    add_floor = np.zeros_like(floor)
+    add_wall = np.zeros_like(wall)
+    if not unassigned.any() or not (floor.any() or wall.any()):
+        return add_floor, add_wall
+    r = max(2, int(round(EDGE_GAP_FRACTION * math.hypot(h, w))))
+    opening = np.isin(clean_labels, [k for k, v in names.items() if v in NOT_SURFACE])
+    to_floor = cv2.distanceTransform((~floor).astype(np.uint8), cv2.DIST_L2, 3) if floor.any() else np.full(floor.shape, np.inf, np.float32)
+    to_wall = cv2.distanceTransform((~wall).astype(np.uint8), cv2.DIST_L2, 3) if wall.any() else np.full(wall.shape, np.inf, np.float32)
+    n, lab, _, _ = cv2.connectedComponentsWithStats(unassigned.astype(np.uint8), 8)
+    for i in range(1, n):
+        comp = lab == i
+        ring = cv2.dilate(comp.astype(np.uint8), _disc(r)).astype(bool) & ~comp
+        if not ring.any() or (ring & (floor | wall)).sum() < MIN_SURFACE_RING_SHARE * ring.sum():
+            continue
+        if (comp & opening).sum() > MAX_OPENING_SHARE * comp.sum():
+            continue
+        f = comp & (to_floor <= to_wall)
+        wl = comp & ~f
+        new_floor, new_wall = floor | add_floor | f, wall | add_wall | wl
+        if _enclosed(new_floor) > _enclosed(floor | add_floor) or _enclosed(new_wall) > _enclosed(wall | add_wall):
+            continue
+        add_floor |= f
+        add_wall |= wl
+    return add_floor, add_wall
 
 
 def apply(segments: Path, original_rgb: np.ndarray) -> dict:
@@ -169,6 +252,12 @@ def apply(segments: Path, original_rgb: np.ndarray) -> dict:
     added = floor_behind_objects(floor, wall, objects | furniture, boxes)
     floor = floor | added
 
+    clean_labels, _ = surfaces.label_map(clean)
+    behind_floor, behind_wall = surface_behind_objects(floor, wall, inpainted & ~furniture, clean_labels, names)
+    floor = floor | behind_floor
+    wall = wall | behind_wall
+
     floor_wall.write(rgb, floor_wall.FloorWall(floor=floor, wall=wall, shape=floor.shape), segments)
     return {"applied": True, "furniture_px": int(furniture.sum()), "furniture_classes": by_class,
-            "floor_behind_objects_px": int(added.sum())}
+            "floor_behind_objects_px": int(added.sum()),
+            "surface_behind_objects_px": {"floor": int(behind_floor.sum()), "wall": int(behind_wall.sum())}}

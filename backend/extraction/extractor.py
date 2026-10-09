@@ -30,7 +30,7 @@ from dataclasses import dataclass, field
 import cv2
 import numpy as np
 
-from extraction import cleanup, dino, filtering, mirrors, overlap, sam2, selection
+from extraction import cleanup, dino, filtering, mirrors, openings, overlap, props, sam2, selection
 from extraction.config import ExtractionConfig
 import matting
 import surfaces
@@ -445,6 +445,80 @@ def extract(rgb: np.ndarray, config: ExtractionConfig) -> ExtractionResult:
                     "detector_called_it_mirror": False,
                     "verdict": "mirror surface no detection box covered",
                 },
+                cleanup_steps=steps,
+            )
+        )
+
+    # ---- curtains, blinds and windows nothing boxed (openings.py) --------
+    # Additive: only regions no accepted mask claims, so every object above
+    # is left exactly as it is.
+    claimed = np.zeros(working_shape, dtype=bool)
+
+    for item in objects:
+        claimed |= item.mask
+
+    found_openings, refused_openings = openings.sweep(
+        embedding,
+        class_map,
+        class_labels,
+        claimed,
+        structural,
+        surface_masks.get("floor", np.zeros(working_shape, dtype=bool)),
+        config,
+        work,
+    )
+
+    rejected.extend(refused_openings)
+
+    for mask, label, metrics in found_openings:
+        cleaned, steps = cleanup.clean(mask, config, hole_guard)
+
+        if not cleaned.any():
+            continue
+
+        objects.append(
+            ExtractedObject(
+                identifier=f"object_{len(objects) + 1:03d}",
+                label=label,
+                confidence=0.0,
+                box=_bounds(cleaned),
+                mask=cleaned,
+                is_mirror=False,
+                metrics=metrics,
+                cleanup_steps=steps,
+            )
+        )
+
+    # ---- every prop nothing named (props.py) ---------------------------
+    # Additive: a prop is whatever the class map calls NOT structure that no
+    # accepted mask claims. Confident wall/floor is trimmed off its outer edge
+    # exactly as for a detection, so no strip of old floor rides along.
+    for item in objects:
+        claimed |= item.mask
+
+    found_props, refused_props = props.sweep(
+        embedding, class_map, class_labels, claimed, structural, config, work
+    )
+
+    rejected.extend(refused_props)
+
+    for mask, label, metrics in found_props:
+        trimmed = selection.trim_surfaces(mask, trim_surface, background_map, config)
+
+        cleaned, steps = cleanup.clean(trimmed, config, hole_guard)
+
+        if not cleaned.any():
+            continue
+
+        objects.append(
+            ExtractedObject(
+                identifier=f"object_{len(objects) + 1:03d}",
+                label=label,
+                confidence=0.0,
+                box=_bounds(cleaned),
+                mask=cleaned,
+                is_mirror=False,
+                metrics=metrics,
                 cleanup_steps=steps,
             )
         )
